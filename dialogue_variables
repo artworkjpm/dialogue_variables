@@ -82,6 +82,39 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- MY_TRAVELS -->
 <#if MARKET == "NO"><#global MY_TRAVELS = "https://www.norwegian.no/start/booking/details/?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#elseif MARKET == "ROW"><#global MY_TRAVELS = "https://www.norwegian.com/en/start/booking/details/?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#else><#global MY_TRAVELS = "https://www.norwegian.com/" +MARKET?lower_case + "/start/booking/details/?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID></#if>
 
+<#-- ABANDON_BASKET TABLE -->
+<#if DV_PRELOAD_TRIPINFO = "Y">
+ <#if DV_DEBUG_ABANDON == "Y">
+     RIID_: #${RIID_?c}#<br>
+     DATA_ID: #${DV_DATA_ID}#<br> 
+  </#if>
+  <#if DV_DATA_ID?isnull>         
+     <h1>UPS - Show testdata, when not from program.</h1>
+  </#if>
+  <#data ABANDON_BASKET as data>
+  <#filter ABAN_RIID_=RIID_  ABAN_DATA_ID=DV_DATA_ID?number>
+  <#fields  ABAN_BASKET_URL ABAN_DATA_ID ABAN_DEPARTUREDATE ABAN_RETURNDATE ABAN_ARRIVALAIRPORTCODE ABAN_AIRPORT_ARRIVAL ABAN_DEPARTUREAIRPORTCODE ABAN_AIRPORT_DEPARTURE>
+         
+        <#global ABAN_DATA_ID=data.ABAN_DATA_ID>
+        <#if DV_DEBUG_ABANDON == "Y">
+            <h1>Abandon basket data found           </h1>
+        	ABAN_DATA_ID: ${data.ABAN_DATA_ID?c}<br>
+ 			ABAN_BASKET_URL: ${data.ABAN_BASKET_URL}<br>
+        </#if>
+        <#global ABAN_BASKET_URL=data.ABAN_BASKET_URL>     
+        <#global ABAN_DEPARTUREAIRPORTCODE=data.ABAN_DEPARTUREAIRPORTCODE>
+        <#global ABAN_AIRPORT_DEPARTURE=data.ABAN_AIRPORT_DEPARTURE>
+      <#--  ABAN_DATA_ID=DV_DATA_ID?number -->
+      <#global ABAN_DEPARTUREDATE=data.ABAN_DEPARTUREDATE?string("dd/MM")>
+        
+        <#global ABAN_AIRPORT_ARRIVAL=data.ABAN_AIRPORT_ARRIVAL>
+        <#global ABAN_ARRIVALAIRPORTCODE=data.ABAN_ARRIVALAIRPORTCODE>
+        <#global ABAN_RETURNDATE=data.ABAN_RETURNDATE?string("dd/MM")>
+        
+        <br>
+            
+</#data> </#if>
+
 <#-- //////////////////////// TRAVEL_DATA SUP TABLE ///////////////////////////////////-->
 <#data TRAVEL_DATA as TRAVEL_DATA limit=1><#filter TRAVEL_DATA_RIID_ = RIID_><#fields REWARD_BALANCE NAS_PROFILEID UNSUBSCRIBE_ID NL_PROFILEDETAILID>
 <#-- NAS_PROFILE_YN --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global NAS_PROFILE_YN = "N"><#else><#global NAS_PROFILE_YN = "Y"></#if>
@@ -357,7 +390,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 
 <#-- DEPARTURE_IATA --><#if SQL_GLOBAL.BOOKING_START_AIRPORT?isnull><#global DEPARTURE_IATA = ""><#else><#global DEPARTURE_IATA = SQL_GLOBAL.BOOKING_START_AIRPORT?trim></#if>
-<#-- DEPARTURE_COUNTRY --> <#global DEPARTURE_COUNTRY = SQL_GLOBAL.BOOKING_START_COUNTRY_CD?lower_case?trim>
+<#-- DEPARTURE_COUNTRY --><#global DEPARTURE_COUNTRY = SQL_GLOBAL.BOOKING_START_COUNTRY_CD?lower_case?trim>
 
 <#-- BOOKING_CURRENCY --><#if SQL_GLOBAL.BK_SOLD_IN_CURRENCY?isnull><#global BOOKING_CURRENCY = "EUR"><#else><#global BOOKING_CURRENCY = SQL_GLOBAL.BK_SOLD_IN_CURRENCY?trim></#if>
 
@@ -820,9 +853,14 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
     <#default><#global DEST_TRANSLATION_TEXT = "/destinations/">
 </#switch></#compress></#join>
 
+<#-- BK_PERSON_GENDER -->
+<#if CONTACT.GENDER?isnull><#global BK_PERSON_GENDER = "unknown"><#elseif CONTACT.GENDER?upper_case == "F"><#global BK_PERSON_GENDER = "female"><#else><#global BK_PERSON_GENDER = "male"></#if>
+
 <#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
 
-<#--SURVEY_LINK2 --><#if CONTACT.GENDER?upper_case == "F"><#global BK_PERSON_GENDER = "female"><#else><#global BK_PERSON_GENDER = "male"></#if><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+
+<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_GENDER + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + CARTRAWLER_LANG_LID?exec?trim>
 
 <#-- DESTINATION_URL_PART -->
 <#if MARKET == "NO"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.no/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.no"  + DEST_TRANSLATION_TEXT></#if><#elseif MARKET == "ROW"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/en/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/en"  + DEST_TRANSLATION_TEXT></#if><#else><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + "/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + DEST_TRANSLATION_TEXT></#if></#if>
