@@ -383,7 +383,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- DEPARTURE_DATE --><#if SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE = dayadd(.now,3)?datetime?string("yyyy/dd/MM-hh:mm")><#elseif SQL_GLOBAL.FIRST_LEG_YN == "Y"><#global DEPARTURE_DATE = SQL_GLOBAL.LEG_DEPARTURE_TIME?datetime?string("yyyy/dd/MM-hh:mm")><#else><#global DEPARTURE_DATE = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("yyyy/dd/MM-hh:mm")></#if>
 
-<#-- DEPARTURE_DATE_SURVEY --><#if SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE_SURVEY = dayadd(.now,3)?datetime?string("yyyy-dd-MM_HH-mm")><#elseif SQL_GLOBAL.FIRST_LEG_YN == "Y"><#global DEPARTURE_DATE_SURVEY = SQL_GLOBAL.LEG_DEPARTURE_TIME?datetime?string("yyyy-dd-MM_HH-mm")><#else><#global DEPARTURE_DATE_SURVEY = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("yyyy-dd-MM_HH-mm")></#if>
+<#-- DEPARTURE_DATE_SURVEY --><#if SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE_SURVEY = dayadd(.now,3)?datetime?string("yyyy-MM-dd_HH-mm")><#elseif SQL_GLOBAL.FIRST_LEG_YN == "Y"><#global DEPARTURE_DATE_SURVEY = SQL_GLOBAL.LEG_DEPARTURE_TIME?datetime?string("yyyy-MM-dd_HH-mm")><#else><#global DEPARTURE_DATE_SURVEY = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("yyyy-MM-dd_HH-mm")></#if>
 
 <#-- DEPARTURE_DATE_RETURN --><#if SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?isnull><#global DEPARTURE_DATE_RETURN = dayadd(.now,3)?datetime?string("yyyy/dd/MM-hh:mm")><#else><#global DEPARTURE_DATE_RETURN = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?datetime?string("yyyy/dd/MM-hh:mm")></#if>
 
