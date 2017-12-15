@@ -334,15 +334,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#else><#global DEEPLINK_BOOK_OVERWEIGHT = MY_TRAVELS>
 </#if>
 
-<#-- DEEPLINK_ONLINE_CHECKIN -->
 
-<#if LESS_24_DEP == "Y" || LESS_24_RET == "Y">
-		<#if MARKET == "NO"><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.no/processpages/checkin2/#/checkin/select?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "#">
-		<#elseif MARKET == "ROW"><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.com/en/processpages/checkin2/#/checkin/select?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "#">
-		<#else><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.com/" + MARKET?lower_case + "/processpages/checkin2/#/checkin/select?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "#">
-		</#if>
-<#else><#global DEEPLINK_ONLINE_CHECKIN = MY_TRAVELS>
-</#if>
 
 <#-- DEEPLINK_REGISTER_PASSPORT -->
 <#if MARKET == "NO"><#global DEEPLINK_REGISTER_PASSPORT = "https://www.norwegian.no/start/passengerinformation/register?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
@@ -400,6 +392,19 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 
 <#-- DESTINATION_IATA --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim><#else><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim></#if>
+
+<#-- DEEPLINK_ONLINE_CHECKIN -->
+
+<#if LESS_24_DEP == "Y" || LESS_24_RET == "Y">
+		<#if MARKET == "NO"><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.no/start/checkin/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA + "#">
+		<#elseif MARKET == "ROW"><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.com/en/start/checkin/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA + "#">
+		<#else><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.com/" + MARKET?lower_case + "/start/checkin/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA + "#">
+		</#if>
+<#else><#global DEEPLINK_ONLINE_CHECKIN = MY_TRAVELS>
+</#if>
+
+
+
 
 <#-- DEP_DATE_FIRST_LEG --><#if !SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull><#global DEP_DATE_FIRST_LEG = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?time?string('hh:mm')><#elseif !SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><#global DEP_DATE_FIRST_LEG = SQL_GLOBAL.LEG_DEPARTURE_TIME?time?string('hh:mm')?trim><#else><#global DEP_DATE_FIRST_LEG = dayadd(.now, 3)?time?string('hh:mm')?trim></#if>
 
@@ -860,9 +865,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
 
-<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE?number?int + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
 
-<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE?number?int + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + CARTRAWLER_LANG_LID?exec?trim>
 
 <#-- DESTINATION_URL_PART -->
 <#if MARKET == "NO"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.no/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.no"  + DEST_TRANSLATION_TEXT></#if><#elseif MARKET == "ROW"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/en/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/en"  + DEST_TRANSLATION_TEXT></#if><#else><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + "/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + DEST_TRANSLATION_TEXT></#if></#if>
