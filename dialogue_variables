@@ -78,9 +78,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 </#switch></#compress></#join>
 
 <#-- REWARD_MEMBER --><#if CONTACT.REWARD_YN?isnull><#global REWARD_MEMBER = "N"><#elseif CONTACT.REWARD_YN == "N"><#global REWARD_MEMBER = "N"><#elseif CONTACT.REWARD_YN== "Y"><#global REWARD_MEMBER = "Y"><#else><#global REWARD_MEMBER = "N"></#if>
-
 <#-- MY_TRAVELS -->
-<#if MARKET == "NO"><#global MY_TRAVELS = "https://www.norwegian.no/start/booking/details/?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#elseif MARKET == "ROW"><#global MY_TRAVELS = "https://www.norwegian.com/en/start/booking/details/?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#else><#global MY_TRAVELS = "https://www.norwegian.com/" +MARKET?lower_case + "/start/booking/details/?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID></#if>
+<#if MARKET == "NO"><#global MY_TRAVELS = "https://www.norwegian.no/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#elseif MARKET == "ROW"><#global MY_TRAVELS = "https://www.norwegian.com/en/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#else><#global MY_TRAVELS = "https://www.norwegian.com/" +MARKET?lower_case + "/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID></#if>
 
 <#-- ABANDON_BASKET TABLE -->
 <#if DV_PRELOAD_TRIPINFO = "Y">
@@ -205,6 +204,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- ONEWAY_YN --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP?isnull><#global ONEWAY_YN = "0"><#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP = "Y"><#global ONEWAY_YN = "0"><#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP = "N"><#global ONEWAY_YN = "1"><#else><#global ONEWAY_YN = "0"></#if>
 
+<#-- DEPARTURE_IATA --><#if SQL_GLOBAL.BOOKING_START_AIRPORT?isnull><#global DEPARTURE_IATA = ""><#else><#global DEPARTURE_IATA = SQL_GLOBAL.BOOKING_START_AIRPORT?trim></#if>
 
 <#-- FAST_TRACK_FLAG --><#if SQL_GLOBAL.FAST_TRACK_FLAG?isnull><#global FAST_TRACK_FLAG ="N"><#else><#global FAST_TRACK_FLAG = SQL_GLOBAL.FAST_TRACK_FLAG></#if>
 
@@ -256,9 +256,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DEEPLINK_SEAT -->
 <#if !SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?isnull>
     	<#if SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?number == 0>
-            <#if MARKET == "NO"><#global DEEPLINK_SEAT = "https://www.norwegian.no/processpages/seatsale/#/selection?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "#">
-        	<#elseif MARKET == "ROW"><#global DEEPLINK_SEAT = "https://www.norwegian.com/en/processpages/seatsale/#/selection?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "#">
-            <#else><#global DEEPLINK_SEAT = "https://www.norwegian.com/" + MARKET?lower_case + "/processpages/seatsale/#/selection?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "#">
+            <#if MARKET == "NO"><#global DEEPLINK_SEAT = "https://www.norwegian.no/start/seating/sale?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+        	<#elseif MARKET == "ROW"><#global DEEPLINK_SEAT = "https://www.norwegian.com/en/start/seating/sale?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+            <#else><#global DEEPLINK_SEAT = "https://www.norwegian.com/" + MARKET?lower_case + "/start/seating/sale?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
             </#if>                
         <#else><#global DEEPLINK_SEAT = MY_TRAVELS>
         </#if>
@@ -280,9 +280,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DEEPLINK_XTRA_BAG -->
 <#if !SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull>
     		<#if SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number gt 0>
-                <#if MARKET == "NO"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.no/start/luggage/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-        		<#elseif MARKET == "ROW"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/en/start/luggage/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-        		<#else><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/" + MARKET?lower_case + "/start/luggage/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+                <#if MARKET == "NO"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.no/start/luggage/excess?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+        		<#elseif MARKET == "ROW"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/en/start/luggage/excess?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+        		<#else><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/" + MARKET?lower_case + "/start/luggage/excess?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
             </#if>               
         <#else><#global DEEPLINK_XTRA_BAG = MY_TRAVELS>
         </#if>
@@ -320,8 +320,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 </#if>
 
 <#-- DEEPLINK_DOWNLOAD_RECEIPT -->
-<#if MARKET == "NO"><#global DEEPLINK_DOWNLOAD_RECEIPT = "https://www.norwegian.no/api/mynorwegian/reservationDetails/downloadReceipt?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-<#else><#global DEEPLINK_DOWNLOAD_RECEIPT = "https://www.norwegian.com/api/mynorwegian/reservationDetails/downloadReceipt?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+<#if MARKET == "NO"><#global DEEPLINK_DOWNLOAD_RECEIPT = "https://www.norwegian.no/start/booking/receipt/vat?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID+ "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA>
+<#elseif MARKET == "ROW"><#global DEEPLINK_DOWNLOAD_RECEIPT = "https://www.norwegian.en/start/booking/receipt/vat?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID+ "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA><#else><#global DEEPLINK_DOWNLOAD_RECEIPT = "https://www.norwegian.com/"  + MARKET?lower_case + "/start/booking/receipt/vat?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID+ "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA>
 </#if>
 
 <#-- DEEPLINK_BOOK_OVERWEIGHT -->
@@ -381,9 +381,6 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- DEPARTURE_DATE_SEARCH_INPUT --><#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull><#if MARKET == "US"><#global DEPARTURE_DATE_SEARCH_INPUT = dayadd(.now,3)?date?string("MM/dd/yyyy")><#else><#global DEPARTURE_DATE_SEARCH_INPUT = dayadd(.now,3)?date?string("dd/MM/yyyy")></#if><#else><#if MARKET == "US"><#global DEPARTURE_DATE_SEARCH_INPUT = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("MM/dd/yyyy")><#else><#global DEPARTURE_DATE_SEARCH_INPUT = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("dd/MM/yyyy")></#if></#if>
 
-
-
-<#-- DEPARTURE_IATA --><#if SQL_GLOBAL.BOOKING_START_AIRPORT?isnull><#global DEPARTURE_IATA = ""><#else><#global DEPARTURE_IATA = SQL_GLOBAL.BOOKING_START_AIRPORT?trim></#if>
 <#-- DEPARTURE_COUNTRY --><#global DEPARTURE_COUNTRY = SQL_GLOBAL.BOOKING_START_COUNTRY_CD?lower_case?trim>
 
 <#-- BOOKING_CURRENCY --><#if SQL_GLOBAL.BK_SOLD_IN_CURRENCY?isnull><#global BOOKING_CURRENCY = "EUR"><#else><#global BOOKING_CURRENCY = SQL_GLOBAL.BK_SOLD_IN_CURRENCY?trim></#if>
@@ -639,7 +636,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- HOTEL_LOCALE --><#if MARKET == "NO"><#global HOTEL_LOCALE = "no_NO"><#elseif MARKET == "ROW"><#global HOTEL_LOCALE = "en_IE"><#else><#global HOTEL_LOCALE = CONTACT.LANGUAGEID?string[0..1]?lower_case?trim></#if>
 
-<#-- WEBPAGE_URL_PATH --><#join><#compress><#switch LANGUAGEID?lower_case>
+<#-- WEBPAGE_URL_PATH <#join><#compress><#switch LANGUAGEID?lower_case>
     <#case "nb-no"><#global WEBPAGE_URL_PATH ="booking/fly/lavpris"><#break>
     <#case "sv-se"><#global WEBPAGE_URL_PATH ="bokning/flyg/lagpris"><#break>
     <#case "da-dk"><#global WEBPAGE_URL_PATH ="booking/fly/lavpris"><#break>
@@ -653,12 +650,14 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
     <#case "pl-pl"><#global WEBPAGE_URL_PATH ="rezerwacja/zarezerwuj-przelot/tanie-polaczenia"><#break>
     <#case "it-it"><#global WEBPAGE_URL_PATH ="prenotazione/volo/low-price-calendar"><#break>
     <#case "nl-nl"><#global WEBPAGE_URL_PATH ="booking/flight-tickets/farecalendar"><#break>
-    <#default><#global WEBPAGE_URL_PATH ="booking/flight-tickets/farecalendar"></#switch></#compress></#join>
+    <#default><#global WEBPAGE_URL_PATH ="booking/flight-tickets/farecalendar"></#switch></#compress></#join>-->
+
+<#-- WEBPAGE_URL_PATH (new) --><#global WEBPAGE_URL_PATH = "/start/booking/farecalendar">
 
 <#-- NL_PREFFERED_AIRPORT --><#if !PREFFERED_AIRPORT?isnull><#global NL_PREFFERED_AIRPORT = PREFFERED_AIRPORT></#if>
 
 <#-- DESTINATION_PAGE -->
-<#if MARKET?isnull || MARKET?trim?upper_case == "NO"><#global DESTINATION_PAGE ="http://www.norwegian.no/destinasjoner/" + DESTINATION_DISPLAY_NAME?exec><#else> <#global DESTINATION_PAGE ="https://www.norwegian.com/" + MARKET?trim + "/destinations/" + DESTINATION_DISPLAY_NAME?exec></#if>
+<#if MARKET?isnull || MARKET?trim?upper_case == "NO"><#global DESTINATION_PAGE ="http://www.norwegian.no/destinations/" + DESTINATION_DISPLAY_NAME?exec><#elseif MARKET == "ROW"><#global DESTINATION_PAGE ="http://www.norwegian.com/en/destinations/" + DESTINATION_DISPLAY_NAME?exec><#else><#global DESTINATION_PAGE ="https://www.norwegian.com/" + MARKET?trim + "/destinations/" + DESTINATION_DISPLAY_NAME?exec></#if>
 
 <#-- NUMBER_OF_PASSENGERS --><#if NUMBER_OF_ADULTS?isnull><#assign NUMBER_OF_ADULTS = 1></#if><#if NUMBER_OF_ADULTS == 0 && NUMBER_OF_CHILDREN?isnull><#assign NUMBER_OF_CHILDREN = 1><#elseif NUMBER_OF_CHILDREN?isnull><#assign NUMBER_OF_CHILDREN = 0></#if><#if NUMBER_OF_INFANTS?isnull><#assign NUMBER_OF_INFANTS = 0></#if><#global NUMBER_OF_PASSENGERS = NUMBER_OF_ADULTS?trim?number + NUMBER_OF_CHILDREN?trim?number + NUMBER_OF_INFANTS?trim?number>
 
@@ -687,7 +686,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#default><#global LOWFARE_FOOTER ="http://www.norwegian.com/en/booking/flight-tickets/low-fare-calendar/">
 </#switch></#compress></#join>
 
-<#-- SETTINGS_FOOTER --><#join><#compress><#switch MARKET>
+
+<#-- SETTINGS_FOOTER <#join><#compress><#switch MARKET>
 <#case "NO"><#global SETTINGS_FOOTER ="https://www.norwegian.no/ssl/mine-reiser/"><#break>
 <#case "SE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/se/mina-resor/"><#break>
 <#case "DK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/dk/mine-rejser/"><#break>
@@ -704,9 +704,21 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "PL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/pl/moje-podroze/"><#break>
 <#case "ROW"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/"><#break>
 <#default><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/">
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
 
-<#-- HOMEPAGE_FOOTER --><#join><#compress><#switch MARKET>
+<#-- SETTINGS_FOOTER (new) -->
+<#if NAS_PROFILE_YN == "Y">
+    <#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/edit">
+    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/edit">
+    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/edit">
+    </#if>
+<#else><#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/create">
+    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/create">
+    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/create">
+    </#if>
+</#if>
+
+<#-- HOMEPAGE_FOOTER <#join><#compress><#switch MARKET>
 <#case "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#break>
 <#case "SE"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/se"><#break>
 <#case "DK"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/dk"><#break>
@@ -723,7 +735,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "PL"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/pl"><#break>
 <#case "ROW"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en"><#break>
 <#default><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en">
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
+
+<#-- HOMEPAGE_FOOTER (new) --><#if MARKET == "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#elseif MARKET == "ROW"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en"><#else><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/" + MARKET?lower_case></#if>
 
 <#-- CONTACT_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global CONTACT_FOOTER ="https://www.norwegian.no/hjelp-og-kontakt/"><#break>
@@ -773,7 +787,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#default><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/">
 </#switch></#compress></#join>
 
-<#-- MY_PROFILE_URL --><#join><#compress><#switch MARKET>
+<#-- MY_PROFILE_URL <#join><#compress><#switch MARKET>
 <#case "NO"><#global MY_PROFILE_URL ="https://www.norwegian.no/ssl/mine-reiser/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "SE"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/se/mina-resor/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "DK"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/dk/mine-rejser/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
@@ -790,13 +804,13 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "PL"><#global MY_PROFILE_URL ="http://www.norwegian.com/ssl/pl/moje-podroze/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "ROW"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#default><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID>
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
 
-
+<#-- MY_PROFILE_URL (new) --><#global MY_PROFILE_URL = SETTINGS_FOOTER>
 
 <#-- REWARD_01 --><#if REWARD_MEMBER == "N"><#global REWARD_01 = "0"><#elseif REWARD_MEMBER == "Y"><#global REWARD_01 = "1"><#else><#global REWARD_01 = "0"></#if>
 
-<#-- CREATE_PROFILE_URL --><#join><#compress><#switch MARKET>
+<#-- CREATE_PROFILE_URL <#join><#compress><#switch MARKET>
 <#case "NO"><#global CREATE_PROFILE_URL ="https://www.norwegian.no/ssl/mine-reiser/#/profile/create"><#break>
 <#case "SE"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/se/mina-resor/#/profile/create"><#break>
 <#case "DK"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/dk/mine-rejser/#/profile/create"><#break>
@@ -813,8 +827,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "PL"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/pl/moje-podroze/#/profile/create"><#break>
 <#case "ROW"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/#/profile/create"><#break>
 <#default><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/#/profile/create"><#break>
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
 
+<#-- CREATE_PROFILE_URL (new) --><#global CREATE_PROFILE_URL = SETTINGS_FOOTER>
 
 
 <#-- NL_UNSUBSCRIBE --><#global NL_UNSUBSCRIBE =form('CampaignOptOut', 'EMAIL_ADDRESS_', 'CONTACT.PERSONID')>
@@ -828,7 +843,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#default><#global FACEBOOK_URL ="https://www.facebook.com/norwegian.com">
 </#switch></#compress></#join>
 
-<#join><#compress><#switch LANGUAGEID?trim>
+<#-- MARKET_EXTERNAL_LINK <#join><#compress><#switch LANGUAGEID?trim>
 <#case "nb-no"><#global MARKET_EXTERNAL_LINK ="NO"><#break>
 <#case "sv-se"><#global MARKET_EXTERNAL_LINK ="SE"><#break>
 <#case "da-dk"><#global MARKET_EXTERNAL_LINK ="DK"><#break>
@@ -844,7 +859,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "es-es"><#global MARKET_EXTERNAL_LINK ="ES"><#break>
 <#case "pl-pl"><#global MARKET_EXTERNAL_LINK ="PL"><#break>
 <#default><#global MARKET_EXTERNAL_LINK ="ROW">
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
+
+<#-- MARKET_EXTERNAL_LINK --><#global MARKET_EXTERNAL_LINK = MARKET>
 
 <#-- DEST_TRANSLATION_TEXT -->
 <#join><#compress><#switch MARKET>
