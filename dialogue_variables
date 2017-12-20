@@ -280,9 +280,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DEEPLINK_XTRA_BAG -->
 <#if !SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull>
     		<#if SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number gt 0>
-                <#if MARKET == "NO"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.no/start/luggage/excess?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-        		<#elseif MARKET == "ROW"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/en/start/luggage/excess?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-        		<#else><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/" + MARKET?lower_case + "/start/luggage/excess?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+                <#if MARKET == "NO"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.no/start/luggage/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+        		<#elseif MARKET == "ROW"><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/en/start/luggage/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+        		<#else><#global DEEPLINK_XTRA_BAG = "https://www.norwegian.com/" + MARKET?lower_case + "/start/luggage/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
             </#if>               
         <#else><#global DEEPLINK_XTRA_BAG = MY_TRAVELS>
         </#if>
@@ -737,7 +737,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#default><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en">
 </#switch></#compress></#join>-->
 
-<#-- HOMEPAGE_FOOTER (new) --><#if MARKET == "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#elseif MARKET == "ROW"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en"><#else><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/" + MARKET?lower_case></#if>
+<#-- HOMEPAGE_FOOTER (new) --><#if MARKET == "NO"><#global HOMEPAGE_FOOTER ="http://www.norwegian.no"><#elseif MARKET == "ROW"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en"><#else><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/" + MARKET?lower_case></#if>
 
 <#-- CONTACT_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global CONTACT_FOOTER ="https://www.norwegian.no/hjelp-og-kontakt/"><#break>
