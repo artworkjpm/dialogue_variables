@@ -191,7 +191,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#else><#global LESS_24_RET = "N">
 </#if>
 
-<#-- BK_PERSON_AGE --><#if SQL_Universal.PSNGR_AGE?isnull><#global BK_PERSON_AGE = "0"><#else><#global BK_PERSON_AGE = SQL_Universal.PSNGR_AGE></#if>
+<#-- BK_PERSON_AGE --><#if SQL_Universal.PSNGR_AGE?isnull><#global BK_PERSON_AGE = "0"><#else><#global BK_PERSON_AGE = SQL_Universal.PSNGR_AGE?string></#if>
 
 </#data>
 
@@ -538,7 +538,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
 
 <#-- HOTEL_URL -->
-<#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>
+<#--<#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>-->
 <#--HOTEL_URL: ${HOTEL_URL} -->
 
 <#-- UNSUBSCRIBE_VAR -->
@@ -840,7 +840,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "NO"><#global FACEBOOK_URL ="https://www.facebook.com/flynorwegian"><#break>
 <#case "SE"><#global FACEBOOK_URL ="https://www.facebook.com/NorwegianSverige"><#break>
 <#case "DK"><#global FACEBOOK_URL ="https://www.facebook.com/NorwegianDanmark"><#break>
-<#default><#global FACEBOOK_URL ="https://www.facebook.com/norwegian.com">
+<#default><#global FACEBOOK_URL ="https://www.facebook.com/flynorwegian">
 </#switch></#compress></#join>
 
 <#-- MARKET_EXTERNAL_LINK <#join><#compress><#switch LANGUAGEID?trim>
@@ -882,7 +882,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
 
-<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=unknown&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
 
 <#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + CARTRAWLER_LANG_LID?exec?trim>
 
@@ -914,7 +914,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DEST_URL --><#global DEST_URL = "Not in use">
 
 
-<#-- Fast Track disclaimer text --><#include "cms://contentlibrary/!framework/global_variables/fast_track_footer_text_dialogues.htm">
+<#-- Fast Track disclaimer text--> <#include "cms://contentlibrary/!framework/global_variables/fast_track_footer_text_dialogues.htm">
 
 <#-- <#include "cms://contentlibrary/!framework/global_variables/Test_SH_variables.htm">
 <a href="${DEEPLINK_ONLINE_CHECKIN?exec}" target ="_blank">DEEPLINK_ONLINE_CHECKIN</a>: ${DEEPLINK_ONLINE_CHECKIN?exec}<br>
