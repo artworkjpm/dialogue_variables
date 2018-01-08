@@ -1,0 +1,64 @@
+<#-- FT_footertxt_both --><#join><#compress><#switch MARKET>
+<#case "NO"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "SE"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "DK"><#global FT_footertxt_both ="- på " + DEPARTURE_AIRPORT_NAME?trim + " og " + DESTINATION_AIRPORT_NAME?trim + " lufthavne"><#break>
+<#case "FR"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "NL"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "IT"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "FI"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "DE"><#global FT_footertxt_both ="- bei " + DEPARTURE_AIRPORT_NAME?trim + " und " + DESTINATION_AIRPORT_NAME?trim + " Flughäfen"><#break>
+<#case "US"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "IE"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "SG"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "UK"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "ES"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "PL"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "ROW"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#case "AR"><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+<#default><#global FT_footertxt_both ="- at " + DEPARTURE_AIRPORT_NAME?trim + " and " + DESTINATION_AIRPORT_NAME?trim + " Airports"><#break>
+</#switch></#compress></#join>
+<#-- FT_footertxt_DEP --><#join><#compress><#switch MARKET>
+<#case "NO"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "SE"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "DK"><#global FT_footertxt_DEP = "- på " + DEPARTURE_AIRPORT_NAME?trim + " lufthavn"><#break>
+<#case "FR"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "NL"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "IT"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "FI"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "DE"><#global FT_footertxt_DEP = "- bei " + DEPARTURE_AIRPORT_NAME?trim + " Flughafen"><#break>
+<#case "US"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "IE"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "SG"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "UK"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "ES"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "PL"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "ROW"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "AR"><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+<#default><#global FT_footertxt_DEP = "- at " + DEPARTURE_AIRPORT_NAME?trim + " Airport"><#break>
+</#switch></#compress></#join>
+<#-- FT_footertxt_DEST --><#join><#compress><#switch MARKET>
+<#case "NO"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "SE"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "DK"><#global FT_footertxt_DEST = "- på " + DESTINATION_AIRPORT_NAME?trim + " lufthavn"><#break>
+<#case "FR"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "NL"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "IT"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "FI"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "DE"><#global FT_footertxt_DEST = "- bei " + DESTINATION_AIRPORT_NAME?trim + " Flughafen"><#break>
+<#case "US"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "IE"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "SG"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "UK"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "ES"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "PL"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "ROW"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#case "AR"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+<#default><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
+</#switch></#compress></#join>
+<#-- /////////////////FT_footertxt////////////////////////////// -->
+<#if ONEWAY_YN?string?trim == "0">
+<#if FAST_TRACK_AIRPORTS?trim == "Y" && FAST_TRACK_AIRPORTS_RETURN?trim == "Y"><#global FT_footertxt = FT_footertxt_both>
+	<#elseif FAST_TRACK_AIRPORTS?trim == "Y" && FAST_TRACK_AIRPORTS_RETURN?trim == "N"><#global FT_footertxt = FT_footertxt_DEP>
+	<#elseif FAST_TRACK_AIRPORTS?trim == "N" && FAST_TRACK_AIRPORTS_RETURN?trim == "Y"><#global FT_footertxt = FT_footertxt_DEST>
+	</#if>
+</#if>
