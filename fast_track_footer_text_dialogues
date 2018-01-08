@@ -55,11 +55,16 @@
 <#case "AR"><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
 <#default><#global FT_footertxt_DEST = "- at " + DESTINATION_AIRPORT_NAME?trim + " Airport"><#break>
 </#switch></#compress></#join>
-<#-- /////////////////FT_footertxt////////////////////////////// -->
+<#-- /////////////////FT_footertxt AND LOUNGE_TEXT////////////////////////////// -->
 <#if ONEWAY_YN?string?trim == "0">
-<#if FAST_TRACK_AIRPORTS?trim == "Y" && FAST_TRACK_AIRPORTS_RETURN?trim == "Y"><#global FT_footertxt = FT_footertxt_both>
+	<#if FAST_TRACK_AIRPORTS?trim == "Y" && FAST_TRACK_AIRPORTS_RETURN?trim == "Y"><#global FT_footertxt = FT_footertxt_both>
 	<#elseif FAST_TRACK_AIRPORTS?trim == "Y" && FAST_TRACK_AIRPORTS_RETURN?trim == "N"><#global FT_footertxt = FT_footertxt_DEP>
 	<#elseif FAST_TRACK_AIRPORTS?trim == "N" && FAST_TRACK_AIRPORTS_RETURN?trim == "Y"><#global FT_footertxt = FT_footertxt_DEST>
 	</#if>
+	<#if LOUNGE_AIRPORTS?trim == "Y" && LOUNGE_AIRPORTS_RETURN?trim == "Y"><#global LOUNGE_TEXT = FT_footertxt_both>
+	<#elseif LOUNGE_AIRPORTS?trim == "Y" && LOUNGE_AIRPORTS_RETURN?trim == "N"><#global LOUNGE_TEXT = FT_footertxt_DEP>
+	<#elseif LOUNGE_AIRPORTS?trim == "N" && LOUNGE_AIRPORTS_RETURN?trim == "Y"><#global LOUNGE_TEXT = FT_footertxt_DEST>
+	</#if>
 <#elseif FAST_TRACK_AIRPORTS?trim == "Y"><#global FT_footertxt = FT_footertxt_DEP>
+<#elseif LOUNGE_AIRPORTS?trim == "Y"><#global LOUNGE_TEXT = FT_footertxt_DEP>
 </#if>
