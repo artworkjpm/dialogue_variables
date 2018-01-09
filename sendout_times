@@ -26,3 +26,275 @@ Standard Time
  
 Key Fields
 Data Extraction:	NOT DEFINED
+____________________________
+
+SELECT DISTINCT FRAMEWORK_CAMPAIGN.framework_campaign, 
+                FRAMEWORK_MARKET.framework_market, 
+                FRAMEWORK_POSITION.framework_position, 
+                SETTINGS.settings_subject, 
+                SETTINGS.settings_preheader, 
+                SETTINGS.settings_from_name, 
+                SETTINGS.settings_footer_top, 
+                SETTINGS.settings_footer_middle, 
+                SETTINGS.settings_footer_bottom, 
+                SETTINGS.settings_segment_rule, 
+                SETTINGS.disclaimer_cta, 
+                SETTINGS.disclaimer_url, 
+                SETTINGS.display_first_name_yn, 
+                Nvl(SETTINGS.sort_order, 0) AS settings_sort_order, 
+                BANNER.banner_display_rule, 
+                BANNER.banner_type, 
+                BANNER.banner_image, 
+                BANNER.banner_image_swap, 
+                BANNER.banner_url, 
+                BANNER.banner_bcg_color, 
+                BANNER.banner_alt_txt, 
+                BANNER.banner_paragraph, 
+                BANNER.banner_divider_top, 
+                BANNER.banner_variant, 
+                BANNER.banner_divider_btm, 
+                HERO.hero_variant, 
+                HERO.hero_display_rule, 
+                HERO.hero_image_swap, 
+                HERO.hero_image, 
+                HERO.hero_image_alt_txt, 
+                HERO.hero_image_url, 
+                HERO.hero_headline, 
+                HERO.hero_intro_txt, 
+                HERO.hero_paragraph, 
+                HERO.hero_txt_cta, 
+                HERO.hero_btn_cta, 
+                HERO.hero_url, 
+                HERO.hero_btn_clr, 
+                HERO.hero_bcg_clr, 
+                HERO.hero_week, 
+                HERO.hero_year, 
+                HERO.hero_divider_btn, 
+                HERO.hero_divider_top, 
+                PERSONALIZATION.personalization_variant, 
+                PERSONALIZATION.personalization_display_rule, 
+                PERSONALIZATION.personalization_segment_rule, 
+                PERSONALIZATION.personalization_profile_y_cta, 
+                PERSONALIZATION.personalization_profile_y_url, 
+                PERSONALIZATION.personalization_profile_n_cta, 
+                PERSONALIZATION.personalization_profile_n_url, 
+                PERSONALIZATION.personalization_cashpoint_txt, 
+                PERSONALIZATION.personalization_not_reward_txt, 
+                PERSONALIZATION.personalization_a_divider_top, 
+                PERSONALIZATION.personalization_a_divider_btm, 
+                PERSONALIZATION.personalization_week, 
+                PERSONALIZATION.personalization_year, 
+                PRICELIST.pricelist_variant, 
+                PRICELIST.pricelist_segment_rule, 
+                PRICELIST.pricelist_display_rule, 
+                PRICELIST.pricelist_premium, 
+                PRICELIST.pricelist_headline, 
+                PRICELIST.pricelist_premium_headline, 
+                PRICELIST.pricelist_lowfare_headline, 
+                PRICELIST.pricelist_before_dep_txt, 
+                PRICELIST.pricelist_before_dest_txt, 
+                PRICELIST.pricelist_after_dest_txt, 
+                PRICELIST.pricelist_show_iata_yn, 
+                PRICELIST.pricelist_show_dep_yn, 
+                PRICELIST.pricelist_sub_txt, 
+                PRICELIST.pricelist_small_txt, 
+                PRICELIST.pricelist_btn_cta, 
+                PRICELIST.pricelist_btn_url, 
+                PRICELIST.pricelist_btn_clr, 
+                PRICELIST.pricelist_divider_btm, 
+                PRICELIST.pricelist_divider_top, 
+                PRICELIST.pricelist_week, 
+                PRICELIST.pricelist_year, 
+                PROMOLIST.promolist_variant, 
+                PROMOLIST.promolist_week, 
+                PROMOLIST.promolist_year, 
+                PROMOLIST.promolist_show_iata_yn, 
+                PROMOLIST.promolist_display_rule, 
+                PROMOLIST.promolist_segment_rule, 
+                PROMOLIST.promolist_headline, 
+                PROMOLIST.promolist_before_dep_txt, 
+                PROMOLIST.promolist_before_dest_txt, 
+                PROMOLIST.promolist_after_dest_txt, 
+                PROMOLIST.promolist_sub_txt, 
+                PROMOLIST.promolist_paragraph, 
+                PROMOLIST.promolist_clr, 
+                PROMOLIST.promolist_small_txt, 
+                PROMOLIST.promolist_txt_cta, 
+                PROMOLIST.promolist_url, 
+                PROMOLIST.promolist_divider_btm, 
+                PROMOLIST.promolist_divider_top, 
+                TEXT.text_display_rule, 
+                TEXT.text_variant, 
+                TEXT.text_header, 
+                TEXT.text_intro, 
+                TEXT.text_subheader_left, 
+                TEXT.text_paragraph, 
+                TEXT.text_txt_cta, 
+                TEXT.text_btn_cta, 
+                TEXT.text_btn_clr, 
+                TEXT.text_url, 
+                TEXT.text_divider_top, 
+                TEXT.text_divider_btm, 
+                TEXT.text_bcg_clr, 
+                ARTICLE.article_display_rule, 
+                ARTICLE.article_variant, 
+                ARTICLE.article_image, 
+                ARTICLE.article_alt_txt, 
+                ARTICLE.article_heading, 
+                ARTICLE.article_intro, 
+                ARTICLE.article_paragraph, 
+                ARTICLE.article_cta, 
+                ARTICLE.article_url, 
+                ARTICLE.article_bp_icon, 
+                ARTICLE.article_bp1_txt, 
+                ARTICLE.article_bp1_cta, 
+                ARTICLE.article_bp1_url, 
+                ARTICLE.article_bp2_txt, 
+                ARTICLE.article_bp2_cta, 
+                ARTICLE.article_bp2_url, 
+                ARTICLE.article_divider_top, 
+                ARTICLE.article_divider_btn, 
+                PRICELIST_MANUAL.manual_variant, 
+                PRICELIST_MANUAL.manual_display_rule, 
+                PRICELIST_MANUAL.manual_headline, 
+                PRICELIST_MANUAL.manual_subheadline, 
+                PRICELIST_MANUAL.manual_col1_title, 
+                PRICELIST_MANUAL.manual_col2_title, 
+                PRICELIST_MANUAL.manual_col3_title, 
+                PRICELIST_MANUAL.manual_dest_1_name, 
+                PRICELIST_MANUAL.manual_dest_1_subtext, 
+                PRICELIST_MANUAL.manual_dest_1_url, 
+                PRICELIST_MANUAL.manual_col2_dest_1_price, 
+                PRICELIST_MANUAL.manual_col3_dest_1_price, 
+                PRICELIST_MANUAL.manual_dest_2_name, 
+                PRICELIST_MANUAL.manual_dest_2_subtext, 
+                PRICELIST_MANUAL.manual_dest_2_url, 
+                PRICELIST_MANUAL.manual_col2_dest_2_price, 
+                PRICELIST_MANUAL.manual_col3_dest_2_price, 
+                PRICELIST_MANUAL.manual_dest_3_name, 
+                PRICELIST_MANUAL.manual_dest_3_subtext, 
+                PRICELIST_MANUAL.manual_dest_3_url, 
+                PRICELIST_MANUAL.manual_col2_dest_3_price, 
+                PRICELIST_MANUAL.manual_col3_dest_3_price, 
+                PRICELIST_MANUAL.manual_dest_4_name, 
+                PRICELIST_MANUAL.manual_dest_4_subtext, 
+                PRICELIST_MANUAL.manual_dest_4_url, 
+                PRICELIST_MANUAL.manual_col2_dest_4_price, 
+                PRICELIST_MANUAL.manual_col3_dest_4_price, 
+                PRICELIST_MANUAL.manual_dest_5_name, 
+                PRICELIST_MANUAL.manual_dest_5_subtext, 
+                PRICELIST_MANUAL.manual_dest_5_url, 
+                PRICELIST_MANUAL.manual_col2_dest_5_price, 
+                PRICELIST_MANUAL.manual_col3_dest_5_price, 
+                PRICELIST_MANUAL.manual_dest_6_name, 
+                PRICELIST_MANUAL.manual_dest_6_subtext, 
+                PRICELIST_MANUAL.manual_dest_6_url, 
+                PRICELIST_MANUAL.manual_col2_dest_6_price, 
+                PRICELIST_MANUAL.manual_col3_dest_6_price, 
+                PRICELIST_MANUAL.manual_dest_7_name, 
+                PRICELIST_MANUAL.manual_dest_7_subtext, 
+                PRICELIST_MANUAL.manual_dest_7_url, 
+                PRICELIST_MANUAL.manual_col2_dest_7_price, 
+                PRICELIST_MANUAL.manual_col3_dest_7_price, 
+                PRICELIST_MANUAL.manual_dest_8_name, 
+                PRICELIST_MANUAL.manual_dest_8_subtext, 
+                PRICELIST_MANUAL.manual_dest_8_url, 
+                PRICELIST_MANUAL.manual_col2_dest_8_price, 
+                PRICELIST_MANUAL.manual_col3_dest_8_price, 
+                PRICELIST_MANUAL.manual_small_text, 
+                PRICELIST_MANUAL.manual_call_to_action, 
+                PRICELIST_MANUAL.manual_url, 
+                PROMO_MAN.promo_man_variant, 
+                PROMO_MAN.promo_man_display_rule, 
+                PROMO_MAN.promo_man_headline, 
+                PROMO_MAN.promo_man_subheadline, 
+                PROMO_MAN.promo_man_dest_1_name, 
+                PROMO_MAN.promo_man_dest_1_subtext, 
+                PROMO_MAN.promo_man_dest_1_url, 
+                PROMO_MAN.promo_man_dest_1_price, 
+                PROMO_MAN.promo_man_dest_2_name, 
+                PROMO_MAN.promo_man_dest_2_subtext, 
+                PROMO_MAN.promo_man_dest_2_url, 
+                PROMO_MAN.promo_man_dest_2_price, 
+                PROMO_MAN.promo_man_dest_3_name, 
+                PROMO_MAN.promo_man_dest_3_subtext, 
+                PROMO_MAN.promo_man_dest_3_url, 
+                PROMO_MAN.promo_man_dest_3_price, 
+                PROMO_MAN.promo_man_dest_4_name, 
+                PROMO_MAN.promo_man_dest_4_subtext, 
+                PROMO_MAN.promo_man_dest_4_url, 
+                PROMO_MAN.promo_man_dest_4_price, 
+                PROMO_MAN.promo_man_small_text, 
+                PROMO_MAN.promo_man_call_to_action, 
+                PROMO_MAN.promo_man_bg_color, 
+                PROMO_MAN.promo_man_cta_url 
+FROM   $a$ framework_campaign 
+       INNER JOIN $b$ framework_market 
+               ON framework_campaign.active = framework_market.active 
+                  AND framework_campaign.campaign_type = 'NEWSLETTER' 
+       INNER JOIN $c$ framework_position 
+               ON framework_campaign.active = framework_position.active 
+       LEFT JOIN $e$ BANNER 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = BANNER.banner_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = BANNER.banner_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     BANNER.banner_position 
+       LEFT JOIN $f$ HERO 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = HERO.hero_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = HERO.hero_market 
+                 AND FRAMEWORK_POSITION.framework_position = HERO.hero_position 
+       LEFT JOIN $g$ PERSONALIZATION 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 PERSONALIZATION.personalization_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = 
+                     PERSONALIZATION.personalization_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     PERSONALIZATION.personalization_position 
+       LEFT JOIN $j$ TEXT 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = TEXT.text_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = TEXT.text_market 
+                 AND FRAMEWORK_POSITION.framework_position = TEXT.text_position 
+       LEFT JOIN $d$ ARTICLE 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 ARTICLE.article_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = ARTICLE.article_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     ARTICLE.article_position 
+       /*where    framework_campaign.active = 'Y'*/ 
+       LEFT JOIN $m$ SETTINGS 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 SETTINGS.settings_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = 
+                     SETTINGS.settings_market 
+       LEFT JOIN $i$ PROMOLIST 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 PROMOLIST.promolist_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = 
+                     PROMOLIST.promolist_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     PROMOLIST.promolist_position 
+       LEFT JOIN $h$ PRICELIST 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 PRICELIST.pricelist_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = 
+                     PRICELIST.pricelist_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     PRICELIST.pricelist_position 
+       LEFT JOIN $k$ PRICELIST_MANUAL 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 PRICELIST_MANUAL.manual_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = 
+                     PRICELIST_MANUAL.manual_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     PRICELIST_MANUAL.manual_position 
+       LEFT JOIN $l$ PROMO_MAN 
+              ON FRAMEWORK_CAMPAIGN.framework_campaign = 
+                 PROMO_MAN.promo_man_campaign 
+                 AND FRAMEWORK_MARKET.framework_market = 
+                     PROMO_MAN.promo_man_market 
+                 AND FRAMEWORK_POSITION.framework_position = 
+                     PROMO_MAN.promo_man_position 
+ORDER  BY FRAMEWORK_CAMPAIGN.framework_campaign, 
+          FRAMEWORK_MARKET.framework_market, 
+          FRAMEWORK_POSITION.framework_position, 
+          settings_sort_order DESC 
