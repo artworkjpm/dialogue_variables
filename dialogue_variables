@@ -1,4 +1,4 @@
-<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/dialogue_variables_test.htm"> -->
+<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/dialogue_variables.htm"> -->
 
 <#-- SERVER TIME CORRECTION --><#setting time_zone='US/Pacific-New'>
 
@@ -538,8 +538,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
 
 <#-- HOTEL_URL -->
-<#--<#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>-->
-<#--HOTEL_URL: ${HOTEL_URL} -->
+<#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>
+<#--HOTEL_URL: ${HOTEL_URL}-->
 
 <#-- UNSUBSCRIBE_VAR -->
 <#if MARKET == "NO"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.no/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_><#else><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/${MARKET?lower_case}/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_></#if>
@@ -579,27 +579,42 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- LOUNGE_AIRPORTS -->
 <#join><#compress><#switch DEPARTURE_IATA?upper_case?trim>
-<#case "BKK"><#global LOUNGE_AIRPORTS = "Y"><#break>
-<#case "CPH"><#global LOUNGE_AIRPORTS = "Y"><#break>
 <#case "LGW"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "BKK"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "BCN"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "BOS"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "CPH"><#global LOUNGE_AIRPORTS = "Y"><#break>
 <#case "LAX"><#global LOUNGE_AIRPORTS = "Y"><#break>
-<#case "BGO"><#global LOUNGE_AIRPORTS = "Y"><#break>
 <#case "JFK"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "EWR"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "OAK"><#global LOUNGE_AIRPORTS = "Y"><#break>
 <#case "OSL"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "CDG"><#global LOUNGE_AIRPORTS = "Y"><#break>
+<#case "SEA"><#global LOUNGE_AIRPORTS = "Y"><#break>
 <#case "ARN"><#global LOUNGE_AIRPORTS = "Y"><#break>
 <#default><#global LOUNGE_AIRPORTS = "N"></#switch></#compress></#join>
 
 <#-- LOUNGE_AIRPORTS_RETURN -->
 <#join><#compress><#switch DESTINATION_IATA?upper_case?trim>
-<#case "BKK"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
-<#case "CPH"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#case "LGW"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "BKK"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "BCN"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "BOS"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "CPH"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#case "LAX"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
-<#case "BGO"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#case "JFK"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "EWR"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "OAK"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#case "OSL"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "CDG"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
+<#case "SEA"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#case "ARN"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#default><#global LOUNGE_AIRPORTS_RETURN = "N"></#switch></#compress></#join>
+
+<#-- LOUNGE_URL -->
+<#if MARKET == "UK"><#global LOUNGE_URL = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/">
+<#else><#global LOUNGE_URL = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
+</#if>
 
 <#-- WEBPAGE_MARKET --><#join><#compress><#switch CONTACT.LANGUAGEID?lower_case>
 <#case "nb-no"><#global WEBPAGE_MARKET = "NO"><#break>
