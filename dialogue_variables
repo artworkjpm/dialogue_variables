@@ -26,6 +26,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 -->
 <#-- LANGUAGEID FIX --><#global LANGUAGEID = LANGUAGEID?replace("_","-")?replace("no-no","nb-no")?replace("se-no","sv-se")?replace("se-se","sv-se")?replace("se-fi","sv-se")?lower_case?trim>
 
+<#-- LANGUAGEID FIX2 -->
+<#if LANGUAGEID?isnull><#global LANGUAGEID = "en"></#if>
+
 <#-- setting module default states -->
 <#global HERO_SHOW_DEFAULT = 1>
 <#global PRICELIST_SHOW_DEFAULT = 1>
@@ -495,7 +498,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- //////////////////////// AIRPORTS SUP TABLE (1) ///////////////////////////////////////////////-->
 <#data AIRPORTS as AIRPORTS limit=1>
-<#filter AIRPORTCODE_IATA = DESTINATION_IATA LANGUAGECODE = AIRPORT_LANG?upper_case?trim><#fields CITY_DESTINATION_ID DISPLAYNAME CITY LONG_HAUL_HUB COUNTRYCODE AIRPORTCODE_IATA AIRPORTNAME FASTTRACK>
+<#filter AIRPORTCODE_IATA = DESTINATION_IATA LANGUAGECODE = AIRPORT_LANG?upper_case?trim><#fields CITY_DESTINATION_ID DISPLAYNAME CITY LONG_HAUL_HUB COUNTRYCODE AIRPORTCODE_IATA AIRPORTNAME FASTTRACK COUNTRY>
 <#-- DESTINATION_ID --><#if !AIRPORTS.CITY_DESTINATION_ID?isnull><#global DESTINATION_ID = AIRPORTS.CITY_DESTINATION_ID?c?trim><#else><#global DESTINATION_ID = 0000></#if>
 
 <#-- DESTINATION_DISPLAY_NAME --><#if !AIRPORTS.DISPLAYNAME?isnull><#global DESTINATION_DISPLAY_NAME = AIRPORTS.DISPLAYNAME?trim><#else><#global DESTINATION_DISPLAY_NAME = ""></#if>
@@ -518,6 +521,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- DESTINATION_IT_FR_US --><#if AIRPORTS.COUNTRYCODE?isnull><#global DESTINATION_IT_FR_US = "N"><#elseif AIRPORTS.COUNTRYCODE?lower_case == "it" || AIRPORTS.COUNTRYCODE?lower_case == "fr" || AIRPORTS.COUNTRYCODE?lower_case == "us"><#global DESTINATION_IT_FR_US = "Y"><#else><#global DESTINATION_IT_FR_US = "N"></#if>
 
+<#-- DESTINATION_COUNTRY -->
+<#if AIRPORTS.COUNTRY?isnull><#global DESTINATION_COUNTRY = ""><#else><#global DESTINATION_COUNTRY = AIRPORTS.COUNTRY></#if>
 
 </#data>
 
