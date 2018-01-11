@@ -521,8 +521,10 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- DESTINATION_IT_FR_US --><#if AIRPORTS.COUNTRYCODE?isnull><#global DESTINATION_IT_FR_US = "N"><#elseif AIRPORTS.COUNTRYCODE?lower_case == "it" || AIRPORTS.COUNTRYCODE?lower_case == "fr" || AIRPORTS.COUNTRYCODE?lower_case == "us"><#global DESTINATION_IT_FR_US = "Y"><#else><#global DESTINATION_IT_FR_US = "N"></#if>
 
+
 <#-- DESTINATION_COUNTRY -->
 <#if AIRPORTS.COUNTRY?isnull><#global DESTINATION_COUNTRY = ""><#else><#global DESTINATION_COUNTRY = AIRPORTS.COUNTRY></#if>
+
 
 </#data>
 
@@ -686,6 +688,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- NL_PREFFERED_AIRPORT --><#if !PREFFERED_AIRPORT?isnull><#global NL_PREFFERED_AIRPORT = PREFFERED_AIRPORT></#if>
 
 <#-- CAR_URL--><#global CAR_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/book?clientID=" + CAR_CLIENT_ID?trim + "&residencyId=" + AIRPORT_LANG?lower_case?trim + "&currency=" + BOOKING_CURRENCY?trim + "&lang=" + CARTRAWLER_LANG_LID?trim + "&pickupIATACode=" + DESTINATION_IATA?trim + "&returnIATACode=" + DESTINATION_IATA?trim + "&pickupDateTime=" + DEPARTURE_YEAR?trim + "-" + DEPARTURE_MONTH?trim + "-" + DEPARTURE_DAY?trim + "T09:00&returnDateTime=" + RETURN_YEAR_CAR?trim + "-" + RETURN_MONTH_CAR?trim + "-" + RETURN_DAY_CAR?trim + "T09:00&oneway=" + ONEWAY_YN?trim>
+
+<#-- AIRPORT_TRANSFER_URL--><#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?clientID=" + CAR_GT_CLIENT_ID?trim + "&currency=" + BOOKING_CURRENCY?trim + "#/search#">
 
 <#-- LOWFARE_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global LOWFARE_FOOTER ="https://www.norwegian.no/booking/fly/lavpriskalender/"><#break>
@@ -896,6 +900,41 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
      <#case "NO"><#global DEST_TRANSLATION_TEXT = "/destinasjoner"><#break>
     <#default><#global DEST_TRANSLATION_TEXT = "/destinations/">
 </#switch></#compress></#join>
+
+<#-- PREMIUM_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global PREMIUM_INFO = "https://www.norwegian.com/uk/travel-info/on-board/premium-cabin/"><#break>
+    <#default><#global PREMIUM_INFO = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/">
+    </#switch></#compress></#join>
+
+<#-- ENTERTAINMENT_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/"><#break>
+    <#default><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/">
+    </#switch></#compress></#join>
+
+<#-- MEAL_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global MEAL_INFO = "https://www.norwegian.com/uk/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+    <#default><#global MEAL_INFO = "https://www.norwegian.com/en/travel-info/on-board/food-and-drinks/international-long-haul-flights/">
+    </#switch></#compress></#join>
+
+<#-- LOUNGE_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global LOUNGE_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/"><#break>
+    <#default><#global LOUNGE_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
+    </#switch></#compress></#join>
+    
+<#-- REWARD_FAMILY_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+    <#default><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account">
+    </#switch></#compress></#join>
+
+<#-- APP_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global APP_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+    <#default><#global APP_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/travel-assistant-app">
+    </#switch></#compress></#join>
+
+<#-- PASSPORT_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/"><#break>
+    <#default><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/">
+    </#switch></#compress></#join>
 
 <#-- BK_PERSON_GENDER -->
 <#if CONTACT.GENDER?isnull><#global BK_PERSON_GENDER = "unknown"><#elseif CONTACT.GENDER?upper_case == "F"><#global BK_PERSON_GENDER = "female"><#else><#global BK_PERSON_GENDER = "male"></#if>
