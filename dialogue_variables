@@ -549,7 +549,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#--HOTEL_URL: ${HOTEL_URL}-->
 
 <#-- UNSUBSCRIBE_VAR -->
-<#if MARKET == "NO"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.no/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_><#else><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/${MARKET?lower_case}/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_></#if>
+<#if MARKET == "NO"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.no/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_><#elseif MARKET == "ROW"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/en/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_><#else><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/${MARKET?lower_case}/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_></#if>
 
 
 <#-- FAST_TRACK_AIRPORTS <#join><#compress><#switch DEPARTURE_IATA?upper_case?trim>
@@ -687,10 +687,10 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- NL_PREFFERED_AIRPORT --><#if !PREFFERED_AIRPORT?isnull><#global NL_PREFFERED_AIRPORT = PREFFERED_AIRPORT></#if>
 
-<#-- CAR_URL--><#global CAR_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/book?clientID=" + CAR_CLIENT_ID?trim + "&residencyId=" + AIRPORT_LANG?lower_case?trim + "&currency=" + BOOKING_CURRENCY?trim + "&lang=" + CARTRAWLER_LANG_LID?trim + "&pickupIATACode=" + DESTINATION_IATA?trim + "&returnIATACode=" + DESTINATION_IATA?trim + "&pickupDateTime=" + DEPARTURE_YEAR?trim + "-" + DEPARTURE_MONTH?trim + "-" + DEPARTURE_DAY?trim + "T09:00&returnDateTime=" + RETURN_YEAR_CAR?trim + "-" + RETURN_MONTH_CAR?trim + "-" + RETURN_DAY_CAR?trim + "T09:00&oneway=" + ONEWAY_YN?trim>
+<#-- CAR_URL--><#global CAR_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/book?clientID=" + CAR_CLIENT_ID?trim + "&residencyId=" + AIRPORT_LANG?lower_case?trim + "&Currency=" + BOOKING_CURRENCY?trim + "&lang=" + CARTRAWLER_LANG_LID?trim + "&pickupIATACode=" + DESTINATION_IATA?trim + "&returnIATACode=" + DESTINATION_IATA?trim + "&pickupDateTime=" + DEPARTURE_YEAR?trim + "-" + DEPARTURE_MONTH?trim + "-" + DEPARTURE_DAY?trim + "T09:00&returnDateTime=" + RETURN_YEAR_CAR?trim + "-" + RETURN_MONTH_CAR?trim + "-" + RETURN_DAY_CAR?trim + "T09:00&oneway=" + ONEWAY_YN?trim>
 
-<#-- AIRPORT_TRANSFER_URL--><#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?clientID=" + CAR_GT_CLIENT_ID?trim + "&currency=" + BOOKING_CURRENCY?trim + "#/search#">
-
+<#-- AIRPORT_TRANSFER_URL--><#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?clientID=" + CAR_GT_CLIENT_ID?trim + "&Currency=" + BOOKING_CURRENCY?trim + "#/search#">
+<#-- AIRPORT_TRANSFER_URL<#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?currency=" + BOOKING_CURRENCY?trim + "&clientID=" + CAR_GT_CLIENT_ID?trim + "#/search#">-->
 <#-- LOWFARE_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global LOWFARE_FOOTER ="https://www.norwegian.no/booking/fly/lavpriskalender/"><#break>
 <#case "SE"><#global LOWFARE_FOOTER ="https://www.norwegian.com/se/bokning/flyg/lagpriskalender/"><#break>
@@ -934,6 +934,16 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- PASSPORT_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/"><#break>
     <#default><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/">
+    </#switch></#compress></#join>
+
+<#-- CHILDREN_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global CHILDREN_INFO  = "https://www.norwegian.com/uk/travel-info/travelling-with-children/baggage/"><#break>
+    <#default><#global CHILDREN_INFO  = "https://www.norwegian.com/en/travel-info/travelling-with-children/baggage/">
+    </#switch></#compress></#join>
+
+<#-- SNACKBAR_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global SNACKBAR_INFO  = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+    <#default><#global SNACKBAR_INFO  = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/#interactive_3D_map">
     </#switch></#compress></#join>
 
 <#-- BK_PERSON_GENDER -->
