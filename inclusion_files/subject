@@ -1,0 +1,32 @@
+<#-- ////////////////////////////// E_LHP_2DA /////////////////////////// -->
+<#if campaign.name == "E_LH_2DA">
+    <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID_DV BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID_DV>
+<#fields BK_NO_OF_NOT_PREMIUM_ON_LH BOOKING_LONGHAUL>
+<#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#assign SUBJECT_PREMIUM_YN = "N"><#assign PREHEADER_PREMIUM_YN = "N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && SQL_GLOBAL.BOOKING_LONGHAUL == "Y"><#assign SUBJECT_PREMIUM_YN = "N"><#assign PREHEADER_PREMIUM_YN = "N"><#else><#assign SUBJECT_PREMIUM_YN = "Y"><#assign PREHEADER_PREMIUM_YN = "Y"></#if>
+	</#data>    
+</#if>
+
+<#-- ////////////////////////////// E_LHP_23DB /////////////////////////// -->
+<#if campaign.name == "E_LHP_23DB">
+    <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID_DV BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID_DV><#fields BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP>
+    <#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim>
+    <#else><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim>
+    </#if>
+    </#data>
+    
+    <#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE>
+    <#-- AIRPORT_LANG_LID --><#if !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global AIRPORT_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim?upper_case><#else><#global AIRPORT_LANG_LID = "EN"></#if>
+    <#-- AIRPORT_LANG (with missing languageid fix) --><#if AIRPORT_LANG_LID?isnull><#global AIRPORT_LANG = "EN"><#else><#global AIRPORT_LANG = AIRPORT_LANG_LID?trim></#if>
+    </#data>
+
+	<#data AIRPORTS as AIRPORTS limit=1><#filter AIRPORTCODE_IATA = DESTINATION_IATA LANGUAGECODE = AIRPORT_LANG?upper_case?trim><#fields CITY DISPLAYNAME AIRPORTNAME><#if !AIRPORTS.CITY?isnull><#global DESTINATION_NAME = AIRPORTS.CITY?trim><#elseif !AIRPORTS.DISPLAYNAME?isnull><#global DESTINATION_NAME = AIRPORTS.DISPLAYNAME?trim><#else><#global DESTINATION_NAME = AIRPORTS.AIRPORTNAME></#if>
+    </#data>
+</#if>
+
+<#data CAMPAIGN_FRAMEWORK_1_COL as CAMPAIGN_SETTINGS limit=1>
+<#filter FRAMEWORK_MARKET=MARKET FRAMEWORK_CAMPAIGN=CAMPAIGN SETTINGS_SEGMENT_RULE=SEGMENTRULE?exec?trim>
+<#fields SETTINGS_SUBJECT>
+<#if !CAMPAIGN_SETTINGS.SETTINGS_SUBJECT?isnull>
+${CAMPAIGN_SETTINGS.SETTINGS_SUBJECT?exec}
+</#if>|
+</#data>
