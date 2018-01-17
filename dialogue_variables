@@ -303,9 +303,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- DEEPLINK_ADD_CASHPOINTS -->
 <#if REWARD_MEMBER == "Y">
-    <#if MARKET == "NO"><#global DEEPLINK_ADD_CASHPOINTS = "https://www.norwegian.no/start/cashpoints/claim/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-        		<#elseif MARKET == "ROW"><#global DEEPLINK_ADD_CASHPOINTS = "https://www.norwegian.com/en/start/cashpoints/claim/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-        		<#else><#global DEEPLINK_ADD_CASHPOINTS = "https://www.norwegian.com/" + MARKET?lower_case + "/start/cashpoints/claim/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+    <#if MARKET == "NO"><#global DEEPLINK_ADD_CASHPOINTS = "https://www.norwegian.no/start/cashpoints/claim/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + '&pnrName=' + PSNGR_LAST_NAME?exec>
+        		<#elseif MARKET == "ROW"><#global DEEPLINK_ADD_CASHPOINTS = "https://www.norwegian.com/en/start/cashpoints/claim/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + '&pnrName=' + PSNGR_LAST_NAME?exec>
+        		<#else><#global DEEPLINK_ADD_CASHPOINTS = "https://www.norwegian.com/" + MARKET?lower_case + "/start/cashpoints/claim/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + '&pnrName=' + PSNGR_LAST_NAME?exec>
             </#if>
 <#else><#global DEEPLINK_ADD_CASHPOINTS = CREATE_REWARD_PROFILE?trim>
 </#if>  
@@ -919,6 +919,11 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- LOUNGE_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global LOUNGE_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/"><#break>
     <#default><#global LOUNGE_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
+    </#switch></#compress></#join>
+
+<#-- FASTTRACK_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global FASTTRACK_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/fast-track/"><#break>
+    <#default><#global FASTTRACK_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/fast-track/">
     </#switch></#compress></#join>
     
 <#-- REWARD_FAMILY_INFO --><#join><#compress><#switch MARKET>
