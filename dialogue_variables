@@ -217,8 +217,10 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- HORIZON --><#if SQL_GLOBAL.HORIZON_TYPE?isnull><#global HORIZON = "A"><#elseif SQL_GLOBAL.HORIZON_TYPE == "A"><#global HORIZON = "A"><#elseif SQL_GLOBAL.HORIZON_TYPE == "B"><#global HORIZON = "B">
 <#elseif SQL_GLOBAL.HORIZON_TYPE == "C"><#global HORIZON = "C">
-<#elseif SQL_GLOBAL.HORIZON_TYPE == "D"><#global HORIZON = "D"></#if>
+<#elseif SQL_GLOBAL.HORIZON_TYPE == "D"><#global HORIZON = "D"><#elseif SQL_GLOBAL.HORIZON_TYPE == "E"><#global HORIZON = "E"><#elseif SQL_GLOBAL.HORIZON_TYPE == "F"><#global HORIZON = "F"></#if>
 <#--<#global HORIZON = "B">-->
+
+
 
 <#-- MAX_LEG_YN <#if SQL_GLOBAL.MAX_YN?trim?isnull><#global MAX_LEG_YN = "N"><#elseif SQL_GLOBAL.MAX_YN?trim?upper_case == "Y"><#global MAX_LEG_YN = "Y"><#else><#global MAX_LEG_YN = "N"></#if> REMEMBER TO ADD MAX_YN IN THE FIELDS IF USED-->
 
@@ -351,11 +353,19 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#else><#global DEEPLINK_PREMIUM_UPGRADE = "https://www.norwegian.com/" + MARKET?lower_case + "/start/cabin/upgrade/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
 </#if>
 
+<#-- DEEPLINK_BID_FOR_PREMIUM_UPGRADE -->
+<#if MARKET == "NO"><#global DEEPLINK_BID_FOR_PREMIUM_UPGRADE = "https://www.norwegian.no/travel-info/on-board/premium-cabin/bid-for-upgrade/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID +  "&pnrName=" + PSNGR_LAST_NAME>
+<#elseif MARKET == "ROW"><#global DEEPLINK_BID_FOR_PREMIUM_UPGRADE = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/bid-for-upgrade/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID +  "&pnrName=" + PSNGR_LAST_NAME>
+<#else><#global DEEPLINK_BID_FOR_PREMIUM_UPGRADE = "https://www.norwegian.com/" + MARKET?lower_case + "/travel-info/on-board/premium-cabin/bid-for-upgrade/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID +  "&pnrName=" + PSNGR_LAST_NAME>
+</#if>
+
 <#-- DEEPLINK_ORDER_MEAL -->
 <#if MARKET == "NO"><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.no/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
 <#elseif MARKET == "ROW"><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.com/en/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
 <#else><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.com/" + MARKET?lower_case + "/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
 </#if>
+
+<#-- SOME_OR_NONE_ANC_DEEPLINK --><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_SEAT><#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_ORDER_MEAL><#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_BAG><#else><#global SOME_OR_NONE_ANC_DEEPLINK = MY_TRAVELS></#if>
 
 
 <#-- APIS_SATISFIED --><#if SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?isnull><#global APIS_SATISFIED = "N"><#elseif SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?number gt 0 && DESTINATION_COUNTRY_CODE?trim?upper_case == "US"><#global APIS_SATISFIED = "Y"><#else><#global APIS_SATISFIED = "N"></#if>
@@ -949,6 +959,11 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- SNACKBAR_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global SNACKBAR_INFO  = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
     <#default><#global SNACKBAR_INFO  = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/#interactive_3D_map">
+    </#switch></#compress></#join>
+
+<#-- DREAMLINER_INFO --><#join><#compress><#switch MARKET>
+<#case "UK"><#global DREAMLINER_INFO  = "https://www.norwegian.com/uk/about/experience-us/dreamliner"><#break>
+    <#default><#global DREAMLINER_INFO  = "https://www.norwegian.com/en/about/experience-us/dreamliner">
     </#switch></#compress></#join>
 
 <#-- BK_PERSON_GENDER -->
