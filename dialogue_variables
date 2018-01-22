@@ -535,8 +535,18 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DESTINATION_COUNTRY -->
 <#if AIRPORTS.COUNTRY?isnull><#global DESTINATION_COUNTRY = ""><#else><#global DESTINATION_COUNTRY = AIRPORTS.COUNTRY></#if>
 
+<#-- DESTINATION_US_SA_ASIA -->
+<#if AIRPORTS.COUNTRYCODE == "AR" || AIRPORTS.COUNTRYCODE == "US" || AIRPORTS.COUNTRYCODE == "TH" || AIRPORTS.COUNTRYCODE == "SG"><#global DESTINATION_US_SA_ASIA = "Y"><#else><#global DESTINATION_US_SA_ASIA = "N"></#if>
+
+<#-- DESTINATION_EUROPE -->
+<#if AIRPORTS.COUNTRYCODE == "AR" || AIRPORTS.COUNTRYCODE == "US" || AIRPORTS.COUNTRYCODE == "TH" || AIRPORTS.COUNTRYCODE == "SG"><#global DESTINATION_EUROPE = "N"><#else><#global DESTINATION_EUROPE = "Y"></#if>
+
+<#-- DESTINATION_US -->
+<#if AIRPORTS.COUNTRYCODE == "US"><#global DESTINATION_EUROPE = "Y"><#else><#global DESTINATION_US = "N"></#if>
 
 </#data>
+
+
 
 <#-- //////////////////////// AIRPORTS SUP TABLE (2) ///////////////////////////////////////////////-->
 <#data AIRPORTS as AIRPORTS_DEP limit=1>
