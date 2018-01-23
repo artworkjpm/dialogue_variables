@@ -1,0 +1,62 @@
+<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/corp_variables.htm"> -->
+
+<#-- FACEBOOK_URL --><#join><#compress><#switch MARKET><#case 'NO'><#global FACEBOOK_URL = "https://www.facebook.com/flynorwegian"><#break><#case 'SE'><#global FACEBOOK_URL = "https://www.facebook.com/NorwegianSverige"><#break><#case 'DK'><#global FACEBOOK_URL = "https://www.facebook.com/NorwegianDanmark"><#break><#default><#global FACEBOOK_URL = "https://www.facebook.com/norwegian.com"></#switch></#compress></#join>
+
+<#-- COUNTRY_CODE --><#if CONTACT.CONTACTTYPE?trim?lower_case == "agent"><#global COUNTRY_CODE = "ROW"><#elseif CONTACT.COUNTRY?isnull && NEWSLETTER?isnull><#global COUNTRY_CODE = "ROW"><#elseif  !CONTACT.COUNTRY?isnull && !CONTACT.NEWSLETTER?isnull><#global COUNTRY_CODE = CONTACT.NEWSLETTER?upper_case?trim><#elseif !CONTACT.COUNTRY?isnull && CONTACT.NEWSLETTER?isnull><#global COUNTRY_CODE = CONTACT.COUNTRY?upper_case?trim><#elseif CONTACT.COUNTRY?isnull && !CONTACT.NEWSLETTER?isnull><#global COUNTRY_CODE = CONTACT.NEWSLETTER?upper_case?trim><#else><#global COUNTRY_CODE = "ROW"></#if>
+
+<#-- CUSTOMER_COUNTRY --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case><#case "row"><#global CUSTOMER_COUNTRY = "ROW"><#break><#case "uk"><#global CUSTOMER_COUNTRY = "UK"><#break><#case "no"><#global CUSTOMER_COUNTRY = "NO"><#break><#case "se"><#global CUSTOMER_COUNTRY = "SE"><#break><#case "dk"><#global CUSTOMER_COUNTRY = "DK"><#break><#case "fi"><#global CUSTOMER_COUNTRY = "FI"><#break><#default><#global CUSTOMER_COUNTRY = "ROW"></#switch></#compress></#join>
+
+<#-- MARKET --><#if !CUSTOMER_COUNTRY?isnull><#global MARKET = CUSTOMER_COUNTRY><#else><#global MARKET = "ROW"></#if>
+
+<#-- LOW_FARE --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global LOW_FARE = "https://www.norwegian.no/booking/fly/lavpriskalender/"><#break>
+<#case "uk"><#global LOW_FARE = "http://www.norwegian.com/uk/booking/flight-tickets/"><#break>
+<#case "se"><#global LOW_FARE = "https://www.norwegian.com/se/bokning/flyg/lagpriskalender/"><#break>
+<#case "dk"><#global LOW_FARE = "https://www.norwegian.com/dk/booking/fly/lavpriskalender/"><#break>
+<#case "fi"><#global LOW_FARE = "https://www.norwegian.com/fi/varaus/varaa-lento/tarjouslentojen-hintakalenteri/"><#break>
+<#default><#global LOW_FARE = "http://www.norwegian.com/en/booking/flight-tickets/"></#switch></#compress></#join>
+
+<#-- HOMEPAGE_URL --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global HOMEPAGE_URL = "https://www.norwegian.no/"><#break>
+<#case "uk"><#global HOMEPAGE_URL = "https://www.norwegian.com/uk"><#break>
+<#case "se"><#global HOMEPAGE_URL = "https://www.norwegian.com/se/"><#break>
+<#case "dk"><#global HOMEPAGE_URL = "https://www.norwegian.com/dk/"><#break>
+<#case "fi"><#global HOMEPAGE_URL = "https://www.norwegian.com/fi/"><#break>
+<#default><#global HOMEPAGE_URL = "https://www.norwegian.com/en/"></#switch></#compress></#join>
+
+<#-- CHANGEABLE --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/no"><#break>
+<#case "uk"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/uk/"><#break>
+<#case "se"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/se"><#break>
+<#case "dk"><#global CHANGEABLEL = "https://corporate.norwegian.no/ssl/dk"><#break>
+<#case "fi"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/fi"><#break>
+<#default><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/en"></#switch></#compress></#join>
+
+<#-- CONTACT_FOOTER --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global CONTACT_FOOTER = "https://www.norwegian.no/hjelp-og-kontakt/"><#break>
+<#case "uk"><#global CONTACT_FOOTER = "http://www.norwegian.com/uk/help-contact/"><#break>
+<#case "se"><#global CONTACT_FOOTER = "http://www.norwegian.com/se/hjalp-och-kontakt/"><#break>
+<#case "dk"><#global CONTACT_FOOTER = "http://www.norwegian.com/dk/hjaelp-og-kontakt/"><#break>
+<#case "fi"><#global CONTACT_FOOTER = "https://www.norwegian.com/fi/ohjeet-ja-yhteystiedot/"><#break>
+<#default><#global CONTACT_FOOTER = "http://www.norwegian.com/en/help-contact/"></#switch></#compress></#join>
+
+<#-- HOMEPAGE_URL_PART --><#join><#compress><#switch MARKET>
+    <#case "NO"><#global HOMEPAGE_URL_PART ="https://www.norwegian.no/"><#break>
+    <#case "ROW"><#global HOMEPAGE_URL_PART ="https://www.norwegian.com/en/"><#break>
+    <#default><#global HOMEPAGE_URL_PART ="https://www.norwegian.com/" + MARKET?lower_case + "/">
+    </#switch></#compress></#join>
+
+<#-- AGENT_PORTAL_URL_PART --><#join><#compress><#switch MARKET>
+    <#case "NO"><#global AGENT_PORTAL_URL_PART ="https://agent.norwegian.com/no/"><#break>
+    <#case "ROW"><#global AGENT_PORTAL_URL_PART ="https://agent.norwegian.com/uk/"><#break>
+    <#default><#global AGENT_PORTAL_URL_PART ="https://agent.norwegian.com/" + MARKET?lower_case + "/">
+    </#switch></#compress></#join>
+
+<#-- CORP_PORTAL_URL_PART --><#join><#compress><#switch MARKET>
+    <#case "NO"><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/no/"><#break>
+    <#case "ROW"><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/uk/"><#break>
+    <#default><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/" + MARKET?lower_case + "/">
+    </#switch></#compress></#join>
+
+<#-- NL_UNSUBSCRIBE --><#global NL_UNSUBSCRIBE =form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')>
+<#-- UNSUBSCRIBE_VAR --><#global UNSUBSCRIBE_VAR =form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')>
