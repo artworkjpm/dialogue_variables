@@ -1,0 +1,24 @@
+<#import "cms://contentlibrary/!framework/common/common.htm" as nas>
+<#data FRAMEWORK_STATIC_1_COL as STATIC>
+	<#filter STATIC_MARKET = MARKET>
+	<#fields STATIC_LOGO_TEXT STATIC_LOGO_URL STATIC_UNSUBSCRIBE_TEXT STATIC_WEBVERSION_TEXT STATIC_PRIVACY_TEXT STATIC_PRIVACY_URL STATIC_CONTACT_TEXT STATIC_CONTACT_URL STATIC_SETTINGS_TEXT STATIC_SETTINGS_URL STATIC_DAYS_TO_TAKEOFF>
+<#global LOGO_TEXT = STATIC.STATIC_LOGO_TEXT>
+	<#global LOGO_URL = STATIC.STATIC_LOGO_URL>
+	<#global UNSUBSCRIBE_TEXT = STATIC.STATIC_UNSUBSCRIBE_TEXT>
+	<#global WEBVERSION_TEXT = STATIC.STATIC_WEBVERSION_TEXT>
+<#global PRIVACY_TEXT = STATIC.STATIC_PRIVACY_TEXT>
+<#global PRIVACY_URL = STATIC.STATIC_PRIVACY_URL>
+<#global CONTACT_TEXT = STATIC.STATIC_CONTACT_TEXT>
+<#global CONTACT_URL = STATIC.STATIC_CONTACT_URL>
+<#global SETTINGS_TEXT = STATIC.STATIC_SETTINGS_TEXT>
+<#global SETTINGS_URL = STATIC.STATIC_SETTINGS_URL>
+<#global DAYS_TO_TAKEOFF = STATIC.STATIC_DAYS_TO_TAKEOFF>
+</#data>
+<@nas.minify>
+<#include "cms://contentlibrary/!framework/emailcampaign/template/header_1_col.htm">
+
+<#include "cms://contentlibrary/!framework/emailcampaign/template/content_1_col.htm">
+
+<#include "cms://contentlibrary/!framework/emailcampaign/template/footer_1_col.htm">
+
+</@nas.minify>
