@@ -1,7 +1,7 @@
 <#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/corp_variables.htm"> -->
 
 
-<#-- SETTINGS_FOOTER <#join><#compress><#switch MARKET>
+<#-- SETTINGS_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global SETTINGS_FOOTER ="https://www.norwegian.no/ssl/mine-reiser/"><#break>
 <#case "SE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/se/mina-resor/"><#break>
 <#case "DK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/dk/mine-rejser/"><#break>
@@ -18,7 +18,7 @@
 <#case "PL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/pl/moje-podroze/"><#break>
 <#case "ROW"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/"><#break>
 <#default><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/">
-</#switch></#compress></#join>-->
+</#switch></#compress></#join>
 
 <#-- PERSONAL_INFORMATION --><#join><#compress><#switch MARKET>
 <#case "NO"><#global PERSONAL_INFORMATION ="https://www.norwegian.no/booking/bestillingsinformasjon/regler-og-vilkar/personvern/"><#break>
@@ -98,5 +98,6 @@
     <#default><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/" + MARKET?lower_case + "/">
     </#switch></#compress></#join>
 
-<#-- NL_UNSUBSCRIBE --><#global NL_UNSUBSCRIBE =form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')>
-<#-- UNSUBSCRIBE_VAR --><#global UNSUBSCRIBE_VAR =form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')>
+<#-- UNSUBSCRIBE_VAR in datasources because <#global UNSUBSCRIBE_VAR =form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')> did not work
+Uses this in datasources ${form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')}
+-->
