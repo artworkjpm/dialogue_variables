@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!--<![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title></title><#assign RETINA_IMAGE = '640x320'>
+  
+     <style type="text/css" media="screen">
+		 /* pseudo class for links, will only work in some clients */
+a:link { color:#003d50; text-decoration: none; }
+a:visited { color:#003d50; text-decoration: none; }
+a:hover { color:#003d50; text-decoration: none; }
+a:active { color:#003d50; text-decoration: underline; }
+.ma, .ph60 a:link { color:#fffffe; text-decoration: none; }
+.ma, .ph60 a:visited { color:#fffffe; text-decoration: none; }
+.ma, .ph60 a:hover { color:#fffffe; text-decoration: none; }
+.ma, .ph60 a:active { color:#fffffe; text-decoration: none; }
+.unsubscribe, a:link { color:#909090; text-decoration: none; }
+.unsubscribe a:visited { color:#909090; text-decoration: none; }
+.unsubscribe a:hover { color:#909090; text-decoration: none; }
+.unsubscribe a:active { color:#909090; text-decoration: none; }
+</style>
+      
+       <style type="text/css">
+       /* code to prevent iPhone to break words */
+       * {
+-moz-hyphens:none;
+-ms-hyphens:none;
+-webkit-hyphens: none;
+hyphens:none;
+}
+* {
+word-break:keep-all;
+}
+/* code to incease striped background for hero modules on laptop */
+.stripes {height: 80px !important;}	   
+/*@media only screen (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) { Code for detecting Retina screen */
+html {
+	box-sizing: border-box;
+	-webkit-transform: translateZ(0);
+	-webkit-perspective: 1000;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+}
+.Button_outer_td {
+	padding: 0 0 2px 0 !important;
+	border-bottom-color: #003d50;
+	border-bottom-width: 4px !important;
+	border-bottom-style: solid;
+	line-height: 0;
+	font-size: 0;
+	mso-line-height-rule: exactly;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+.Button_inner_td {
+	background-color: #D81939;
+	padding: 0 25px 0 25px;
+	mso-padding-alt: 0 20px 0 20px;
+	mso-line-height-rule: exactly;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	color: #fffffe;
+}
+	.m_h{display:none;}	   
+.stripes {height: 80px !important;}
+</style>
+<style type="text/css">
+@media (min-width: 640px) { .m_h{display:block !important;} .show-for-outlook { display:block !important; mso-hide:none !important; } .hide-for-outlook { display:none; } }@media (min-width: 600px) {.m_h{display:block !important;} .banner_line-height{line-height: 80px !important;}} @media (max-width: 600px) { .m_h{display:block !important;} .two-column .column { width:100%;max-width: 600px;} *[class="hideaway"] { display: none !important;} table {min-width:auto !important; width:100%; } .Personalization_show {visibility: hidden;} .Personalization_hide {visibility:visible;} .banner_line-height{line-height: 70px !important;}}@media (max-width: 489px) { .stripes {height: 40px !important;} *[class="hide"] { display: none !important;} .Personalization_colspan {column-count: 2;} .Personalization_show {visibility: visible;} .Personalization_hide {visibility:hidden;} .hide{display:none !important;}.Header_inner_td{padding-top:0; padding-bottom:0;}.m_h{display:none !important;}.ph60{padding-right:10px !important;padding-left:10px !important;}.disclaimer{padding-right:20px !important;padding-left:20px !important;}.Social_Inner{padding-right:20px !important;padding-left:20px !important;}.social{width:35px; height:35px;}.ma{margin:0 auto !important;} span[class='logo-swapper'] { display: inline-block; background-image: url(http://static.cdn.responsys.net/i2/responsysimages/content/nas/E_75x61_Logo_Mobile_transparent.png) !important; background-position: right !important; background-repeat: no-repeat !important; width: 75px; height: 61px;} .banner_h1{font-size: 22px !important;} .hide-image {display:none!important; width:0px!important; height: 0px!important; overflow:hidden!important; line-height: 0px!important; font-size:0px!important;} .show-image {display:block!important; max-height: none !important; max-width:none !important; line-height: 1.5 !important;width:100%!important; height:auto!important;} .banner_line-height{line-height: 50px !important; font-size:25px !important;}.button-cta, .button-cta * { display: block; width: auto; }.disclaimer{padding:20px 20px 10px 40px;}img[class="swap-logo"] { display: none !important;}td[class="logo-swap-shrink"] { width: 75px !important;}.two-column .column, { max-width: 100% !important; } .two-column img { max-width: 100% !important; }.full-width{ width: 100%; } .full-width-left{ width: 100%; text-align:left !important; }} @media (min-width: 489px) { .show-for-outlook-banner { display:block !important; mso-hide:none !important; } .hide-for-outlook-banner { display:none !important; mso-hide:all}} 
+</style>
+    <!--[if (gte mso 9)|(IE)]>
+    <style type="text/css">
+        table {border-collapse: collapse !important; padding: 0 !important; margin: 0 !important;}
+    </style>
+    <![endif]-->
+    <!--[if gte mso 9]><xml>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+  <o:PixelsPerInch>96</o:PixelsPerInch>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+    <#assign PRICELIST_DISCLAIMER=[]>
+<#assign PROMOLIST_DISCLAIMER=[]>
+
+</head>
+<body class="body" style="box-sizing:inherit; margin: 0 !important; padding: 0 !important; background-color:#fffffe;font-family:Arial, Helvetica, Sans-serif;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;-webkit-animation:bugfix infinite 1s;" >
+<center class="wrapper" style="box-sizing:inherit;width:100% !important;table-layout:fixed;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#fffffe; margin: 0 !important; padding: 0 !important;" >
+<div class="webkit" style="box-sizing:inherit;max-width:640px !important;padding: 0 !important; margin: 0 !important; background-color:#f1f1f1;" >
+<!--[if (gte mso 9)|(IE)]>
+<table cellpadding="0" cellspacing="0" width="640" align="center" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important; padding: 0 !important; margin: 0 !important;" >
+<tr>
+<td style="box-sizing:inherit;padding: 0 !important; border-style:none;font-family:Arial, Helvetica, Sans-serif;" >
+<![endif]-->
+<table cellpadding="0" cellspacing="0" width="100%" class="outer" align="center" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;Margin:0 auto;width:100%;max-width:640px !important;background-color:#f1f1f1; padding: 0 !important;" >
+<!--PREHEADER START-->
+<tr>
+				<td style="line-height:0;font-size:0;width:0px;max-height:0px;overflow:hidden;float:left; display:none;visibility:hidden; padding:0 !important;">
+                  <div style="display: none; max-height: 0px; overflow: hidden;">${PREHEADER?split("|")[0]?trim?exec}</div>
+<!-- Insert &zwnj;&nbsp; hack after hidden preview text -->
+<div style="display: none; max-height: 0px; overflow: hidden;">
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+</div></td></tr>
+<!-- // PREHEADER: END --> <!-- // HEADER WITH BLUELINE: START  -->
+<tr>
+  <td class="one-column" style="box-sizing:inherit;padding: 0 !important;;border-style:none;font-family:Arial, Helvetica, Sans-serif;padding-top:0;padding-bottom:0;" ><table cellpadding="0" cellspacing="0" width="100%" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;padding-bottom: 0;" >
+      <tr>
+        <td class="inner contents" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;" ><table cellpadding="0" cellspacing="0"  bgcolor="transparent" border="0" width="100%" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;padding-top: 0;" >
+            <tbody>
+              <tr>
+                <td align="right" colspan="2" bgcolor="#f1f1f1" class="unsubscribe" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;font-size:12px;line-height:14px;mso-line-height-rule:exactly;color:#909090;padding-top:5px;padding-bottom:5px;padding-right:20px;padding-left:0;background-color:#f1f1f1;" ><a href="${clickthrough('UNSUBSCRIBE', 'URL='+UNSUBSCRIBE_VAR?exec)}" target="_blank" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;font-size:12px;line-height:14px;mso-line-height-rule:exactly;color:#909090 !important;text-decoration:none !important;" >${UNSUBSCRIBE_TEXT}</a> | <a href="${clickthrough('WEBVERSION')}" target="_blank" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;font-size:12px;line-height:14px;mso-line-height-rule:exactly;color:#909090 !important;text-decoration:none !important;;" >${WEBVERSION_TEXT}</a></td>
+              </tr>
+            </tbody>
+          </table></td>
+      </tr>
+    </table></td>
+</tr>
+<tr>
+  <td class="one-column" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-style:none;font-family:Arial, Helvetica, Sans-serif;" ><table cellpadding="0" cellspacing="0" width="100%"  border="0" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;" >
+      <tr>
+        <td class="inner contents" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;" ><table cellpadding="0" cellspacing="0" width="100%"  border="0" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;" >
+            <tr>
+              <td align="right" class="Header_outer_td" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;background-color:transparent;padding-top:0;padding-bottom:3px;padding-right:0;padding-left:0;line-height:0;font-size:0;mso-line-height-rule:exactly;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100% !important;" ><table cellpadding="0" cellspacing="0" width="100%"  border="0" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;" >
+                  <tr>
+                    <td align="right" class="Header_inner_td" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-left:0;border-style:none;font-family:Arial, Helvetica, Sans-serif;background-color:#D81939;mso-padding-alt:0 20px 0 20px;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;" ><a href="${clickthrough('HEADER_LOGO', "URL="+LOGO_URL)}" title="${LOGO_TEXT}" class="Logo_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:none;font-size:24px;color:white;mso-line-height-rule:exactly;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" ><span class="logo-swapper"><img class="swap-logo" width="173" height="71" src="http://static.cdn.responsys.net/i2/responsysimages/nas/contentlibrary/!framework/emailcampaign/template/images/logo.jpg"  alt="${LOGO_TEXT}" style="box-sizing:inherit;border-style:none;-ms-interpolation-mode:bicubic;" /> </span></a></td>
+                  </tr>
+                </table></td>
+            </tr>
+          </table></td>
+      </tr>
+    </table></td>
+</tr>
+<!-- // HEADER WITH BLUELINE: END  -->
