@@ -564,8 +564,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
 
-<#-- HOTEL_URL -->
-<#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>
+<#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB"><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api.txt"></#global><#else><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global></#if>
 <#--HOTEL_URL: ${HOTEL_URL}-->
 
 <#-- UNSUBSCRIBE_VAR -->
