@@ -1,0 +1,35 @@
+<tr>
+    <td bgcolor="#D81939" class="d_hero1c_bg" valign="top" align="center" background="${MODULE.HERO_IMAGE?exec}" height="318" style="background-repeat: no-repeat;background-position:center center;">
+    
+    
+ 
+  <!--[if gte mso 9]>
+  <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:640px;height:320px;">
+    <v:fill type="tile" src="${MODULE.HERO_IMAGE?exec}" color="#D81939" />
+    <v:textbox inset="0,0,0,0">
+  <![endif]-->
+  <div>
+      
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td align="center" style="font-family:Arial, Helvetica, Sans-serif;color:#fffffe;"><a href="${clickthrough('HERO_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+MODULE.HERO_URL?exec)}" target="_blank" style="box-sizing:inherit;Margin:0;color:#fffffe;font-size:28px;font-weight:bold;Margin-bottom:10px;padding-top:10px;padding-bottom:0;line-height:120%;mso-line-height-rule:exactly;font-family:Arial, Helvetica, Sans-serif;">
+                        <p class="heading" style="box-sizing:inherit;Margin:0;color:#fffffe;font-size:68px;font-weight:bold;Margin-bottom:10px;padding-top:40px;padding-bottom:0;line-height:120%;mso-line-height-rule:exactly;font-family:Arial, Helvetica, Sans-serif;" >${MODULE.HERO_HEADLINE?exec}</p>
+                        </a></td>
+                    </tr>
+                    <tr>
+                      <td align="center" style="font-family:Arial, Helvetica, Sans-serif;color:#fffffe; padding: 0px 0px 20px 0px"><p style="box-sizing:inherit;Margin:0;font-size:40px;padding-left:0;padding-right:0;padding-top:0;padding-bottom:0;line-height:120%;mso-line-height-rule:exactly;font-family:Helvetica, Sans-serif;color:#fffffe;" ><span class="owa_link_span_white" style="box-sizing:inherit;border-bottom-width:5px;border-bottom-style:solid;border-bottom-color:#fffffe;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" ><!--[if (gte mso 9)|(IE)]><a href="${clickthrough('HERO_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+MODULE.HERO_URL?exec)}" target="_blank" class="Pricelist_text_blue_Link" style="box-sizing:inherit;font-family:Helvetica, Sans-serif;text-decoration:underline;color:#fffffe;font-size:30px;line-height:140%;padding-bottom:4px;font-weight:bold;" ><![endif]--><!--[if !mso]><!--><a href="${clickthrough('HERO_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+MODULE.HERO_URL?exec)}" target="_blank" class="Pricelist_text_blue_Link" style="box-sizing:inherit;font-family:Helvetica, Sans-serif;text-decoration:none;color:#fffffe;font-size:30px;line-height:140%; padding-bottom:5px;font-weight:bold;mso-hide:all;"><!--><![endif]-->${MODULE.HERO_TXT_CTA?exec}</a></span></p></td>
+                      </tr>
+                    <tr>
+                      <td align="center" style="font-family:Arial, Helvetica, Sans-serif;color:#fffffe; padding-top:10px"><a href="${clickthrough('HERO_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+MODULE.HERO_URL?exec)}" target="_blank" style="font-family:Arial, Helvetica, Sans-serif; font-weight:bold; color:#fffffe; text-decoration:none; font-size: 20px;"> ${MODULE.HERO_PARAGRAPH?exec}</a></td>
+                    </tr>
+                  </table>
+                  
+                    </div>
+  <!--[if gte mso 9]>
+    </v:textbox>
+  </v:rect>
+  <![endif]-->
+</td>
+              </tr>
+              
+           
