@@ -289,8 +289,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 </#if>
 
 <#-- DEEPLINK_FASTTRACK -->
-<#if HAS_FLEX == "N" && FAST_TRACK_FLAG?trim == "N">
-                <#if MARKET == "NO"><#global DEEPLINK_FASTTRACK = "https://www.norwegian.no/start/fasttrack/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+<#if HAS_FLEX == "N" && FAST_TRACK_FLAG?trim == "N"><#if PREMIUM_YES == "Y"><#global DEEPLINK_FASTTRACK = MY_TRAVELS>
+                <#elseif MARKET == "NO"><#global DEEPLINK_FASTTRACK = "https://www.norwegian.no/start/fasttrack/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
         		<#elseif MARKET == "ROW"><#global DEEPLINK_FASTTRACK = "https://www.norwegian.com/en/start/fasttrack/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
         		<#else><#global DEEPLINK_FASTTRACK = "https://www.norwegian.com/" + MARKET?lower_case + "/start/fasttrack/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
             	</#if>               
@@ -566,7 +566,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- DEPARTURE_DISPLAY_NAME --><#if !AIRPORTS_DEP.DISPLAYNAME?isnull><#global DEPARTURE_DISPLAY_NAME = AIRPORTS_DEP.DISPLAYNAME?trim></#if>
 
-<#-- DEPARTURE_AIRPORT_NAME --><#if !AIRPORTS_DEP.AIRPORTNAME?isnull><#global DEPARTURE_AIRPORT_NAME = AIRPORTS_DEP.AIRPORTNAME?trim></#if>
+<#-- DEPARTURE_AIRPORT_NAME --><#if !AIRPORTS_DEP.AIRPORTNAME?isnull><#global DEPARTURE_AIRPORT_NAME = AIRPORTS_DEP.DISPLAYNAME?trim></#if>
 
 <#-- FAST_TRACK_AIRPORTS --><#if !AIRPORTS_DEP.FASTTRACK?isnull><#global FAST_TRACK_AIRPORTS = AIRPORTS_DEP.FASTTRACK?trim><#else><#global FAST_TRACK_AIRPORTS = "N"></#if>
 
