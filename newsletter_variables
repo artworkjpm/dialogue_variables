@@ -1,6 +1,6 @@
 <#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/newsletter_variables.htm"> -->
 
-<#-- LANGUAGEID FIX --><#global LANGUAGEID = LANGUAGEID?replace("_","-")?replace("no-no","nb-no")?replace("se-no","sv-se")?replace("se-se","sv-se")?replace("se-fi","sv-se")?lower_case?trim>
+<#-- PRICELIST_DISCLAIMER --><#global PRICELIST_DISCLAIMER = []>
 
 <#-- setting module default states -->
 <#global HERO_SHOW_DEFAULT = 1>
@@ -20,29 +20,9 @@
 <#-- PROFILE_ID --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_ID = 0><#elseif !TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_ID = TRAVEL_DATA.NAS_PROFILEID?c><#else><#global PROFILE_ID = 0></#if>
 <#-- NL_UNSUB_ID --><#if !TRAVEL_DATA.UNSUBSCRIBE_ID?isnull><#global NL_UNSUB_ID = TRAVEL_DATA.UNSUBSCRIBE_ID></#if>
 <#-- NL_PROFILE_ID --><#if TRAVEL_DATA.NL_PROFILEDETAILID?isnull && TRAVEL_DATA.NAS_PROFILEID?isnull><#global NL_PROFILE_ID = 0><#elseif TRAVEL_DATA.NL_PROFILEDETAILID?isnull || TRAVEL_DATA.NL_PROFILEDETAILID == 0><#global NL_PROFILE_ID = TRAVEL_DATA.NAS_PROFILEID?c><#else><#global NL_PROFILE_ID = TRAVEL_DATA.NL_PROFILEDETAILID?c></#if>
+
 </#data>
-<#-- //////////////////////// MARKET_VARIABLES SUP TABLE /////////////////////////////////////// -->
-<#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE LANGUAGE_ID HOTEL_CAR_LANGUAGE_ID MARKET2>
-<#-- MARKET_LID --><#if !MARKET_VARIABLES.MARKET2?isnull><#global MARKET_LID = MARKET_VARIABLES.MARKET2><#elseif !MARKET_VARIABLES.MARKET2??><#global MARKET_LID = "ROW"><#else><#global MARKET_LID = "ROW"></#if>
 
-<#-- AIRPORT_LANG_LID --><#if !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global AIRPORT_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim?upper_case><#else><#global AIRPORT_LANG_LID = "EN"></#if>
-
-<#-- HOTEL_LANG_LID --><#if MARKET_VARIABLES.LANGUAGE_ID?isnull || MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global HOTEL_LANG_LID = "EMEA"><#elseif MARKET_VARIABLES.LANGUAGE_ID?? && !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global HOTEL_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim><#else><#global HOTEL_LANG_LID = "EMEA"></#if>
-
-<#-- CARTRAWLER_LANG_LID --><#if MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?isnull><#global CARTRAWLER_LANG_LID = "en-gb"><#else><#global CARTRAWLER_LANG_LID = MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?trim></#if></#data>
-
-<#-- MARKET (with missing languageid fix) --><#if MARKET_LID?isnull><#global MARKET = "ROW"><#else><#global MARKET = MARKET_LID?trim></#if>
-
-<#-- AIRPORT_LANG (with missing languageid fix) --><#if AIRPORT_LANG_LID?isnull><#global AIRPORT_LANG = "EN"><#else><#global AIRPORT_LANG = AIRPORT_LANG_LID?trim></#if>
-
-<#-- HOTEL_LANG (with missing languageid fix) --><#if HOTEL_LANG_LID?isnull><#global HOTEL_LANG = "EMEA"><#else><#global HOTEL_LANG = HOTEL_LANG_LID?trim></#if>
-
-<#-- CARTRAWLER_LANG (with missing languageid fix) --><#if CARTRAWLER_LANG_LID?isnull><#global CARTRAWLER_LANG = "en-gb"><#else><#global CARTRAWLER_LANG = CARTRAWLER_LANG_LID?trim></#if>
-
-
-<#-- //////////////////////// REVENUE PRICES SUP TABLE /////////////////////////////////////////////-->
-<#data REVENUE_PRICES as REVENUE_PRICES limit=1><#filter REVENUE_MARKET = MARKET REVENUE_CAMPAIGN = CAMPAIGN><#fields SEGMENTATION_RULE>
-<#-- SHOW_PRICE --><#global SHOW_PRICE = 0><#if REVENUE_PRICES.SEGMENTATION_RULE?isnull><#global SHOW_PRICE = 1></#if><#if CONTACT.PREFFERED_AIRPORT?trim == REVENUE_PRICES.SEGMENTATION_RULE?trim><#global SHOW_PRICE = 1></#if><#if REVENUE_PRICES.SEGMENTATION_RULE?trim?lower_case == "promolist"><#global SHOW_PRICE = 0></#if></#data>
 
 <#-- SEGMENTRULE --><#if PREFFERED_AIRPORT?isnull>
 	<#global PREFAIR = 'DEFAULT'>
@@ -80,6 +60,9 @@
 	<#if segment_is_set == 0 && MODULE_EXCLUDE == 0><#global loop_continue = 0><#global segment_is_set = 1><#if PREFFERED_AIRPORT?isnull><#global SEGMENTRULE = 'DEFAULT'><#else><#global SEGMENTRULE = SEGS.SETTINGS_SEGMENT_RULE?trim></#if></#if></#if></#data>
  <#if segment_is_set == 0><#global SEGMENTRULE = DEF_SEGMENT?trim></#if>
 
+
+
+<#-- //////////////////////// CAMPAIGN_SETTINGS ///////////////////////////////////-->
 <#-- //////////////////////// CAMPAIGN_SETTINGS ///////////////////////////////////-->
 <#data CAMPAIGN_FRAMEWORK_1_COL as DISCLAIMER>
 <#filter FRAMEWORK_CAMPAIGN = CAMPAIGN FRAMEWORK_MARKET = MARKET SETTINGS_SEGMENT_RULE = SEGMENTRULE?exec?trim><#fields DISCLAIMER_CTA DISCLAIMER_URL>
@@ -87,23 +70,6 @@
 <#-- DISCLAIMER_CTA_VAR --><#if !DISCLAIMER.DISCLAIMER_CTA?isnull><#global DISCLAIMER_CTA_VAR = DISCLAIMER.DISCLAIMER_CTA></#if>
 <#-- DISCLAIMER_URL_VAR --><#if DISCLAIMER.DISCLAIMER_URL?isnull><#global DISCLAIMER_URL_VAR = "https://www.norwegian.com/en/booking/booking-information/legal/terms-and-conditions-for-advertised-fares/"><#else><#global DISCLAIMER_URL_VAR = DISCLAIMER.DISCLAIMER_URL></#if>
 </#data>
-
-<#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
-<#-- WEBPAGE_MARKET --><#join><#compress><#switch CONTACT.LANGUAGEID?lower_case>
-<#case "nb-no"><#global WEBPAGE_MARKET = "NO"><#break>
-<#case "sv-se"><#global WEBPAGE_MARKET = "SE"><#break>
-<#case "da-dk"><#global WEBPAGE_MARKET = "DK"><#break>
-<#case "fi-fi"><#global WEBPAGE_MARKET = "FI"><#break>
-<#case "de-de"><#global WEBPAGE_MARKET = "DE"><#break>
-<#case "en-us"><#global WEBPAGE_MARKET = "US"><#break>
-<#case "en-gb"><#global WEBPAGE_MARKET = "UK"><#break>
-<#case "es-es"><#global WEBPAGE_MARKET = "ES"><#break>
-<#case "fr-fr"><#global WEBPAGE_MARKET = "FR"><#break>
-<#case "pl-pl"><#global WEBPAGE_MARKET = "PL"><#break>
-<#case "it-it"><#global WEBPAGE_MARKET = "IT"><#break>
-<#case "nl-nl"><#global WEBPAGE_MARKET = "NL"><#break>
-<#case "en-ie"><#global WEBPAGE_MARKET = "IE"><#break>
-<#default><#global WEBPAGE_MARKET = "EN"></#switch></#compress></#join>
 
 <#-- CURRENCY --><#switch MARKET>
 <#case "UK"><#global CURRENCY = "GBP"><#break>
@@ -122,7 +88,26 @@
 <#case "PL"><#global CURRENCY = "EUR"><#break>
 <#default><#global CURRENCY = "EUR"></#switch>
 
-<#-- WEBPAGE_URL_PATH --><#join><#compress><#switch LANGUAGEID?lower_case>
+<#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
+<#-- WEBPAGE_MARKET --><#join><#compress><#switch CONTACT.LANGUAGEID?lower_case>
+<#case "nb-no"><#global WEBPAGE_MARKET = "NO"><#break>
+<#case "sv-se"><#global WEBPAGE_MARKET = "SE"><#break>
+<#case "da-dk"><#global WEBPAGE_MARKET = "DK"><#break>
+<#case "fi-fi"><#global WEBPAGE_MARKET = "FI"><#break>
+<#case "de-de"><#global WEBPAGE_MARKET = "DE"><#break>
+<#case "en-us"><#global WEBPAGE_MARKET = "US"><#break>
+<#case "en-gb"><#global WEBPAGE_MARKET = "UK"><#break>
+<#case "es-es"><#global WEBPAGE_MARKET = "ES"><#break>
+<#case "fr-fr"><#global WEBPAGE_MARKET = "FR"><#break>
+<#case "pl-pl"><#global WEBPAGE_MARKET = "PL"><#break>
+<#case "it-it"><#global WEBPAGE_MARKET = "IT"><#break>
+<#case "nl-nl"><#global WEBPAGE_MARKET = "NL"><#break>
+<#case "en-ie"><#global WEBPAGE_MARKET = "IE"><#break>
+<#default><#global WEBPAGE_MARKET = "EN"></#switch></#compress></#join>
+
+
+
+<#-- WEBPAGE_URL_PATH<#join><#compress><#switch LANGUAGEID?lower_case>
     <#case "nb-no"><#global WEBPAGE_URL_PATH ="booking/fly/lavpris"><#break>
     <#case "sv-se"><#global WEBPAGE_URL_PATH ="bokning/flyg/lagpris"><#break>
     <#case "da-dk"><#global WEBPAGE_URL_PATH ="booking/fly/lavpris"><#break>
@@ -136,29 +121,33 @@
     <#case "pl-pl"><#global WEBPAGE_URL_PATH ="rezerwacja/zarezerwuj-przelot/tanie-polaczenia"><#break>
     <#case "it-it"><#global WEBPAGE_URL_PATH ="prenotazione/volo/low-price-calendar"><#break>
     <#case "nl-nl"><#global WEBPAGE_URL_PATH ="booking/flight-tickets/farecalendar"><#break>
-    <#default><#global WEBPAGE_URL_PATH ="booking/flight-tickets/farecalendar"></#switch></#compress></#join>
+    <#default><#global WEBPAGE_URL_PATH ="booking/flight-tickets/farecalendar"></#switch></#compress></#join> -->
+
+<#-- WEBPAGE_URL_PATH TECHNICAL URL --><#global WEBPAGE_URL_PATH ="start/booking/farecalendar">
 
 <#-- NL_PREFFERED_AIRPORT --><#if !PREFFERED_AIRPORT?isnull><#global NL_PREFFERED_AIRPORT = PREFFERED_AIRPORT></#if>
 
 
-<#-- LOWFARE_FOOTER --><#join><#compress><#switch MARKET>
+<#-- LOWFARE_FOOTER <#join><#compress><#switch MARKET>
 <#case "NO"><#global LOWFARE_FOOTER ="https://www.norwegian.no/booking/fly/lavpriskalender/"><#break>
-<#case "SE"><#global LOWFARE_FOOTER ="https://www.norwegian.com/se/bokning/flyg/lagpriskalender/"><#break>
-<#case "DK"><#global LOWFARE_FOOTER ="https://www.norwegian.com/dk/booking/fly/lavpriskalender/"><#break>
-<#case "FR"><#global LOWFARE_FOOTER ="https://www.norwegian.com/fr/reservation/reservez-votre-vol/calendrier-de-nos-tarifs-les-plus-bas/"><#break>
+<#case "SE"><#global LOWFARE_FOOTER ="https://www.norwegian.com/se/bokning/flyg/lagpris/"><#break>
+<#case "DK"><#global LOWFARE_FOOTER ="https://www.norwegian.com/dk/booking/fly/lavpris/"><#break>
+<#case "FR"><#global LOWFARE_FOOTER ="https://www.norwegian.com/fr/reservation/reservez-votre-vol/promos/"><#break>
 <#case "NL"><#global LOWFARE_FOOTER ="https://www.norwegian.com/nl/booking/flight-tickets/low-fare-calendar/"><#break>
-<#case "IT"><#global LOWFARE_FOOTER ="https://www.norwegian.com/it/prenotazione/volo/calendario-voli-low-cost/"><#break>
-<#case "FI"><#global LOWFARE_FOOTER ="http://www.norwegian.com/fi/varaus/varaa-lento/tarjouslentojen-hintakalenteri/"><#break>
-<#case "DE"><#global LOWFARE_FOOTER ="http://www.norwegian.com/de/buchung/flug/niedrigpreiskalender/"><#break>
+<#case "IT"><#global LOWFARE_FOOTER ="https://www.norwegian.com/it/prenotazione/volo/low-price-calendar/"><#break>
+<#case "FI"><#global LOWFARE_FOOTER ="http://www.norwegian.com/fi/varaus/varaa-lento/hintakalenteri/"><#break>
+<#case "DE"><#global LOWFARE_FOOTER ="http://www.norwegian.com/de/buchung/flug/preiskalender/"><#break>
 <#case "US"><#global LOWFARE_FOOTER ="http://www.norwegian.com/us/booking/flight-tickets/low-fare-calendar/"><#break>
 <#case "IE"><#global LOWFARE_FOOTER ="http://www.norwegian.com/ie/booking/flight-tickets/low-fare-calendar/"><#break>
 <#case "SG"><#global LOWFARE_FOOTER ="http://www.norwegian.com/sg/booking/flight-tickets/low-fare-calendar/"><#break>
 <#case "UK"><#global LOWFARE_FOOTER ="http://www.norwegian.com/uk/booking/flight-tickets/low-fare-calendar/"><#break>
-<#case "ES"><#global LOWFARE_FOOTER ="http://www.norwegian.com/es/reserva/reserve-su-vuelo/calendario-de-tarifas-bajas/"><#break>
-<#case "PL"><#global LOWFARE_FOOTER ="http://www.norwegian.com/pl/rezerwacja/zarezerwuj-przelot/kalendarz-taryf-promocyjnych/"><#break>
+<#case "ES"><#global LOWFARE_FOOTER ="http://www.norwegian.com/es/reserva/reserve-su-vuelo/preciosbaratos/"><#break>
+<#case "PL"><#global LOWFARE_FOOTER ="http://www.norwegian.com/pl/rezerwacja/zarezerwuj-przelot/tanie-polaczenia/"><#break>
 <#case "ROW"><#global LOWFARE_FOOTER ="http://www.norwegian.com/en/booking/flight-tickets/low-fare-calendar/"><#break>
 <#default><#global LOWFARE_FOOTER ="http://www.norwegian.com/en/booking/flight-tickets/low-fare-calendar/">
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
+ <#-- LOWFARE_FOOTER TECHNICAL URL --><#if MARKET == "NO"><#global LOWFARE_FOOTER ="https://www.norwegian.no/start/booking/farecalendar/"><#elseif MARKET == "ROW"><#global LOWFARE_FOOTER ="https://www.norwegian.com/en/start/booking/farecalendar/"><#else><#global LOWFARE_FOOTER ="https://www.norwegian.com/${MARKET?lower_case}/start/booking/farecalendar/"></#if>
+
 
 <#-- HOMEPAGE_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#break>
@@ -179,7 +168,7 @@
 <#default><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en">
 </#switch></#compress></#join>
 
-<#-- SETTINGS_FOOTER --><#join><#compress><#switch MARKET>
+<#-- SETTINGS_FOOTER <#join><#compress><#switch MARKET>
 <#case "NO"><#global SETTINGS_FOOTER ="https://www.norwegian.no/ssl/mine-reiser/"><#break>
 <#case "SE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/se/mina-resor/"><#break>
 <#case "DK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/dk/mine-rejser/"><#break>
@@ -196,7 +185,19 @@
 <#case "PL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/pl/moje-podroze/"><#break>
 <#case "ROW"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/"><#break>
 <#default><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/">
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
+
+<#-- SETTINGS_FOOTER (new) -->
+<#if NAS_PROFILE_YN == "Y">
+    <#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/edit">
+    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/edit">
+    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/edit">
+    </#if>
+<#else><#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/create">
+    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/create">
+    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/create">
+    </#if>
+</#if>
 
 <#-- CONTACT_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global CONTACT_FOOTER ="https://www.norwegian.no/hjelp-og-kontakt/"><#break>
@@ -218,7 +219,7 @@
 </#switch></#compress></#join>
 
 <#-- UNSUBSCRIBE_VAR -->
-<#-- newsletters and dialogues having different urls to unsubscribe --><#join><#compress><#switch MARKET>
+<#-- newsletters and dialogues having different urls to unsubscribe <#join><#compress><#switch MARKET>
 <#case "NO"><#global UNSUBSCRIBE_VAR ="http://www.norwegian.no/om-oss/nyhetsbrev/newsletter-signoff/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "SE"><#global UNSUBSCRIBE_VAR ="http://www.norwegian.com/se/om-oss/nyhetsbrev/newsletter-signoff/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "DK"><#global UNSUBSCRIBE_VAR ="http://www.norwegian.com/dk/om-os/nyhedsbrev/newsletter-signoff/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
@@ -235,7 +236,11 @@
 <#case "PL"><#global UNSUBSCRIBE_VAR ="http://www.norwegian.com/pl/o-nas/biuletyn-informacyjny/newsletter-signoff/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "ROW"><#global UNSUBSCRIBE_VAR ="http://www.norwegian.com/en/about/newsletter/newsletter-signoff/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#default><#global UNSUBSCRIBE_VAR ="http://www.norwegian.com/en/about/newsletter/newsletter-signoff/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID>
-</#switch></#compress></#join>
+</#switch></#compress></#join>-->
+
+<#-- UNSUBSCRIBE_VAR (new)-->
+<#-- newsletters and dialogues having different urls to unsubscribe -->
+<#if MARKET == "NO"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.no/start/newsletter/signoff?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#elseif MARKET == "ROW"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/en/start/newsletter/signoff?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#else><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/" + MARKET?lower_case + "/start/newsletter/signoff?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID></#if>
 
 <#-- RESTRICTIONS_FOOTER --><#join><#compress><#switch MARKET>
 <#case "US"><#global RESTRICTIONS_FOOTER ="http://www.norwegian.com/us/customer-services/travel-information/lowfare-conditions/"><#break>
@@ -342,16 +347,6 @@
 <#default><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com/"><#break>
 </#switch></#compress></#join>
 
-<#data TRAVEL_DATA as TRAVEL_DATA limit=1><#filter TRAVEL_DATA_RIID_ = RIID_><#fields REWARD_BALANCE NAS_PROFILEID UNSUBSCRIBE_ID NL_PROFILEDETAILID>
-<#-- NAS_PROFILE_YN --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global NAS_PROFILE_YN = "N"><#else><#global NAS_PROFILE_YN = "Y"></#if>
-<#-- PROFILE_ID --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_ID = 0>
-<#elseif !TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_ID = TRAVEL_DATA.NAS_PROFILEID?c><#else><#global PROFILE_ID = 0></#if>
-<#-- NL_UNSUB_ID --><#if !TRAVEL_DATA.UNSUBSCRIBE_ID?isnull><#global NL_UNSUB_ID = TRAVEL_DATA.UNSUBSCRIBE_ID></#if>
-<#-- NL_PROFILE_ID --><#if TRAVEL_DATA.NL_PROFILEDETAILID?isnull && TRAVEL_DATA.NAS_PROFILEID?isnull><#global NL_PROFILE_ID = 0><#elseif TRAVEL_DATA.NL_PROFILEDETAILID?isnull || TRAVEL_DATA.NL_PROFILEDETAILID == 0><#global NL_PROFILE_ID = TRAVEL_DATA.NAS_PROFILEID?c><#else><#global NL_PROFILE_ID = TRAVEL_DATA.NL_PROFILEDETAILID?c></#if>
-<#-- PROFILE_YN --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_YN = "N"><#else><#global PROFILE_YN = "Y"></#if>
-<#-- CASHPOINTS --><#if TRAVEL_DATA.REWARD_BALANCE?isnull><#global CASHPOINTS = "0"><#else><#global CASHPOINTS = TRAVEL_DATA.REWARD_BALANCE?int?c></#if>
-</#data>
-
 <#-- WEBVERSION_URL --><#global WEBVERSION_URL =form(CAMPAIGN, "LANGUAGEID", "MARKET", "DESTINATION_IATA", "FIRSTNAME", "SURNAME", "EMAIL_ADDRESS_", "REWARD_YN","NL_PROFILE_ID","NL_UNSUB_ID","REWARD_NUMBER","CASHPOINTS","PREFFERED_AIRPORT")>
 
 <#-- FACEBOOK_URL --><#join><#compress><#switch MARKET>
@@ -365,4 +360,4 @@
 <#-- PRIVACY_RULE --><#global PRIVACY_RULE = "Not in use">
 <#-- CONTACT_US --><#global CONTACT_US = "Not in use">
 <#-- SETTINGS --><#global SETTINGS = "Not in use">
-<#-- DEST_URL --><#global DEST_URL = "Not in use">
+<#-- DEST_URL <#global DEST_URL = "Not in use">-->
