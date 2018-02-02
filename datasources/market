@@ -1,0 +1,3 @@
+<#data MARKET_VARIABLES as MARKET_VARIABLES limit=1>
+<#filter LANGUAGE_ID = LANGUAGEID?lower_case?replace("_","-")>
+<#fields AIRPORT_LANGUAGE LANGUAGE_ID HOTEL_CAR_LANGUAGE_ID MARKET2><#if !MARKET_VARIABLES.MARKET2?isnull><#assign MARKET_LID = MARKET_VARIABLES.MARKET2><#elseif !MARKET_VARIABLES.MARKET2??><#assign MARKET_LID = "ROW"><#else><#assign MARKET_LID = "ROW"></#if><#if MARKET_LID?isnull>ROW<#else>${MARKET_LID?trim}</#if></#data>
