@@ -1,0 +1,48 @@
+<#if PREFFERED_AIRPORT?isnull>
+	<#assign PREFAIR = 'DEFAULT'>
+<#else>
+	<#assign PREFAIR = PREFFERED_AIRPORT?trim>
+</#if>
+			
+<#assign subject_is_set = 0>
+<#assign default_found = 0>
+<#assign loop_continue = 1>
+
+<#data CAMPAIGN_FRAMEWORK_1_COL as SEGS>
+<#filter FRAMEWORK_CAMPAIGN = CAMPAIGN FRAMEWORK_MARKET = MARKET>
+<#fields SETTINGS_SEGMENT_RULE SETTINGS_SUBJECT DISPLAY_FIRST_NAME_YN>
+
+ <#if loop_continue == 1>
+	<#list SEGS.SETTINGS_SEGMENT_RULE?split(",") as x>
+	<#if loop_continue == 1>
+		<#assign MODULE_EXCLUDE = 0>
+		
+		<#attempt>
+		
+             <#include "cms://contentlibrary/!framework/displayrules/" + x + ".htm">		
+		<#recover>
+		
+			
+			<#if x?exec?contains(PREFAIR?trim?upper_case)>
+				<#assign SEGMENT = PREFFERED_AIRPORT?trim>
+				<#assign MODULE_EXCLUDE = 0>
+			<#elseif x == 'DEFAULT'>
+				<#assign SEGMENT = 'DEFAULT'>
+				<#assign DEF_SUBJECT = SEGS.SETTINGS_SUBJECT?exec?cap_first>
+				<#if default_found == 1>
+					<#assign loop_continue = 0>
+				</#if>
+				<#assign default_found = 1>
+				
+			<#else>
+				<#assign MODULE_EXCLUDE = 1>
+			</#if>
+		</#attempt>
+	</#if>
+	</#list>
+	<#if subject_is_set == 0 && MODULE_EXCLUDE == 0>
+		<#assign loop_continue = 0>
+		<#assign subject_is_set = 1>
+		<#if SEGS.DISPLAY_FIRST_NAME_YN?isnull || SEGS.DISPLAY_FIRST_NAME_YN?upper_case == "N">${SEGS.SETTINGS_SUBJECT?exec?cap_first}
+		<#elseif  SEGS.DISPLAY_FIRST_NAME_YN?upper_case == "Y"><#if CONTACT.FIRSTNAME?isnull>${SEGS.SETTINGS_SUBJECT?exec?cap_first}<#else>${CONTACT.FIRSTNAME?capitalize}<#if MARKET == "DE" && !CONTACT.LASTNAME?isnull> ${CONTACT.LASTNAME?capitalize}</#if>, ${SEGS.SETTINGS_SUBJECT?exec}</#if>|<#else>${SEGS.SETTINGS_SUBJECT?exec?cap_first}</#if></#if></#if></#data>
+ <#if subject_is_set == 0>Dreaming of travelling? ${DEF_SUBJECT}</#if>
