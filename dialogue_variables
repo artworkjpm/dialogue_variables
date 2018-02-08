@@ -141,7 +141,12 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- HOTEL_LANG_LID --><#if MARKET_VARIABLES.LANGUAGE_ID?isnull || MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global HOTEL_LANG_LID = "EMEA"><#elseif MARKET_VARIABLES.LANGUAGE_ID?? && !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global HOTEL_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim><#else><#global HOTEL_LANG_LID = "EMEA"></#if>
 
-<#-- CARTRAWLER_LANG_LID --><#if MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?isnull><#global CARTRAWLER_LANG_LID = "en-gb"><#else><#global CARTRAWLER_LANG_LID = MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?trim></#if></#data>
+<#-- CARTRAWLER_LANG_LID --><#if MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?isnull><#global CARTRAWLER_LANG_LID = "en-gb"><#else><#global CARTRAWLER_LANG_LID = MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?trim></#if>
+<#-- SURVEY_LANGUAGE --><#if MARKET_VARIABLES.SURVEY_LANG?isnull><#global SURVEY_LANGUAGE = "en-gb"><#else><#global SURVEY_LANGUAGE = MARKET_VARIABLES.SURVEY_LANG?trim></#if>
+
+</#data>
+
+
 
 <#-- MARKET (with missing languageid fix) --><#if MARKET_LID?isnull><#global MARKET = "ROW"><#else><#global MARKET = MARKET_LID?trim></#if>
 
@@ -580,9 +585,10 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- UNSUBSCRIBE_VAR (not used for E_ABANDONED_BASKET, E_ABANDONED_BASKET uses ${form('AbandonOptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')} for the same variable UNSUBSCRIBE_VAR below) -->
 
-<#if campaign.name != "E_ABANDONED_BASKET">
 <#if MARKET == "NO"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.no/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_><#elseif MARKET == "ROW"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/en/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_><#else><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/${MARKET?lower_case}/start/subscription/unsubscribe?email=" + CONTACT.EMAIL + "&sign=" + CONTACT.EMAIL_MD5_HASH_ + CONTACT.EMAIL_SHA256_HASH_></#if>
-<#else><#global UNSUBSCRIBE_VAR = "${form('AbandonOptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_','PERSONID')}">
+
+<#if campaign.name == "E_ABANDONED_BASKET" || campaign.name == "NAS_API_HOTELS_E_SH_2DA_B">
+<#global UNSUBSCRIBE_VAR = "${form('AbandonOptOut', 'LANGUAGEID', 'MARKET', 'EMAIL_ADDRESS_', 'CONTACT.RIID_','PERSONID')}">
 </#if>
 
 <#-- FAST_TRACK_AIRPORTS <#join><#compress><#switch DEPARTURE_IATA?upper_case?trim>
@@ -936,67 +942,95 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- PREMIUM_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global PREMIUM_INFO = "https://www.norwegian.com/uk/travel-info/on-board/premium-cabin/"><#break>
+<#case "ES"><#global PREMIUM_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "DK"><#global PREMIUM_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/premium-kabine/"><#break>
     <#default><#global PREMIUM_INFO = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/">
     </#switch></#compress></#join>
 
 <#-- ENTERTAINMENT_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/"><#break>
+<#case "ES"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/"><#break>
+<#case "DK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/underholdning-om-bord/"><#break>
     <#default><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/">
+    </#switch></#compress></#join>
+
+<#-- ENTERTAINMENT_MENU --><#join><#compress><#switch MARKET>
+<#case "UK"><#global ENTERTAINMENT_MENU = "http://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "ES"><#global ENTERTAINMENT_MENU = "http://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "DK"><#global ENTERTAINMENT_MENU = "http://entertainment.norwegian.com/#/onboard#"><#break>
+    <#default><#global ENTERTAINMENT_MENU = "http://entertainment.norwegian.com/#/onboard#">
     </#switch></#compress></#join>
 
 <#-- MEAL_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global MEAL_INFO = "https://www.norwegian.com/uk/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#case "ES"><#global MEAL_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/alimentos-y-bebidas/vuelos-internacionales-de-larga-distancia/"><#break>
+<#case "DK"><#global MEAL_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/mad-og-drikke/langdistanceruter/"><#break>
     <#default><#global MEAL_INFO = "https://www.norwegian.com/en/travel-info/on-board/food-and-drinks/international-long-haul-flights/">
     </#switch></#compress></#join>
 
 <#-- LOUNGE_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global LOUNGE_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#case "ES"><#global LOUNGE_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/acceso-a-salas-vip/"><#break>
+<#case "DK"><#global LOUNGE_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/lounge-adgang/"><#break>
     <#default><#global LOUNGE_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
     </#switch></#compress></#join>
 
 <#-- FASTTRACK_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global FASTTRACK_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#case "ES"><#global FASTTRACK_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/fast-track/"><#break>
+<#case "DK"><#global FASTTRACK_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/fast-track/"><#break>
     <#default><#global FASTTRACK_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/fast-track/">
     </#switch></#compress></#join>
     
 <#-- REWARD_FAMILY_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "ES"><#global REWARD_FAMILY_INFO = "https://es.norwegianreward.com/sobre-nosotros/cuenta-familiar"><#break>
     <#default><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account">
     </#switch></#compress></#join>
 
 <#-- APP_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global APP_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#case "ES"><#global APP_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/aplicacion-travel-assistant/"><#break>
+<#case "DK"><#global APP_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/rejseassistent-app/"><#break>
     <#default><#global APP_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/travel-assistant-app">
     </#switch></#compress></#join>
 
 <#-- PASSPORT_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#case "ES"><#global PASSPORT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/pasaporte-visado-y-documento-de-identificacion/"><#break>
+<#case "DK"><#global PASSPORT_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/pas-visum-og-id/"><#break>
     <#default><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/">
     </#switch></#compress></#join>
 
 <#-- CHILDREN_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global CHILDREN_INFO  = "https://www.norwegian.com/uk/travel-info/travelling-with-children/baggage/"><#break>
+<#case "ES"><#global CHILDREN_INFO  = "https://www.norwegian.com/es/informacion-sobre-el-viaje/viajar-con-ninos/equipaje/"><#break>
+<#case "DK"><#global CHILDREN_INFO  = "https://www.norwegian.com/dk/rejseinformation/rejse-med-born/bagage/"><#break>
     <#default><#global CHILDREN_INFO  = "https://www.norwegian.com/en/travel-info/travelling-with-children/baggage/">
     </#switch></#compress></#join>
 
 <#-- SNACKBAR_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global SNACKBAR_INFO  = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#case "ES"><#global SNACKBAR_INFO  = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/#interactive_3D_map"><#break>
+<#case "DK"><#global SNACKBAR_INFO  = "https://www.norwegian.com/dk/rejseinformation/i-flyet/underholdning-om-bord/#interactive_3D_map"><#break>
     <#default><#global SNACKBAR_INFO  = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/#interactive_3D_map">
     </#switch></#compress></#join>
 
 <#-- DREAMLINER_INFO --><#join><#compress><#switch MARKET>
 <#case "UK"><#global DREAMLINER_INFO  = "https://www.norwegian.com/uk/about/experience-us/dreamliner"><#break>
+<#case "ES"><#global DREAMLINER_INFO  = "https://www.norwegian.com/es/acerca-de-nosotros/descubrenos/dreamliner/"><#break>
+<#case "DK"><#global DREAMLINER_INFO  = "https://www.norwegian.com/dk/om-os/oplev-os/dreamliner/"><#break>
     <#default><#global DREAMLINER_INFO  = "https://www.norwegian.com/en/about/experience-us/dreamliner">
     </#switch></#compress></#join>
 
 <#-- BK_PERSON_GENDER -->
 <#if CONTACT.GENDER?isnull><#global BK_PERSON_GENDER = "unknown"><#elseif CONTACT.GENDER?upper_case == "F"><#global BK_PERSON_GENDER = "female"><#else><#global BK_PERSON_GENDER = "male"></#if>
 
-<#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + SURVEY_LANGUAGE?exec?trim>
 
-<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + SURVEY_LANGUAGE?exec?trim>
 
-<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + SURVEY_LANGUAGE?exec?trim>
 
 <#-- DESTINATION_URL_PART -->
 <#if MARKET == "NO"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.no/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.no"  + DEST_TRANSLATION_TEXT></#if><#elseif MARKET == "ROW"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/en/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/en"  + DEST_TRANSLATION_TEXT></#if><#else><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + "/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + DEST_TRANSLATION_TEXT></#if></#if>
