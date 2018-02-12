@@ -1,0 +1,91 @@
+<tr>
+  <td class="one-column" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-style:none;font-family:Arial, Helvetica, Sans-serif;" ><table cellpadding="0" cellspacing="0" width="100%" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;" >
+      <#if !MODULE.PERSONALIZATION_A_DIVIDER_TOP?isnull>
+      <tr>
+        <td colspan="3" bgcolor="#d8d8d8" height="2" class="Spacerline_Grey" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:Arial, Helvetica, Sans-serif;font-size:1px;line-height:1px;background-color:#d8d8d8;mso-line-height-rule:exactly;border-style:none;" >&nbsp;</td>
+      </tr>
+      </#if>
+      <tr>
+        <td class="inner contents" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;text-align:center;" ><table cellpadding="0" cellspacing="0" width="100%" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;" >
+            <tr>
+              <td class="Personalization_outer_top" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;font-weight:normal;font-size:14px;line-height:24px;mso-line-height-rule:exactly;color:#003d50;padding-top:10px; padding-right:20px;padding-left:20px;" ><table cellpadding="0" cellspacing="0" width="100%" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;" >
+                  <tr>
+                    <td align="left" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:Arial, Helvetica, Sans-serif;white-space:nowrap !important;" nowrap="nowrap" ><p style="box-sizing:inherit;Margin:0;font-size:14px;padding-left:0;padding-right:0;padding-top:0;padding-bottom:5px;line-height:24px;mso-line-height-rule:exactly;font-family:Arial, Helvetica, Sans-serif;color:#003D50;" ><span class="owa_link_span_blue" style="box-sizing:inherit;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#003d50;padding-top:0;padding-bottom:2px;padding-right:0;padding-left:0; font-size:14px; line-height:24px;" ><!--[if (gte mso 9)|(IE)]><a href="<#if NAS_PROFILE_YN = 'N'>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+CREATE_PROFILE_URL?exec)}<#else>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+MY_PROFILE_URL?exec)}</#if>" target="_blank" class="Pricelist_text_blue_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:underline;color:#003d50;font-size:14px;line-height:24px;padding-bottom:2px;font-weight:bold;" ><![endif]--><!--[if !mso]><!-->
+                    <a href="<#if NAS_PROFILE_YN = 'N'>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+CREATE_PROFILE_URL?exec)}<#else>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+MY_PROFILE_URL?exec)}</#if>" target="_blank" class="Pricelist_text_blue_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:none;color:#003d50;font-size:14px;line-height:24px;padding-bottom:0;font-weight:bold;mso-hide:all;"><!--><![endif]--><strong>${FIRSTNAME?capitalize}</strong>
+                    
+                    </a></span></p></td>
+                    <td align="right" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:Arial, Helvetica, Sans-serif;white-space:nowrap !important;" nowrap="nowrap" ><p style="box-sizing:inherit;Margin:0;font-size:14px;padding-left:0;padding-right:0;padding-top:0;padding-bottom:5px;line-height:24px;mso-line-height-rule:exactly;font-family:Arial, Helvetica, Sans-serif;color:#003D50;" ><span class="owa_link_span_blue" style="box-sizing:inherit;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#003d50;padding-top:0;padding-bottom:2px;padding-right:0;padding-left:0; font-size:14px; line-height:24px;" ><!--[if (gte mso 9)|(IE)]><a href="<#if CONTACT.REWARD_YN?isnull>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+CREATE_REWARD_PROFILE?exec)}<#elseif CONTACT.REWARD_YN?upper_case?trim == 'Y'>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+HAS_REWARD_PROFILE?exec)}<#else>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+CREATE_REWARD_PROFILE?exec)}</#if>" target="_blank" class="Pricelist_text_blue_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:underline;color:#003d50;font-size:14px;line-height:24px;padding-bottom:2px;font-weight:bold;" ><![endif]--><!--[if !mso]><!-->
+                    <a href="<#if CONTACT.REWARD_YN?isnull>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+CREATE_REWARD_PROFILE?exec)}<#elseif CONTACT.REWARD_YN?upper_case?trim == 'Y'>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+HAS_REWARD_PROFILE?exec)}<#else>${clickthrough('PERSONALIZATION_'+CAMPAIGN_TEMPLATE.TEMPLATE_POSITION, 'URL='+CREATE_REWARD_PROFILE?exec)}</#if>" target="_blank" class="Pricelist_text_blue_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:none;color:#003d50;font-size:14px;line-height:24px;padding-bottom:0;font-weight:bold;mso-hide:all;"><!--><![endif]-->
+                    <strong><#if CONTACT.REWARD_YN?isnull>${MODULE.PERSONALIZATION_NOT_REWARD_TXT?exec}<#elseif CONTACT.REWARD_YN?upper_case?trim == 'Y'>${CASHPOINTS?exec} ${MODULE.PERSONALIZATION_CASHPOINT_TXT?exec}<#else>${MODULE.PERSONALIZATION_NOT_REWARD_TXT?exec}</#if></strong>
+                    
+                    </a></span></p></td>
+                  </tr>
+                </table>
+            </td></tr>
+            </table>
+            </td>
+            </tr>
+            
+            
+            
+            
+            <tr>
+              <td style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;font-weight:normal;font-size:14px;line-height:24px;mso-line-height-rule:exactly;color:#003d50;padding-right:20px;padding-left:20px;" >
+              
+             <table cellpadding="0" cellspacing="0" width="100%" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;" >
+                  <td align="left" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:Arial, Helvetica, Sans-serif;white-space:nowrap !important;" nowrap="nowrap" >
+                  <table align="left" class="full-width" cellpadding="0" cellspacing="0" width="300" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:-1pt; mso-table-rspace:-1pt;border-style:none;">
+                        <tr>
+                          <td align="left" style="box-sizing:inherit;padding:0;border-style:none;font-family:Arial, Helvetica, Sans-serif; font-size:14px; line-height:24px;color:#003d50;" ><strong>
+<#if CAMPAIGN == "E_SH_RET_HOME" || CAMPAIGN == "E_SH_RET_HOME_A" || CAMPAIGN == "E_SH_RET_HOME_B" || CAMPAIGN == "E_LHP_RET_HOME">${DESTINATION_NAME} - ${FROM_DEP}, ${BOOKING_ID}<#else>${FROM_DEP} - ${DESTINATION_NAME}, ${BOOKING_ID}</#if></strong></td>
+                        </tr>
+                      </table>
+                     </td> 
+                      
+                      <td align="right" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:Arial, Helvetica, Sans-serif;white-space:nowrap !important;" nowrap="nowrap" >
+                      <table align="right" class="full-width-left" cellpadding="0" cellspacing="0" width="300" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:-1pt; mso-table-rspace:-1pt;border-style:none; " >
+                        <tr>
+                          <td class="full-width" align="right" style="box-sizing:inherit;padding:0; border-style:none;font-family:Arial, Helvetica, Sans-serif; font-size:14px; line-height:24px;color:#003d50; text-align:right" ><div class="show-for-outlook" style="display:none; mso-hide: none;"><strong> 
+                    <#if CAMPAIGN == "E_SH_WHOME" || CAMPAIGN == "E_SH_WHOME_A" || CAMPAIGN == "E_SH_WHOME_B" || CAMPAIGN == "E_CES" || CAMPAIGN == "E_LHP_NEWTRIP_ONEWAY" || CAMPAIGN == "E_LHP_NEWTRIP_ROUND" || CAMPAIGN == "E_LHP_SURVEY">
+                    <#elseif CAMPAIGN == "E_SH_RET_HOME" || CAMPAIGN == "E_SH_RET_HOME_A" || CAMPAIGN == "E_SH_RET_HOME_B" || CAMPAIGN == "E_LHP_RET_HOME">
+                    ${RETURN_DAYS} - ${DAYS_TO_TAKEOFF}
+                    <#else>
+                    ${DAYS_TO_DEP} - ${DAYS_TO_TAKEOFF}
+                    </#if></strong> </div></td>
+                        </tr>
+                      </table>
+                      </td>
+                      </table>
+                   
+             </td>
+             </tr>
+             <tr>
+              <td style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;font-weight:normal;font-size:14px;line-height:24px;mso-line-height-rule:exactly;color:#003d50;" >
+                <table align="left" class="full-width hide-for-outlook" cellpadding="0" cellspacing="0" width="300" style="mso-hide: all; box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:-1pt; mso-table-rspace:-1pt;border-style:none;">
+                  <tr>
+                    <td class="full-width-left" align="left" style="box-sizing:inherit;padding:0; border-style:none;font-family:Arial, Helvetica, Sans-serif; font-size:14px; line-height:20px;color:#003d50; text-align:left; border-style:none; mso-table-lspace:-1pt; mso-table-rspace:-1pt; padding-right:20px;padding-left:20px;" ><strong><#if CAMPAIGN == "E_SH_WHOME" || CAMPAIGN == "E_SH_WHOME_A" || CAMPAIGN == "E_SH_WHOME_B" || CAMPAIGN == "E_CES" || CAMPAIGN == "E_LHP_NEWTRIP_ONEWAY" || CAMPAIGN == "E_LHP_NEWTRIP_ROUND" || CAMPAIGN == "E_LHP_SURVEY">
+                    <#elseif CAMPAIGN == "E_SH_RET_HOME" || CAMPAIGN == "E_SH_RET_HOME_A" || CAMPAIGN == "E_SH_RET_HOME_B" || CAMPAIGN == "E_LHP_RET_HOME">
+                    ${RETURN_DAYS} - ${DAYS_TO_TAKEOFF}
+                    <#else>
+                    ${DAYS_TO_DEP} - ${DAYS_TO_TAKEOFF}
+                    </#if></strong></td>
+                  </tr>
+                </table>
+                
+                </td></tr>
+                
+               <!-- SPACER-->
+               <tr>
+              <td style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;font-weight:normal;font-size:14px;line-height:24px;mso-line-height-rule:exactly;color:#003d50;padding-bottom:10px;" >
+              </td>
+              </tr>
+              <!--[if (mso 11)|(IE)]><tr><td height="10" style="height: 10px; line-height:10px"></td></tr><![endif]-->
+      
+      
+      <#if MODULE.PERSONALIZATION_A_DIVIDER_BOTTOM?isnull>
+      <tr>
+        <td colspan="3" bgcolor="#d8d8d8" height="2" class="Spacerline_Grey" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:Arial, Helvetica, Sans-serif;font-size:1px;line-height:1px;background-color:#d8d8d8;mso-line-height-rule:exactly;border-style:none;" >&nbsp;</td>
+      </tr>
+      </#if>
+    </table></td>
+</tr>
