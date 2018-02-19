@@ -1,0 +1,62 @@
+<#macro minify>
+	<#if MINIFY = 'ON'>
+		<#compress>
+			<#join>
+				<#nested>
+			</#join>
+		</#compress>
+	<#else>
+		<#nested>
+	</#if>
+</#macro>
+
+
+<#macro price value market>
+	<#if !value?isnull>
+		<@currency_prefix market/><#if MARKET == "US" || MARKET == "UK" || MARKET == "IE">${value?string("0.00")}*<#elseif MARKET == "ROW">${value?string("0.00")}<#elseif MARKET == "PL" || MARKET == "NO" || MARKET == "DK" || MARKET == "SE">${value?c}<#else><#setting locale="hu">${value?string(",##0.00")}</#if><@currency_postfix market/></#if>
+</#macro>
+
+<#macro currency_prefix market>
+	<#switch market>
+	<#case "UK">£<#break>
+    <#case "US">$<#break>
+	<#case "IE">€<#break>
+	<#case "NL">€ <#break>
+    <#case "ROW"><#if ROW_SEGMENTED_CAMPAIGN == 'Y'><#if CONTACT.LANGUAGEID?lower_case == 'en-sg' || CONTACT.LANGUAGEID?lower_case == 'en_sg'>SGD <#elseif CONTACT.LANGUAGEID?lower_case == 'en_sg'>$ <#else>€</#if><#else>€</#if><#break>
+    </#switch>
+</#macro>
+
+<#macro currency_postfix market>
+	<#switch market>
+	<#case "NO">,-<#break>
+	<#case "DK">,-<#break>
+	<#case "SE">:-<#break>
+    <#case "ES"> €<#break>
+	<#case "FI">€<#break>
+    <#case "DE">€<#break>
+    <#case "IT">€<#break>
+	<#case "EN">€<#break>
+    <#case "PL">zł<#break>
+	<#case "US"><#break>
+	<#case "UK"><#break>
+	<#case "ROW"><#break>
+	<#case "NL"><#break>
+	<#case "IE"><#break>
+    <#case "FR"><#if CAMPAIGN = "2017_W43_FR_HALLOWEEN"> €*<#else> €</#if><#break>
+<#default>€</#switch>
+   
+</#macro>
+
+<#macro firstname>
+<#if CONTACT.FIRSTNAME?isnull>${CONTACT.FIRSTNAME == ''}
+<#elseif CONTACT.FIRSTNAME?upper_case == 'N/A'> ${CONTACT.FIRSTNAME == ''}
+<#else> ${CONTACT.FIRSTNAME?capitalize} 
+</#if>
+</#macro>
+
+<#macro lastname>
+
+<#if CONTACT.LASTNAME?upper_case == 'N/A'> ${CONTACT.LASTNAME == ''}
+<#else>${CONTACT.LASTNAME?capitalize} 
+</#if>
+</#macro>
