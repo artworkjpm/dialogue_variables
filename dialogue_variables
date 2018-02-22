@@ -134,7 +134,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 </#data>
 <#-- //////////////////////// MARKET_VARIABLES SUP TABLE /////////////////////////////////////// -->
 
-<#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE LANGUAGE_ID HOTEL_CAR_LANGUAGE_ID MARKET2>
+<#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE LANGUAGE_ID HOTEL_CAR_LANGUAGE_ID MARKET2 SURVEY_LANG>
 <#-- MARKET_LID --><#if !MARKET_VARIABLES.MARKET2?isnull><#global MARKET_LID = MARKET_VARIABLES.MARKET2><#elseif !MARKET_VARIABLES.MARKET2??><#global MARKET_LID = "ROW"><#else><#global MARKET_LID = "ROW"></#if>
 
 <#-- AIRPORT_LANG_LID --><#if !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global AIRPORT_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim?upper_case><#else><#global AIRPORT_LANG_LID = "EN"></#if>
@@ -201,6 +201,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID>
 <#fields BOOKING_DATE LEG_ID FIRST_LEG_YN BOOKING_NUMBER_OF_ADULTS BOOKING_NUMBER_OF_CHILDREN BOOKING_NUMBER_OF_INFANTS BOOKING_DEPARTURE_TIME BOOKING_RETURN_DEPARTURE_TIME1 BOOKING_START_AIRPORT BK_SOLD_IN_CURRENCY BOOKING_DEPARTURE_TIME BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP BK_NO_OF_NOT_PREMIUM_ON_LH BOOKING_LONGHAUL BOOKING_NUMBER_OF_BAGS BOOKING_NUMBER_OF_SEATS FAST_TRACK_FLAG BK_NUMBER_OF_ADULTS_INFANTS WIFI_YN BOOKING_HAS_EVERYTHING PRODUCT_CODE BOOKING_HOTEL BOOKING_ROUTE_AREA BOOKING_START_COUNTRY_CD BOOKING_RENTALCAR BOOKING_NUMBER_OF_LEGS LAST_LEG_YN LEG_NUMBER MAIN_DESTINATION BK_NO_OF_APIS_NOT_SATISFIED BOOKING_NUMBER_OF_MEALS HORIZON_TYPE LEG_DEPARTURE_TIME LEG_ARRIVAL_DATE ORIGIN_LEG DESTINATION_LEG MOBILE_OS BOOKING_LOCALBOOKINGID BOOKING_GDSBOOKINGID PASSENGER_NAME VERSION_PLANNED>
+
+<#-- GLOBAL_BOOKING_ID --><#assign GLOBAL_BOOKING_ID = SQL_GLOBAL.BOOKING_GDSBOOKINGID>
+<#-- GLOBAL_LOCAL_BOOKING_ID --><#assign GLOBAL_LOCAL_BOOKING_ID = SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
 
 <#--OPT_AIRCRAFT --><#if SQL_GLOBAL.VERSION_PLANNED?isnull><#global OPT_AIRCRAFT = '737-800'><#elseif SQL_GLOBAL.VERSION_PLANNED = '7M8'><#global OPT_AIRCRAFT = '737-M8'><#elseif SQL_GLOBAL.VERSION_PLANNED = '788'><#global OPT_AIRCRAFT = '787-800'><#elseif SQL_GLOBAL.VERSION_PLANNED = '789'><#global OPT_AIRCRAFT = '787-900'><#else><#global OPT_AIRCRAFT = SQL_GLOBAL.VERSION_PLANNED></#if>
 
@@ -435,6 +438,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 </#data>
 
+<#-- EXIST_IN_GLOBAL_YN --><#if GLOBAL_BOOKING_ID == BOOKING_ID && GLOBAL_LOCAL_BOOKING_ID == LOCAL_BOOKING_ID><#global EXIST_IN_GLOBAL_YN = 'YES'><#else><#global EXIST_IN_GLOBAL_YN = 'NO'></#if>
+
 <#-- /////////////////////////////////////////////////////////////////////////////// SQL GLOBAL 2 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID DESTINATION_LEG = DESTINATION_IATA>
@@ -489,21 +494,6 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 	</#if>
 </#if>
 </#data>
-
-
-<#-- /////////////////////////GLOBAL_LH for E_CES it was not showing longhaul flights, therefore use GLOBAL_LH /////////////////////////////////////////////////// -->
-
-<#if campaign.name = "E_CES">
-<#if DEPARTURE_IATA?isnull>
-<#data SQL_GLOBAL_LH as SQL_GLOBAL_LH limit=1><#filter BOOKING_GDSBOOKINGID_LH = BOOKING_ID BOOKING_LOCALBOOKINGID_LH = LOCAL_BOOKING_ID>
-<#fields BOOKING_START_AIRPORT_LH BOOKING_MAIN_DESTINATION_LH BOOKING_LAST_DESTINATION_LH BOOKING_ROUND_TRIP_LH>
-
-<#-- DEPARTURE_IATA --><#if SQL_GLOBAL_LH.BOOKING_START_AIRPORT_LH?isnull><#global DEPARTURE_IATA = ""><#else><#global DEPARTURE_IATA = SQL_GLOBAL_LH.BOOKING_START_AIRPORT_LH?trim></#if>
-
-<#-- DESTINATION_IATA --><#if SQL_GLOBAL_LH.BOOKING_ROUND_TRIP_LH?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL_LH.BOOKING_MAIN_DESTINATION_LH?trim><#else><#global DESTINATION_IATA = SQL_GLOBAL_LH.BOOKING_LAST_DESTINATION_LH?trim></#if>
-</#data>
-</#if>
-</#if>
 
 <#-- //////////////////////// CAMPAIGN_FRAMEWORK_1_COL SQL TABLE ///////////////////////////////////-->
 <#data CAMPAIGN_FRAMEWORK_1_COL as MODULE limit=1>
@@ -1026,11 +1016,11 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- BK_PERSON_GENDER -->
 <#if CONTACT.GENDER?isnull><#global BK_PERSON_GENDER = "unknown"><#elseif CONTACT.GENDER?upper_case == "F"><#global BK_PERSON_GENDER = "female"><#else><#global BK_PERSON_GENDER = "male"></#if>
 
-<#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#-- SURVEY_LINK --><#global SURVEY_LINK = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + SURVEY_LANGUAGE?exec?trim>
 
-<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + SURVEY_LANGUAGE?exec?trim>
 
-<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + CARTRAWLER_LANG_LID?exec?trim>
+<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + SURVEY_LANGUAGE?exec?trim>
 
 <#-- DESTINATION_URL_PART -->
 <#if MARKET == "NO"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.no/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.no"  + DEST_TRANSLATION_TEXT></#if><#elseif MARKET == "ROW"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/en/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/en"  + DEST_TRANSLATION_TEXT></#if><#else><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + "/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + DEST_TRANSLATION_TEXT></#if></#if>
