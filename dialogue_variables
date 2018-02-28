@@ -24,10 +24,9 @@ BOOKING_ID_DV: ${BOOKING_ID_DV}
 BOOKING_ID: ${BOOKING_ID}
 LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 -->
-<#-- LANGUAGEID FIX --><#global LANGUAGEID = LANGUAGEID?replace("_","-")?replace("no-no","nb-no")?replace("se-no","sv-se")?replace("se-se","sv-se")?replace("se-fi","sv-se")?lower_case?trim>
 
-<#-- LANGUAGEID FIX2 -->
-<#if LANGUAGEID?isnull><#global LANGUAGEID = "en"></#if>
+
+
 
 <#-- setting module default states -->
 <#global HERO_SHOW_DEFAULT = 1>
@@ -135,7 +134,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- //////////////////////// MARKET_VARIABLES SUP TABLE /////////////////////////////////////// -->
 
 <#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE LANGUAGE_ID HOTEL_CAR_LANGUAGE_ID MARKET2 SURVEY_LANG>
-<#-- MARKET_LID --><#if !MARKET_VARIABLES.MARKET2?isnull><#global MARKET_LID = MARKET_VARIABLES.MARKET2><#elseif !MARKET_VARIABLES.MARKET2??><#global MARKET_LID = "ROW"><#else><#global MARKET_LID = "ROW"></#if>
+
 
 <#-- AIRPORT_LANG_LID --><#if !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global AIRPORT_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim?upper_case><#else><#global AIRPORT_LANG_LID = "EN"></#if>
 
@@ -143,12 +142,12 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- CARTRAWLER_LANG_LID --><#if MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?isnull><#global CARTRAWLER_LANG_LID = "en-gb"><#else><#global CARTRAWLER_LANG_LID = MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?trim></#if>
 <#-- SURVEY_LANGUAGE --><#if MARKET_VARIABLES.SURVEY_LANG?isnull><#global SURVEY_LANGUAGE = "en-gb"><#else><#global SURVEY_LANGUAGE = MARKET_VARIABLES.SURVEY_LANG?trim></#if>
-
+<#-- MARKET --><#if MARKET_VARIABLES.MARKET2?isnull><#global FORCE_ROW_MARKET = 1><#global MARKET = 'ROW'><#else><#global FORCE_ROW_MARKET = 1><#global MARKET = MARKET_VARIABLES.MARKET2></#if>
 </#data>
 
+<#-- MARKET (missing languageid fix) --><#if FORCE_ROW_MARKET != 1><#global MARKET = 'ROW'></#if>
 
 
-<#-- MARKET (with missing languageid fix) --><#if MARKET_LID?isnull><#global MARKET = "ROW"><#else><#global MARKET = MARKET_LID?trim></#if>
 
 <#-- AIRPORT_LANG (with missing languageid fix) --><#if AIRPORT_LANG_LID?isnull><#global AIRPORT_LANG = "EN"><#else><#global AIRPORT_LANG = AIRPORT_LANG_LID?trim></#if>
 
