@@ -202,6 +202,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID>
 <#fields BOOKING_DATE LEG_ID FIRST_LEG_YN BOOKING_NUMBER_OF_ADULTS BOOKING_NUMBER_OF_CHILDREN BOOKING_NUMBER_OF_INFANTS BOOKING_DEPARTURE_TIME BOOKING_RETURN_DEPARTURE_TIME1 BOOKING_START_AIRPORT BK_SOLD_IN_CURRENCY BOOKING_DEPARTURE_TIME BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP BK_NO_OF_NOT_PREMIUM_ON_LH BOOKING_LONGHAUL BOOKING_NUMBER_OF_BAGS BOOKING_NUMBER_OF_SEATS FAST_TRACK_FLAG BK_NUMBER_OF_ADULTS_INFANTS WIFI_YN BOOKING_HAS_EVERYTHING PRODUCT_CODE BOOKING_HOTEL BOOKING_ROUTE_AREA BOOKING_START_COUNTRY_CD BOOKING_RENTALCAR BOOKING_NUMBER_OF_LEGS LAST_LEG_YN LEG_NUMBER MAIN_DESTINATION BK_NO_OF_APIS_NOT_SATISFIED BOOKING_NUMBER_OF_MEALS HORIZON_TYPE LEG_DEPARTURE_TIME LEG_ARRIVAL_DATE ORIGIN_LEG DESTINATION_LEG MOBILE_OS BOOKING_LOCALBOOKINGID BOOKING_GDSBOOKINGID PASSENGER_NAME VERSION_PLANNED>
 
+<#-- DESTINATION_IATA --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim><#else><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim></#if>
+
 <#-- GLOBAL_BOOKING_ID --><#assign GLOBAL_BOOKING_ID = SQL_GLOBAL.BOOKING_GDSBOOKINGID>
 <#-- GLOBAL_LOCAL_BOOKING_ID --><#assign GLOBAL_LOCAL_BOOKING_ID = SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
 
@@ -212,8 +214,6 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DEPARTURE_IATA --><#if SQL_GLOBAL.BOOKING_START_AIRPORT?isnull><#global DEPARTURE_IATA = ""><#else><#global DEPARTURE_IATA = SQL_GLOBAL.BOOKING_START_AIRPORT?trim></#if>
 
 <#-- FAST_TRACK_FLAG --><#if SQL_GLOBAL.FAST_TRACK_FLAG?isnull><#global FAST_TRACK_FLAG ="N"><#else><#global FAST_TRACK_FLAG = SQL_GLOBAL.FAST_TRACK_FLAG></#if>
-
-<#-- NUMBER_OF_PASSENGERS --><#if SQL_GLOBAL.BOOKING_NUMBER_OF_ADULTS?isnull && SQL_GLOBAL.BOOKING_NUMBER_OF_CHILDREN?isnull><#global NUMBER_OF_PASSENGERS = 1><#else><#global NUMBER_OF_PASSENGERS = SQL_GLOBAL.BOOKING_NUMBER_OF_ADULTS + SQL_GLOBAL.BOOKING_NUMBER_OF_CHILDREN></#if>
 
 <#--PSNGR_LAST_NAME --><#if SQL_GLOBAL.PASSENGER_NAME?contains("/")> <#global PSNGR_LAST_NAME = SQL_GLOBAL.PASSENGER_NAME?replace("/"," ")?word_list[0]?upper_case><#else><#global PSNGR_LAST_NAME = CONTACT.LASTNAME?upper_case></#if>
 
@@ -387,6 +387,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- NUMBER_OF_INFANTS --><#if SQL_GLOBAL.BOOKING_NUMBER_OF_INFANTS?isnull><#global NUMBER_OF_INFANTS = 0><#else><#global NUMBER_OF_INFANTS = SQL_GLOBAL.BOOKING_NUMBER_OF_INFANTS></#if>
 
 <#-- DEPARTURE_DATE_HOTEL --><#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE_HOTEL = dayadd(.now,3)?date?string("yyyy-MM-dd")><#else><#global DEPARTURE_DATE_HOTEL = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("yyyy-MM-dd")></#if>
+<#-- DEPARTURE_DATE_CAR --><#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE_CAR = dayadd(.now,3)?string("yyyyMMddHHmm")><#else><#global DEPARTURE_DATE_CAR = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?string("yyyyMMddHHmm")></#if>
 
 <#-- DEPARTURE_DATE --><#if SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE = dayadd(.now,3)?datetime?string("yyyy/dd/MM-hh:mm")><#elseif SQL_GLOBAL.FIRST_LEG_YN == "Y"><#global DEPARTURE_DATE = SQL_GLOBAL.LEG_DEPARTURE_TIME?datetime?string("yyyy/dd/MM-hh:mm")><#else><#global DEPARTURE_DATE = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("yyyy/dd/MM-hh:mm")></#if>
 
@@ -403,7 +404,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- NEXT_FLIGHT --><#if MARKET == "US"><#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull><#global NEXT_FLIGHT = dayadd(.now,3)?date?string("MM/dd/yyyy")?trim><#else><#global NEXT_FLIGHT = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("MM/dd/yyyy")?trim></#if><#else><#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull><#global NEXT_FLIGHT = dayadd(.now,3)?date?string("dd/MM/yyyy")?trim><#else><#global NEXT_FLIGHT = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("dd/MM/yyyy")?trim></#if></#if>
 
 
-<#-- DESTINATION_IATA --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim><#else><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim></#if>
+
 
 <#-- DEEPLINK_ONLINE_CHECKIN -->
 
@@ -473,6 +474,11 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 	<#if MARKET == "US">
 	<#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime,1)?date?string("MM/dd/yyyy")>
 	</#if>
+</#if>
+
+<#-- RETURN_DATE_CAR-->
+<#if SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?isnull || ONEWAY_YN?string?trim == "1" || TRIP_TOO_LONG == "Y">
+	<#global RETURN_DATE_CAR = dayadd(SQL_GLOBAL.LEG_ARRIVAL_DATE,1)?string("yyyyMMddHHmm")>
 </#if>
 </#data>
 
@@ -569,7 +575,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
 
-<#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB" || campaign.name == "E_SH_3DB_CHASER" || campaign.name == "E_SH_6DB"><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2.txt"></#global><#else><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global></#if>
+<#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB" || campaign.name == "E_SH_6DB"><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2.txt"></#global><#else><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global></#if>
 <#--HOTEL_URL: ${HOTEL_URL}-->
 
 <#-- UNSUBSCRIBE_VAR (not used for E_ABANDONED_BASKET, E_ABANDONED_BASKET uses ${form('AbandonOptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')} for the same variable UNSUBSCRIBE_VAR below) -->
@@ -709,7 +715,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DESTINATION_PAGE -->
 <#if MARKET?isnull || MARKET?trim?upper_case == "NO"><#global DESTINATION_PAGE ="http://www.norwegian.no/destinations/" + DESTINATION_DISPLAY_NAME?exec><#elseif MARKET == "ROW"><#global DESTINATION_PAGE ="http://www.norwegian.com/en/destinations/" + DESTINATION_DISPLAY_NAME?exec><#else><#global DESTINATION_PAGE ="https://www.norwegian.com/" + MARKET?trim + "/destinations/" + DESTINATION_DISPLAY_NAME?exec></#if>
 
-<#-- NUMBER_OF_PASSENGERS --><#if NUMBER_OF_ADULTS?isnull><#assign NUMBER_OF_ADULTS = 1></#if><#if NUMBER_OF_ADULTS == 0 && NUMBER_OF_CHILDREN?isnull><#assign NUMBER_OF_CHILDREN = 1><#elseif NUMBER_OF_CHILDREN?isnull><#assign NUMBER_OF_CHILDREN = 0></#if><#if NUMBER_OF_INFANTS?isnull><#assign NUMBER_OF_INFANTS = 0></#if><#global NUMBER_OF_PASSENGERS = NUMBER_OF_ADULTS?trim?number + NUMBER_OF_CHILDREN?trim?number + NUMBER_OF_INFANTS?trim?number>
+<#-- NUMBER_OF_PASSENGERS -->
+<#global NUMBER_OF_PASSENGERS = NUMBER_OF_ADULTS?number + NUMBER_OF_CHILDREN?number + NUMBER_OF_INFANTS?number>
 
 <#-- DUMMY_DATE --><#global DUMMY_DATE = .now>
 
