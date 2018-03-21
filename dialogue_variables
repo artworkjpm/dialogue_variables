@@ -788,36 +788,36 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "NL"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/nl"><#break>
 <#case "IT"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/it"><#break>
 <#case "FI"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/fi"><#break>
-<#case "DE"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/de"><#break>
-<#case "US"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/us"><#break>
-<#case "IE"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/ie"><#break>
-<#case "SG"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/sg"><#break>
-<#case "UK"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/uk"><#break>
-<#case "ES"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/es"><#break>
-<#case "PL"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/pl"><#break>
-<#case "ROW"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en"><#break>
-<#default><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en">
+<#case "DE"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/de"><#break>
+<#case "US"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/us"><#break>
+<#case "IE"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/ie"><#break>
+<#case "SG"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/sg"><#break>
+<#case "UK"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/uk"><#break>
+<#case "ES"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/es"><#break>
+<#case "PL"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/pl"><#break>
+<#case "ROW"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/en"><#break>
+<#default><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/en">
 </#switch></#compress></#join>-->
 
-<#-- HOMEPAGE_FOOTER (new) --><#if MARKET == "NO"><#global HOMEPAGE_FOOTER ="http://www.norwegian.no"><#elseif MARKET == "ROW"><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/en"><#else><#global HOMEPAGE_FOOTER ="http://www.norwegian.com/" + MARKET?lower_case></#if>
+<#-- HOMEPAGE_FOOTER (new) --><#if MARKET == "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#elseif MARKET == "ROW"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/en"><#else><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/" + MARKET?lower_case></#if>
 
 <#-- CONTACT_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global CONTACT_FOOTER ="https://www.norwegian.no/hjelp-og-kontakt/"><#break>
-<#case "SE"><#global CONTACT_FOOTER ="http://www.norwegian.com/se/hjalp-och-kontakt/"><#break>
-<#case "DK"><#global CONTACT_FOOTER ="http://www.norwegian.com/dk/hjaelp-og-kontakt/"><#break>
+<#case "SE"><#global CONTACT_FOOTER ="https://www.norwegian.com/se/hjalp-och-kontakt/"><#break>
+<#case "DK"><#global CONTACT_FOOTER ="https://www.norwegian.com/dk/hjaelp-og-kontakt/"><#break>
 <#case "FR"><#global CONTACT_FOOTER ="https://www.norwegian.com/fr/aide-et-contact/"><#break>
 <#case "NL"><#global CONTACT_FOOTER ="https://www.norwegian.com/nl/help-contact/"><#break>
 <#case "IT"><#global CONTACT_FOOTER ="https://www.norwegian.com/it/assistenza-e-contatti/"><#break>
 <#case "FI"><#global CONTACT_FOOTER ="http://www.norwegian.com/fi/ohjeet-ja-yhteystiedot/"><#break>
 <#case "DE"><#global CONTACT_FOOTER ="https://www.norwegian.com/de/kontakt/"><#break>
-<#case "US"><#global CONTACT_FOOTER ="http://www.norwegian.com/us/help-contact/"><#break>
-<#case "IE"><#global CONTACT_FOOTER ="http://www.norwegian.com/ie/help-contact/"><#break>
-<#case "SG"><#global CONTACT_FOOTER ="http://www.norwegian.com/sg/help-contact/"><#break>
-<#case "UK"><#global CONTACT_FOOTER ="http://www.norwegian.com/uk/help-contact/"><#break>
-<#case "ES"><#global CONTACT_FOOTER ="http://www.norwegian.com/es/ayuda-y-contacto/"><#break>
-<#case "PL"><#global CONTACT_FOOTER ="http://www.norwegian.com/pl/pomoc-i-kontakt/"><#break>
-<#case "ROW"><#global CONTACT_FOOTER ="http://www.norwegian.com/en/help-contact/"><#break>
-<#default><#global CONTACT_FOOTER ="http://www.norwegian.com/en/help-contact/">
+<#case "US"><#global CONTACT_FOOTER ="https://www.norwegian.com/us/help-contact/"><#break>
+<#case "IE"><#global CONTACT_FOOTER ="https://www.norwegian.com/ie/help-contact/"><#break>
+<#case "SG"><#global CONTACT_FOOTER ="https://www.norwegian.com/sg/help-contact/"><#break>
+<#case "UK"><#global CONTACT_FOOTER ="https://www.norwegian.com/uk/help-contact/"><#break>
+<#case "ES"><#global CONTACT_FOOTER ="https://www.norwegian.com/es/ayuda-y-contacto/"><#break>
+<#case "PL"><#global CONTACT_FOOTER ="https://www.norwegian.com/pl/pomoc-i-kontakt/"><#break>
+<#case "ROW"><#global CONTACT_FOOTER ="https://www.norwegian.com/en/help-contact/"><#break>
+<#default><#global CONTACT_FOOTER ="https://www.norwegian.com/en/help-contact/">
 </#switch></#compress></#join>
 
 <#-- RESTRICTIONS_FOOTER --><#join><#compress><#switch MARKET>
@@ -863,7 +863,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "SG"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/sg/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "UK"><#global MY_PROFILE_URL ="http://www.norwegian.com/ssl/uk/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "ES"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/es/mis-viajes?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "PL"><#global MY_PROFILE_URL ="http://www.norwegian.com/ssl/pl/moje-podroze/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
+<#case "PL"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/pl/moje-podroze/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#case "ROW"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
 <#default><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID>
 </#switch></#compress></#join>-->
