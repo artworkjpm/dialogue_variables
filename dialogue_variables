@@ -577,7 +577,13 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
 
-<#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB" || campaign.name == "E_SH_6DB"><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2.txt"></#global><#else><#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global></#if>
+<#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB">
+    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2_log.txt"></#global>
+    <#elseif campaign.name == "E_SH_6DB">
+    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2.txt"></#global>
+<#else>
+    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>
+</#if>
 <#--HOTEL_URL: ${HOTEL_URL}-->
 
 <#-- UNSUBSCRIBE_VAR (not used for E_ABANDONED_BASKET, E_ABANDONED_BASKET uses ${form('AbandonOptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')} for the same variable UNSUBSCRIBE_VAR below) -->
@@ -1046,7 +1052,24 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- BOOKING_LASTNAME -->
 <#global BOOKING_LASTNAME = CONTACT.LASTNAME?trim>
 
-
+<#-- SEARCH_COMMERCIAL_TEXT --><#join><#compress><#switch MARKET>
+<#case "NO"><#global SEARCH_COMMERCIAL_TEXT ="Tilbys av"><#break>
+<#case "SE"><#global SEARCH_COMMERCIAL_TEXTL ="I samarbete med"><#break>
+<#case "DK"><#global SEARCH_COMMERCIAL_TEXT ="Drevet af"><#break>
+<#case "FR"><#global SEARCH_COMMERCIAL_TEXT ="Optimisé par"><#break>
+<#case "NL"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "IT"><#global SEARCH_COMMERCIAL_TEXT ="Offerto da"><#break>
+<#case "FI"><#global SEARCH_COMMERCIAL_TEXT ="Hotellit tarjoaa"><#break>
+<#case "DE"><#global SEARCH_COMMERCIAL_TEXT ="Unterstützt von"><#break>
+<#case "US"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "IE"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "SG"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "UK"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "ES"><#global SEARCH_COMMERCIAL_TEXT ="Ofrecido por"><#break>
+<#case "PL"><#global SEARCH_COMMERCIAL_TEXT ="Wspierany przez"><#break>
+<#case "ROW"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#default><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+</#switch></#compress></#join>-->
 
 <#-- PRICE_TO --><#global PRICE_TO = "Not in use">
 <#-- PRICE_FROM --><#global PRICE_FROM = "Not in use">
