@@ -1,4 +1,4 @@
-<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/dialogue_variables.htm"> -->
+hotel_url<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/dialogue_variables.htm"> -->
 
 <#-- SERVER TIME CORRECTION --><#setting time_zone='US/Pacific-New'>
 
@@ -580,7 +580,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB">
     <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2_log.txt"></#global>
     <#elseif campaign.name == "E_SH_6DB">
-    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2.txt"></#global>
+    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2_log.txt"></#global>
 <#else>
     <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>
 </#if>
@@ -1069,7 +1069,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "PL"><#global SEARCH_COMMERCIAL_TEXT ="Wspierany przez"><#break>
 <#case "ROW"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
 <#default><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
-</#switch></#compress></#join>-->
+</#switch></#compress></#join>
 
 <#-- PRICE_TO --><#global PRICE_TO = "Not in use">
 <#-- PRICE_FROM --><#global PRICE_FROM = "Not in use">
