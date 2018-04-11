@@ -1,42 +1,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
-    <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <!--[if !mso]><!-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!--<![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title></title><#assign RETINA_IMAGE = '640x320'>
-  
-     <style type="text/css" media="screen">
-		 /* pseudo class for links, will only work in some clients */
-a:link { color:#003d50; text-decoration: none; }
-a:visited { color:#003d50; text-decoration: none; }
-a:hover { color:#003d50; text-decoration: none; }
-a:active { color:#003d50; text-decoration: underline; }
-.ma, .ph60 a:link { color:#fffffe; text-decoration: none; }
-.ma, .ph60 a:visited { color:#fffffe; text-decoration: none; }
-.ma, .ph60 a:hover { color:#fffffe; text-decoration: none; }
-.ma, .ph60 a:active { color:#fffffe; text-decoration: none; }
-.unsubscribe, a:link { color:#909090; text-decoration: none; }
-.unsubscribe a:visited { color:#909090; text-decoration: none; }
-.unsubscribe a:hover { color:#909090; text-decoration: none; }
-.unsubscribe a:active { color:#909090; text-decoration: none; }
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <!--[if !mso]><!-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <!--<![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title></title>
+  <!-- style for Gmail - Webmail, iOS, Android -->
+  <style>
+.two-column .column {
+	width: 100%;
+	max-width: 320px !important;
+	display: inline-block;
+	vertical-align: top;
+}
+u + .nextflight .gmail {
+
+text-align: right !important;
+display: inline-block !important;
+}
+.ExternalClass .show-for-outlook, [owa] .show-for-outlook {
+	display: block!important;
+	mso-hide: none !important;
+}
+.ExternalClass .not-for-outlook, [owa] .not-for-outlook {
+	display: none !important;
+	mso-hide: all !important;
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+	max-height: 0;
+}
 </style>
-      
-       <style type="text/css">
-       /* code to prevent iPhone to break words */
-       * {
--moz-hyphens:none;
--ms-hyphens:none;
--webkit-hyphens: none;
-hyphens:none;
+ 
+  <style type="text/css">	@media (min-width: 489px) {
+.show-image {
+	display: none!important;
+	width: 0px!important;
+	height: 0px!important;
+	overflow: hidden!important;
+	line-height: 0px!important;
+	font-size: 0px!important;
+}
+.hide-image {
+	display: block!important;
+	max-height: none !important;
+	max-width: none !important;
+	line-height: 1.5 !important;
+	width: 100%!important;
+	height: auto!important;
+}
+.nextflight {
+	text-align: left;
+	float: right;
+}
+.show-for-outlook-banner {
+	display: block !important;
+	mso-hide: none !important;
+}
+.hide-for-outlook-banner {
+	display: none !important;
+	mso-hide: all
+}
+	.ExternalClass .show-for-outlook, [owa] .show-for-outlook {
+	
+	display: none !important;
+	mso-hide: all !important;
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+	max-height: 0;
+}
+.ExternalClass .not-for-outlook, [owa] .not-for-outlook {
+	display: block!important;
+	mso-hide: none !important;
+}
+}
+</style>
+<style type="text/css">
+/* code to prevent iPhone to break words */
+* {
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	-webkit-hyphens: none;
+	hyphens: none;
 }
 * {
-word-break:keep-all;
+	word-break: keep-all;
 }
 /* code to incease striped background for hero modules on laptop */
-.stripes {height: 80px !important;}	   
+.stripes {
+	height: 80px !important;
+}
 /*@media only screen (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) { Code for detecting Retina screen */
 html {
 	box-sizing: border-box;
@@ -66,23 +122,221 @@ html {
 	-webkit-text-size-adjust: 100%;
 	color: #fffffe;
 }
-	.m_h{display:none;}	   
-.stripes {height: 80px !important;}
+.m_h {
+	display: none;
+}
+.stripes {
+	height: 80px !important;
+}
 </style>
-<style type="text/css">
-@media (min-width: 640px) { .m_h{display:block !important;} .show-for-outlook { display:block !important; mso-hide:none !important; } .hide-for-outlook { display:none; } }@media (min-width: 600px) {.m_h{display:block !important;} .banner_line-height{line-height: 80px !important;}} @media (max-width: 600px) { .m_h{display:block !important;} .two-column .column { width:100%;max-width: 600px;} *[class="hideaway"] { display: none !important;} table {min-width:auto !important; width:100%; } .Personalization_show {visibility: hidden;} .Personalization_hide {visibility:visible;} .banner_line-height{line-height: 70px !important;}}@media (max-width: 489px) { .stripes {height: 40px !important;} *[class="hide"] { display: none !important;} .Personalization_colspan {column-count: 2;} .Personalization_show {visibility: visible;} .Personalization_hide {visibility:hidden;} .hide{display:none !important;}.Header_inner_td{padding-top:0; padding-bottom:0;}.m_h{display:none !important;}.ph60{padding-right:10px !important;padding-left:10px !important;}.disclaimer{padding-right:20px !important;padding-left:20px !important;}.Social_Inner{padding-right:20px !important;padding-left:20px !important;}.social{width:35px; height:35px;}.ma{margin:0 auto !important;} span[class='logo-swapper'] { display: inline-block; background-image: url(http://static.cdn.responsys.net/i2/responsysimages/content/nas/E_75x61_Logo_Mobile_transparent.png) !important; background-position: right !important; background-repeat: no-repeat !important; width: 75px; height: 61px;} .banner_h1{font-size: 22px !important;} .hide-image {display:none!important; width:0px!important; height: 0px!important; overflow:hidden!important; line-height: 0px!important; font-size:0px!important;} .show-image {display:block!important; max-height: none !important; max-width:none !important; line-height: 1.5 !important;width:100%!important; height:auto!important;} .banner_line-height{line-height: 50px !important; font-size:25px !important;}.button-cta, .button-cta * { display: block; width: auto; }.disclaimer{padding:20px 20px 10px 40px;}img[class="swap-logo"] { display: none !important;}td[class="logo-swap-shrink"] { width: 75px !important;}.two-column .column, { max-width: 100% !important; } .two-column img { max-width: 100% !important; }.full-width{ width: 100%; } .full-width-left{ width: 100%; text-align:left !important; }} @media (min-width: 489px) { .show-for-outlook-banner { display:block !important; mso-hide:none !important; } .hide-for-outlook-banner { display:none !important; mso-hide:all}} 
+  <style type="text/css">
+@media (min-width: 640px) {
+.nextflight {
+	text-align: right !important;
+}
+.m_h {
+	display: block !important;
+}
+.show-for-outlook {
+	display: block !important;
+	mso-hide: none !important;
+}
+.hide-for-outlook {
+	display: none;
+}
+.banner_line-height {
+	line-height: 80px !important;
+}
+}
+
+@media (max-width: 639px) {
+.nextflight {
+	text-align: left;
+	float: left!important;
+}
+.m_h {
+	display: block !important;
+}
+.two-column .column {
+	width: 100%;
+	max-width: 300px;
+}
+*[class="hideaway"] {
+	display: none !important;
+}
+table {
+	min-width: auto !important;
+	width: 100%;
+}
+.Personalization_show {
+	visibility: hidden;
+}
+.Personalization_hide {
+	visibility: visible;
+}
+.banner_line-height {
+	line-height: 70px !important;
+}
+}
+
+@media (max-width: 489px) {
+.nextflight {
+	text-align: left;
+	float: left;
+}
+.stripes {
+	height: 40px !important;
+}
+*[class="hide"] {
+	display: none !important;
+}
+.Personalization_colspan {
+	column-count: 2;
+}
+.Personalization_show {
+	visibility: visible;
+}
+.Personalization_hide {
+	visibility: hidden;
+}
+.hide {
+	display: none !important;
+}
+.Header_inner_td {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.m_h {
+	display: none !important;
+}
+.ph60 {
+	padding-right: 10px !important;
+	padding-left: 10px !important;
+}
+.disclaimer {
+	padding-right: 20px !important;
+	padding-left: 20px !important;
+}
+.Social_Inner {
+	padding-right: 20px !important;
+	padding-left: 20px !important;
+}
+.social {
+	width: 35px;
+	height: 35px;
+}
+.ma {
+	margin: 0 auto !important;
+}
+span[class='logo-swapper'] {
+	display: inline-block;
+	background-image: url(http://static.cdn.responsys.net/i2/responsysimages/content/nas/E_75x61_Logo_Mobile_transparent.png) !important;
+	background-position: right !important;
+	background-repeat: no-repeat !important;
+	width: 75px;
+	height: 61px;
+}
+.banner_h1 {
+	font-size: 22px !important;
+}
+.hide-image {
+	display: none!important;
+	width: 0px!important;
+	height: 0px!important;
+	overflow: hidden!important;
+	line-height: 0px!important;
+	font-size: 0px!important;
+}
+.show-image {
+	display: block!important;
+	max-height: none !important;
+	max-width: none !important;
+	line-height: 1.5 !important;
+	width: 100%!important;
+	height: auto!important;
+}
+.banner_line-height {
+	line-height: 50px !important;
+	font-size: 25px !important;
+}
+.button-cta, .button-cta * {
+	display: block;
+	width: auto;
+}
+.disclaimer {
+	padding: 20px 20px 10px 40px;
+}
+img[class="swap-logo"] {
+	display: none !important;
+}
+td[class="logo-swap-shrink"] {
+	width: 75px !important;
+}
+.two-column .column, {
+max-width: 100% !important;
+}
+.two-column img {
+	max-width: 100% !important;
+}
+.full-width {
+	width: 100%;
+}
+.full-width-left {
+	width: 100%;
+	text-align: left !important;
+}
+}
+
+@media (min-width: 489px) {
+.show-image {
+	display: none!important;
+	width: 0px!important;
+	height: 0px!important;
+	overflow: hidden!important;
+	line-height: 0px!important;
+	font-size: 0px!important;
+}
+.hide-image {
+	display: block!important;
+	max-height: none !important;
+	max-width: none !important;
+	line-height: 1.5 !important;
+	width: 100%!important;
+	height: auto!important;
+}
+.nextflight {
+	text-align: left;
+	float: right;
+}
+.show-for-outlook-banner {
+	display: block !important;
+	mso-hide: none !important;
+}
+}
 </style>
-    <!--[if (gte mso 9)|(IE)]>
+  <!-- enable MQ for Windows phones start -->
+  <style type="text/css">
+@media only screen and (max-width:480px) {
+  @-ms-viewport { width:320px; }
+  @viewport { width:320px; }
+}
+</style>
+  <!-- enable MQ for Windows phones end -->
+  <!--[if (gte mso 9)|(IE)]>
     <style type="text/css">
-        table {border-collapse: collapse !important; padding: 0 !important; margin: 0 !important;}
+        table {border-collapse: collapse !important; padding: 0 !important; margin: 0 !important;}.nextflight {text-align: right !important;float:right;}
     </style>
     <![endif]-->
-    <!--[if gte mso 9]><xml>
+  <style type="text/css">
+		[owa] .nextflight {text-align: right !important;float: right;}
+  </style>
+  <!--[if gte mso 9]><xml>
  <o:OfficeDocumentSettings>
   <o:AllowPNG/>
   <o:PixelsPerInch>96</o:PixelsPerInch>
  </o:OfficeDocumentSettings>
 </xml><![endif]-->
+  <#assign RETINA_IMAGE = '640x320'>
     <#assign PRICELIST_DISCLAIMER=[]>
 <#assign PROMOLIST_DISCLAIMER=[]>
 
@@ -135,7 +389,7 @@ html {
             <tr>
               <td align="right" class="Header_outer_td" style="box-sizing:inherit;border-style:none;font-family:Arial, Helvetica, Sans-serif;background-color:transparent;padding-top:0;padding-bottom:3px;padding-right:0;padding-left:0;line-height:0;font-size:0;mso-line-height-rule:exactly;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100% !important;" ><table cellpadding="0" cellspacing="0" width="100%"  border="0" style="box-sizing:inherit;border-spacing:0;font-family:Arial, Helvetica, Sans-serif;color:#003d50;mso-table-lspace:0pt;mso-table-rspace:0pt;border-style:none;min-width:100% !important;" >
                   <tr>
-                    <td align="right" class="Header_inner_td" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-left:0;border-style:none;font-family:Arial, Helvetica, Sans-serif;background-color:#D81939;mso-padding-alt:0 20px 0 20px;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;" ><a href="${clickthrough('HEADER_LOGO', "URL="+LOGO_URL)}" title="${LOGO_TEXT}" class="Logo_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:none;font-size:24px;color:white;mso-line-height-rule:exactly;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" ><span class="logo-swapper"><img class="swap-logo" width="173" height="71" src="http://static.cdn.responsys.net/i2/responsysimages/nas/contentlibrary/!framework/emailcampaign/template/images/logo.jpg"  alt="${LOGO_TEXT}" style="box-sizing:inherit;border-style:none;-ms-interpolation-mode:bicubic;" /> </span></a></td>
+                    <td align="right" class="Header_inner_td" style="box-sizing:inherit;padding-top:0;padding-bottom:0;padding-left:0;border-style:none;font-family:Arial, Helvetica, Sans-serif;background-color:#D81939;mso-padding-alt:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;" ><a href="${clickthrough('HEADER_LOGO', "URL="+LOGO_URL)}" title="${LOGO_TEXT}" class="Logo_Link" style="box-sizing:inherit;font-family:Arial, Helvetica, Sans-serif;text-decoration:none;font-size:24px;color:white;mso-line-height-rule:exactly;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" ><span class="logo-swapper"><img class="swap-logo" width="173" height="71" src="http://static.cdn.responsys.net/i2/responsysimages/nas/contentlibrary/!framework/emailcampaign/template/images/logo.jpg"  alt="${LOGO_TEXT}" style="box-sizing:inherit;border-style:none;-ms-interpolation-mode:bicubic;" /> </span></a></td>
                   </tr>
                 </table></td>
             </tr>
