@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://www.norwegian.com/style-bundle/cms-brand.css">
+<style>
+.top-header {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+li {
+	margin-bottom: 10px;
+}
+.wrapper-div {
+	display: inline-flex;
+	width: 100%;
+}
+.left-div {
+	width: 33%;
+	float: left;
+	text-decoration: none;
+	margin: 0 20px 0 0;
+	text-align: right;
+}
+.center-div {
+	background: url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif) center center no-repeat;
+	background-color: white;
+}
+.center-div, iframe {
+	width: 640px;
+	height: 800px;
+}
+.right-div {
+	width: 33%;
+	float: right;
+	margin: 0 20px 0 20px;
+}
+.descriptions {
+	display: none;
+}
+.default {
+	display: block;
+}
+
+<!--TABLE STYLE-->
+
+.table-guide {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-guide td, .table-guide th {
+    border: 1px solid #ddd;
+    padding: 8px;
+	vertical-align:top;
+	font-size: 14px;
+}
+
+.table-guide-first{
+	text-align:center;
+	}
+
+.table-guide tr:nth-child(even){background-color: #f2f2f2;}
+
+.table-guide th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #003d50;
+    color: white;
+}
+
+.th-width{
+	width: 110px;
+	}
+.inside-table, td.inside-table-first {
+	border: 0;
+    padding: 0px 5px 0px 0px;
+    vertical-align: top;
+    border-right: 1px solid #ddd;
+}
+
+.inside-table, td.inside-table-second{
+	border: 0;
+    padding: 0px 0px 0px 5px;
+    vertical-align: top;
+	}
+</style>
+<title>Module Guide</title>
+</head>
+
+<body>
+<div class="top-header">
+<a href="${form('module_guide')}" target="_blank">View in browser</a>
+</div>
+<div class="wrapper-div">
+  <div class="left-div">
+    <h1 class="left">Module</h1>
+    <ul>
+    <li class="list-mod" id="article"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGutAzfva6zbyvJGzerza4zgLWzfszbAzggzesgzeizczeTzbbK9I0HBBmuidRAs1CnnVXMtX%3DYQpglLjHJlTQGutAzfva6zbyvJGzerza4zgLWzfshNY8zfGvwbdvbLzaTmLT4StqlpWzfzeIYsMOVXyjLNpLOfhKLX%3DrhoHggHQrHlptHxIlpglLjgLlQJhu&_ei_=EqWMGK5Lp1u_gXeJFlcTtfuUkNlZFobJsYSgYPYKKUkYxXP2pxpIQd8cX3MJvBbp_obfXqippIMZLKjjH4nOqwmCy3YSa3z90KTroEE0J3wxaORT_ZKbBBo3RJ2Opcu0pIMMHIwiDlEYfX9PSrxTngwYbLMRkdyQh7rJANO3NANif2GQIK7PCYqme6TU0as-5AbwXWUDexRg-cVitgGcgAuLLVO0ABM0bsHmMeS08SUTmwQHZdM4yfKZwlXI9cJBYtchsl3bU1hbN35LadO_Y0qNZf1jKdtfwXR_.">ARTICLE</a></li>
+    <li class="list-mod" id="article-large"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGgNzgp7O1kKA3dvrE3IBG1LR3k9zbJ9lUezdvX4Azc02Nu1zbrTnjTtJaHRVXMtX%3DYQpglLjHJlTQGgNzgp7O1kKA3dvrE3IBG1LTCqzcBFBzfMUwIkn9IbOo3vzfh2PuAAaaJnVXyjLNpLOfhKLX%3DLjpJImjjPWYWxnuHptQJhu&_ei_=EnQzc83vXh3YuZPVjr6AtH_tMAKSPuovKgXcvSjtKTp-Wl5mjO53wsWlMAiyV-HE_OEt88R-LG-HDWUuOMhvojcBpMr4WCP1qQh3k0XD0aA4LtqgstsV_raUsVZQBKor-4e1MjM2MeYpHp4CmbuFUxfignhTjXDJ0Pg5_wS1ggMBLgai1C39BBo02BCmDS8-dl2Je9xX3jcqBLXaa7PbB9maFSC0B-WoJjv5P9Ajibcnj-td_7sNaALawqtKR8ofYas">ARTICLE LARGE</a></li>
+  	<li class="list-mod" id="banner"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGmqkzbNS0MTuHa4vzfHPI8a8y2Rhvf0zfqO1NhCzem4zbHSDfnpWnl6gMWfVXMtX%3DYQpglLjHJlTQGmqkzbNS0MTuHa4vzfHPI8a8wvHCs5iAwX0SezcayqDNJ20bWgHawMteOVXyjLNpLOfhKLX%3DILJskXJhmjlgLPxohluHptQJhu&_ei_=Enbm-X_swrJhzZO46TZRuZvGh-LW7L3jiwqCHpQnvKg6echjIV0RCSzbh7ot4w-GSmxWeTT4NVbdWV8xhB-Pyzoo9DMraPi7b5FtaxgE1WjvAq1deyMQE3fo1f0aEIIPDNA_jsf0H30K4LlAa1KS157iAmAjwi2V2P0Fbi5Y2o9if-YO8N4HO-X_BTZ49Oq7YGfljcCeBFvS3-04Ji3-Riw45gskmYSX-Qc7YO9bFUZyxLNcqfk_XSWCN3Sjgv8YkPRqd3mD0KC4U3W6mcl3uw.">BANNER</a></li>
+    <li class="list-mod" id="bulletpoints"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGllaqUkWLoUvTLoAO1E4urDFFjzedaNbNpnnzczaGBqDJ6dl0FH5hJ11RVXyjLNpLOfhKLX%3DJLJptuHJxksPQJhuVXMtX%3DYQpglLjHJlTQGllaqUkWLoUvTLoAO1E4urDk5XpOPMUOvF1uT4dSbm2oR4uYdt6zeAn&_ei_=EmTUOwa1ULmLxlBKi7CTndDPi_Now9pcoU7EwmFMceFH4aZVpdf0k3rh7AUuA0j4-SpGYROtWVTSkJzOqzCd9J3tyJgMNFILjv5IKfrIa96i12gWuPoS4REg4OIprDNt-L2nln8PVFtYgVDFbAs0r62xrsIigastzDk6enSKm_AZHkezwvbsq7igXK63MMfiKaEwWo5lZlvcmYHTQuLlIUdboejc1ZA7ZO5LpBwlocEmv1Z1oEKmCq-Rkusz8-NgMF4SPWi8lwSOMnayZlxv--m-pWqNJA9YHZ2VREA08xFLDCBUMNKzTwdVvsW3Cc3bgsA4b-zqC2OJdKHH67Iy7R5GEmqlOR6RDCA25i1qXTQmRepcqP86gX2dMx7OkhHGABRDH3TdrfcsLIqgqHm3fQd8sN8UBg2N6C8.">BULLETPOINTS</a></li>
+    <li class="list-mod" id="button"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGrTzdMfFUnzbMq4I0YLUszecHs85hzfgrIIPl5R9zgLEmeCL4HzdzfNAEUzg0RVXMtX%3DYQpglLjHJlTQGrTzdMfFUnzbMq4I0YLUszecHgyzbBzaJrzcIAoBvSiwDOjf8OI1TINzcfXFfVXyjLNpLOfhKLX%3DLtpkHtHttmssHxohluHptQJhu&_ei_=EvXfY4cuTwW8GXB6jIkzEjFF8dNfJ6n07yyBTfYDEJurwK6T6luKrnHa5isxiwtb6r_yfYLEK9bux31DrIxpvy5eUbpdW2r86Mjg1U9CiMS-i7OvzvY7jCfmk0od6kYb2GSgsP1aLw51HJOieqIitl9O7-vv_fc7PO8WbhWY1ZYEFq5ISorkfuLMe-X-Zk6FYwGdui7tXYHyy8iihVJtfXY3ym6HWsga-At_DP8YXDtitF3BSWAmG4RgEyKKMkxU9US_uxCCJxVXxV_A-kkKpvDe6w_O0Mq3-H23.">BUTTON</a></li>
+    <li class="list-mod" id="cars"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGrNmcgojjEYzcsUddKe6aAmaNFscY8FkIBdIGSo8zazdzaFrC9T0ewYDVXMtX%3DYQpglLjHJlTQGrNmcgojjEYzcsUddKe6aAmasEqbaiW7tSlsD1S4wkCicGO8jnCYbVXyjLNpLOfhKLX%3DKpjlPihiSDBDxohluHptQJhu&_ei_=EmTUOwa1ULmLxlBKi7CTndBtPzbp7nwq3iIHz8ATGozhb724S8GwmjbsDvoEW2uk1gOheJzpwzXIzfgyv4eVL5Vqe8y7Ggqauw8P9sGLh5VyZojPoOujeBSKOL5nBM5AUrkczbYHF2eIykx5-C8HSA_qtBxQyJJBpN7JRNbDwBq1b-4xTdUKLBIOJE8RvwXzVoIYxSU_JAQxzo8gVrCdrCAuOLqEx2KYX2kGRUGJ0Wf_x2_90LL9I8TpoFO0Z71BZWQXeo-8_a-oI6BklYfoIzF1_tP3Oyp6BDvNSZ0jVz1Vk1lwsQT9BSpXSbGc4-Kh-IyuZSUtMOUniawEby296ANHTfsV9X3EK9fmCMKDdIOHYywx835GGFsiN5Or82d5mh3e6r5xVSZJevX2VXgwwYF_Allf3oq4-zvnADkliGhOwZp9WsA.">CARS</a></li>
+    <li class="list-mod" id="hero"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGzbzdPUbpzbzayzaWkzdYCuRBzeMtdazcn5FpmDn5dLjU8rNNSp5WWBRgzdb97fVXMtX%3DYQpglLjHJlTQGzbzdPUbpzbzayzaWkzdYCuRBzeMtcTpYJ5wUpYrzazg0Fst21LIMBdnjzgc2UjfVXyjLNpLOfhKLX%3DHklmjupsLxnuHptQJhu&_ei_=EkkK-8tIqPGWftMSu_qyBgDEzrxxHI48YjyyDW7Rx-7EeLVxhcsSRdRI3Mc5eWfc4jCR_ooppN9pQkX_wb13Y8-k6FzXQyFJrqEk7-Mf5t66uXzzrC1fVJRbrFe5U87uVsP7W_91kuYGvw7TdOWMn_a79Rja8QGu163MM_4GIWidKZ0ox2BLy7lwQUYHBmMUl6ndlNn66kbK8DwgO5zslZmcfwi0rJyCYIPHiwEyjYccBgQ1zxtP2rV08Ioix2ixGVn7jsNzLegKmBsWuYtkKA1COyEX2IlXWw.">HERO</a></li>
+    <li class="list-mod" id="hotels"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGkdzd1n2HJ42zf61KPsRkDYgnFeS9whJ4YH3Yzdui6cJ09SzagMqH5lHcnVXMtX%3DYQpglLjHJlTQGkdzd1n2HJ42zf61KPsRkDYgoMldtg37zd8jFiBrEHoILOzdMvBFPhzd34OVXyjLNpLOfhKLX%3DklLioHgpLuLLspgnxnuHptQJhu&_ei_=EmTUOwa1ULmLxlBKi7CTndDqKqbftGepXYde91B10HBeor63rcQYo5vEDruq7lh7PDTNwwsYFXbphap207Z13lZOyEh7cWgCeOlQpkfPlXFic_aQHyBogpZxLbsShGleCgJpJkjYaN7vqGfZu10pE4zl109jAkQfuVDFdBC5V82qY4QwBShuxf9bMMXM_mJO_dBfk75SpqoJAjfvUISxPzNDdv9r1n6C2222FjX57cxK9cAmiR3umkAYnfQQSVmGYx-nM6f8nUECeFLW0kAyXqmVisJQNHsWV7L-DT7KYx0TB35Rj07oQ2gcRhfJ09ob8JvtdnUpbGjhA5MIgpYunUI4MmZiJsntoJH4uK66AbObD0xZVlmAhEBFeVOp5RYRNz5pNQGuIxwf55os9-7agOCIrS2fs63sBF--SCeODSgtVWfrrGhwXz39DzlgQY9R.">HOTELS</a></li>   
+    <li class="list-mod" id="personalization"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGjuvq8t5jied3wzceHhA76m0a7XNl2u76zdBzgAwqDzfpU6dizbwglpT2SOVXyjLNpLOfhKLX%3DHtLlHXnhjLLxPHohhQJhuVXMtX%3DYQpglLjHJlTQGjuvq8t5jied3wzceHhA76mzaNClzfJLB0RfkreJjRMsK76aTNKEUiDCf&_ei_=EmTUOwa1ULmLxlBKi7CTndDXfdMIt7vzkLYnZaZ8tuV7wMbKkuwJA3IzDCXOyCqWynMriLCrOVVDAc2NE_X9pmv1S-KaTNoWt9B2Shlebs9VEuIUOGlMWqGdrqQ7z1k88ign6To_s666sMx-LxWG2wP4C4_dV9ostNn86XN76iTnQaHEJvLEVKdfmZMaTQarb_NLNl682X3JTOW3p-JUVdqHiz1JPMhI0fth0QDh90TdiSK0EzNYWkV30tg7_fPct1krJmMgziO65ZvzgPAH2zGdfrGiZDy3kH3sU35jdIbkXdf7emcSm9sATtq3oS0NtHmqsNgnbJdnFbp7gr7_4_fBS4D2vUNjU41DIhvIEGOLqs0ix3h3rVYPQhLeOvxZ5sC7DHPmFXnUtIrMhHA9g3s86t5cK3JWgfcLyjo4ybc">PERSONALIZATION</a></li>
+      <li class="list-mod" id="pricelist"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGNzgFhn01LdM6Jo0HYdzcBgm52bnyqd89dFzeo8jPlMPl9mAHmogu5I6OVXyjLNpLOfhKLX%3DHkpmgpHTSSxhgLlQLmVXMtX%3DYQpglLjHJlTQGNzgFhn01LdM6Jo0HYdzcBgmzdATmzg2NDjzcLLzdRTUa8uA0RgzevTrgLIJn&_ei_=Eg7tQcx4RL9X3kogokES7ls2GOdg0lT2TPDRS_UBT6HCTDCavM_0JkzQH71F-qQ6ERe5nCXyQrd6xd-zlOB7CYGomjjtLfg0Xj_bV0oOpzkfVLuLlVYgtk6TfN2iajZxK9Ya_xPun6oHlsVVLs1GWLN7pcbj3pS89S1pYo56JjQYVvZeHBepA-0EsT-YusC75hBFPPkyjeT8h9DrXSFB0pL4AJPkOflYrK81t3JcMSGGyrMVV9VTmC5J2UwukFL9xc82.">PRICELIST & PROMOLIST</a></li>
+      <li class="list-mod" id="pricelist-manual"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGjnaoP8vfTBpOSfbnkXC3IJr4u4p3NzgzgBzeTIzdzcLazgXvDze8HIqq4sPOVXMtX%3DYQpglLjHJlTQGjnaoP8vfTBpOSfbnkXC3IKDzgXzaNDKPJ04kMv3IRXnOuaOLzaHRdMMfVXyjLNpLOfhKLX%3DJLtpHQjhkLxtpNLQJhQms&_ei_=Ev5s9ipnLy9QbcGdF-YDQa37Se86qFi_m-jWgZSj0WvGLmjrN0rTVJ3ZAD25CyxUos3zhinTYDjxPRC_NvX8nzV4uM214MKo1irfuAsooYCN-gn__ZFxQjykw_uPaqIFJUWUbOlEjB0Z5rDBjSELiih6nmK0GDwNTjwWu1ZDZ7HF7qSHMLXK59hWE1een3hCZ8e5FCDh-_TrocEYZLgb2xiFDQ0FdAQDIqmLJF2AddIyZt_B-9JAt8kItatNgJvSDQBJMyHAXBHrHe4.">MANUAL PRICELIST & MANUAL PROMOLIST </a></li>
+      <li class="list-mod" id="search"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGnSEzgIajGh8gMOkeaiMzfzbDB7LjPppAEzeRzae3l4siP8Lk1kb9Jo1SsfVXMtX%3DYQpglLjHJlTQGnSEzgIajGh8gMOkeaiMzfzbDYARdG1Yce5AtrayHvkoyPsiaBLNg3XzbnVXyjLNpLOfhKLX%3DJLJptuHJxksPQJhu&_ei_=EmTUOwa1ULmLxlBKi7CTndDPi_Now9pcoU7EwmFMceFH4aZVpdf0k3rh7AUuA0j4-SpGYROtWVTSkJzOqzCd9J3tyJgMNFILjv5IKfrIa96i12gWuPoS4REg4OIprDNt-L2nln8PVFtYgVDFbAs0r62xrsIigastzDk6enSKm_AZHkezwvbsq7igXK63MMfiKaEwWo5lZlvcmYHTQuLlIUdboejc1ZA7ZO5LpBwlocEmv1Z1oEKmCq-Rkusz8-NgMF4SPWi8lwSOMnayZlxv--m-pWqNJA9YHZ2VREA08xFLDCBUMNKzTwdVvsW3Cc3bgsA4b-zqC2OJdKHH67Iy7R5GEmqlOR6RDCA25i1qXTQmRepcqP86gX2dMx7OkhHGABRDH3TdrfcsLIqgqHm3fQd8sN8UBg2N6C8.">SEARCH</a></li>
+      <li class="list-mod" id="text"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGi09AmzcH0yPaIfoSYzcPqvzfsHzeP8tSItzbs2TwzcecytXDbzbzavpaNW5DnVXMtX%3DYQpglLjHJlTQGi09AmzcH0yPaIfoSYzcPqvzfgppAc8JGPeTBYvjHsKt015J0q6zezaPC2OVXyjLNpLOfhKLX%3DJLJptuHJxksPQJhu&_ei_=EmTUOwa1ULmLxlBKi7CTndDPi_Now9pcoU7EwmFMceFH4aZVpdf0k3rh7AUuA0j4-SpGYROtWVTSkJzOqzCd9J3tyJgMNFILjv5IKfrIa96i12gWuPoS4REg4OIprDNt-L2nln8PVFtYgVDFbAs0r62xrsIigastzDk6enSKm_AZHkezwvbsq7igXK63MMfiKaEwWo5lZlvcmYHTQuLlIUdboejc1ZA7ZO5LpBwlocEmv1Z1oEKmCq-Rkusz8-NgMF4SPWi8lwSOMnayZlxv--m-pWqNJA9YHZ2VREA08xFLDCBUMNKzTwdVvsW3Cc3bgsA4b-zqC2OJdKHH67Iy7R5GEmqlOR6RDCA25i1qXTQmRepcqP86gX2dMx7OkhHGABRDH3TdrfcsLIqgqHm3fQd8sN8UBg2N6C8.">TEXT</a></li>
+      <li class="list-mod" id="tripinfo"><a target="main-window" href="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGhsHHYLLzcMWipzaybaUKfze6yYfSRNJ2FLCJAT5zgh0O6eTu8pe35wqUOVXyjLNpLOfhKLX%3DJLJptuHJxksPQJhuVXMtX%3DYQpglLjHJlTQGhsHHYLLzcMWipzaybaUKfze6wdXLKPB7OzabUcI382ayN4q68zfihyIwLO&_ei_=EmTUOwa1ULmLxlBKi7CTndDPi_Now9pcoU7EwmFMceFH4aZVpdf0k3rh7AUuA0j4-SpGYROtWVTSkJzOqzCd9J3tyJgMNFILjv5IKfrIa96i12gWuPoS4REg4OIprDNt-L2nln8PVFtYgVDFbAs0r62xrsIigastzDk6enSKm_AZHkezwvbsq7igXK63MMfiKaEwWo5lZlvcmYHTQuLlIUdboejc1ZA7ZO5LpBwlocEmv1Z1oEKmCq-Rkusz8-NgMF4SPWi8lwSOMnayZlxv--m-pWqNJA9YHZ2VREA08xFLDCBUMNKzTwdVvsW3Cc3bgsA4b-zqC2OJdKHH67Iy7R5GEmqlOR6RDCA25i1qXTQmRepcqP86gX2dMx7OkhHGABRDH3TdrfcsLIqgqHm3fQd8sN8UBg2N6C8">TRIPINFO</a></li>
+      
+    </ul>
+  </div>
+  <div class="center-div">
+    <iframe name="main-window" id="iframe" src="https://air.norwegian.com/pub/sf/FormLink?_ri_=X0Gzc2X%3DYQpglLjHJlTQGutAzfva6zbyvJGzerza4zgLWzfszbAzggzesgzeizczeTzbbK9I0HBBmuidRAs1CnnVXMtX%3DYQpglLjHJlTQGutAzfva6zbyvJGzerza4zgLWzfshNY8zfGvwbdvbLzaTmLT4StqlpWzfzeIYsMOVXyjLNpLOfhKLX%3DrhoHggHQrHlptHxIlpglLjgLlQJhu&_ei_=EqWMGK5Lp1u_gXeJFlcTtfuUkNlZFobJsYSgYPYKKUkYxXP2pxpIQd8cX3MJvBbp_obfXqippIMZLKjjH4nOqwmCy3YSa3z90KTroEE0J3wxaORT_ZKbBBo3RJ2Opcu0pIMMHIwiDlEYfX9PSrxTngwYbLMRkdyQh7rJANO3NANif2GQIK7PCYqme6TU0as-5AbwXWUDexRg-cVitgGcgAuLLVO0ABM0bsHmMeS08SUTmwQHZdM4yfKZwlXI9cJBYtchsl3bU1hbN35LadO_Y0qNZf1jKdtfwXR_." frameBorder="0" style="border:1px solid #929292;"></iframe>
+    
+    
+    <!--LOADING MODULE TEXT-->
+    
+    <div class="loadingMessage descriptions default">Loading <strong>ARTICLE</strong> module...</div>
+  </div>
+  <div class="right-div">
+    
+    
+    <div class="descriptions default" name="article">
+      <h1 class="left">ARTICLE</h1>
+     <table class="table-guide" cellpadding="0" cellspacing="0" border="0">
+    <th>Variant</th>
+    <th class="th-width">Purpose</th>
+    <th>Field Info</th>
+  <tr>
+    <td class="table-guide-first">A</td>
+    <td>Use with image and bulletpoints</td>
+    <td><table class="inside-table" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="inside-table-first">ARTICLE_IMAGE</td>
+          <td class="inside-table-second">Any image 120px x 120px</td>
+        </tr>
+        
+        <tr>
+          <td class="inside-table-first">ARTICLE_BP_ICON</td>
+          <td class="inside-table-second">Any image 20px x 20px</td>
+        </tr>
+         <tr>
+          <td class="inside-table-first">ARTICLE_DIVIDER_TOP</td>
+          <td class="inside-table-second">Y = creates a horizontal line<br> S = creates a space</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td class="table-guide-first">B</td>
+    <td>Smaller image than variant A</td>
+    <td><table class="inside-table" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="inside-table-first">ARTICLE_IMAGE</td>
+          <td class="inside-table-second">Any image 50px x 50px</td>
+        </tr>
+        
+        <tr>
+          <td class="inside-table-first">ARTICLE_BP_ICON</td>
+          <td class="inside-table-second">Any image 20px x 20px</td>
+        </tr>
+         <tr>
+          <td class="inside-table-first">ARTICLE_DIVIDER_TOP</td>
+          <td class="inside-table-second">Y = creates a horizontal line<br> S = creates a space</td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div class="descriptions" name="article-large">
+      <h1 class="left">ARTICLE LARGE</h1>
+      <p>Article large description</p>
+    </div>
+     <div class="descriptions" name="banner">
+      <h1 class="left">BANNER</h1>
+      <p>BANNER description</p>
+    </div>
+    <div class="descriptions" name="bulletpoints">
+      <h1 class="left">BULLETPOINTS</h1>
+      <p>BULLETPOINTS description</p>
+    </div>
+     <div class="descriptions" name="button">
+      <h1 class="left">BUTTON</h1>
+      <p>BUTTON description</p>
+    </div>
+     <div class="descriptions" name="cars">
+      <h1 class="left">CARS</h1>
+      <p>CARS description</p>
+    </div>
+     <div class="descriptions" name="hero">
+      <h1 class="left">HERO</h1>
+      <p>This is the hero module</p>
+    </div>
+     <div class="descriptions" name="hotels">
+      <h1 class="left">HOTELS</h1>
+      <p>HOTELS description</p>
+    </div>
+     <div class="descriptions" name="personalization">
+      <h1 class="left">PERSONALIZATION</h1>
+      <p>PERSONALIZATION description</p>
+    </div>
+    <div class="descriptions" name="pricelist">
+      <h1 class="left">PRICELIST</h1>
+      <p>This is the hero module</p>
+    </div>
+    <div class="descriptions" name="pricelist-manual">
+      <h1 class="left">PRICELIST MANUAL</h1>
+      <p>This is the hero module</p>
+    </div>
+    <div class="descriptions" name="search">
+      <h1 class="left">SEARCH</h1>
+      <p>SEARCH text</p>
+    </div>
+     <div class="descriptions" name="text">
+      <h1 class="left">TEXT</h1>
+      <p>This is the hero module</p>
+    </div>
+     <div class="descriptions" name="tripinfo">
+      <h1 class="left">TRIPINFO</h1>
+      <p>tripinfo description</p>
+    </div>
+    
+  </div>
+</div>
+</body>
+<script>
+$(document).ready(function() {
+
+$("li.list-mod").click(function(){
+	//hide the default
+	$("div.default").hide();
+	//get id of li link, hide all description divs, show the one last clicked, show the loading text
+	var getid = $(this).attr('id');
+	console.log(getid);
+	$('div.descriptions').hide();
+	$('div.descriptions[name="'+getid+'"]').show();
+	//change loading message
+	var upper_get = getid.toUpperCase();
+	$('div.loadingMessage').show().html("Loading <strong>" +upper_get+ "</strong> module...")
+	});
+	
+	//hide loading message after loaded
+	$('#iframe').load(function () {
+    $('div.loadingMessage').hide();
+	});
+
+});
+
+</script>
+</html>
