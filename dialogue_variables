@@ -464,14 +464,16 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- //////////////////////// AIRPORTS SUP TABLE (1) ///////////////////////////////////////////////-->
 <#data AIRPORTS as AIRPORTS limit=1>
-<#filter AIRPORTCODE_IATA = DESTINATION_IATA LANGUAGECODE = AIRPORT_LANG?upper_case?trim><#fields CITY_DESTINATION_ID DISPLAYNAME CITY LONG_HAUL_HUB COUNTRYCODE AIRPORTCODE_IATA AIRPORTNAME FASTTRACK COUNTRY>
+<#filter AIRPORTCODE_IATA = DESTINATION_IATA LANGUAGECODE = AIRPORT_LANG?upper_case?trim><#fields CITY_DESTINATION_ID DISPLAYNAME CITY LONG_HAUL_HUB COUNTRYCODE AIRPORTCODE_IATA AIRPORTNAME FASTTRACK COUNTRY PRI_BOARD_ACTIVE_DATE SCHENGEN_YN DISPLAYNAME_UNIFORM>
 <#-- DESTINATION_ID --><#if !AIRPORTS.CITY_DESTINATION_ID?isnull><#global DESTINATION_ID = AIRPORTS.CITY_DESTINATION_ID?c?trim><#else><#global DESTINATION_ID = 0000></#if>
 
 <#-- DESTINATION_DISPLAY_NAME --><#if !AIRPORTS.DISPLAYNAME?isnull><#global DESTINATION_DISPLAY_NAME = AIRPORTS.DISPLAYNAME?trim><#else><#global DESTINATION_DISPLAY_NAME = ""></#if>
 
 <#-- DESTINATION_AIRPORT_NAME --><#if !AIRPORTS.AIRPORTNAME?isnull><#global DESTINATION_AIRPORT_NAME = AIRPORTS.AIRPORTNAME?trim><#else><#global DESTINATION_AIRPORT_NAME = ""></#if>
 
-<#-- DESTINATION_NAME --><#if !AIRPORTS.CITY?isnull><#global DESTINATION_NAME = AIRPORTS.CITY?trim><#elseif !AIRPORTS.DISPLAYNAME?isnull><#global DESTINATION_NAME = AIRPORTS.DISPLAYNAME?trim><#else><#global DESTINATION_NAME = ""></#if>
+<#-- DESTINATION_NAME 
+JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
+--><#if !AIRPORTS.CITY?isnull><#global DESTINATION_NAME = AIRPORTS.CITY?trim><#elseif !AIRPORTS.DISPLAYNAME?isnull><#global DESTINATION_NAME = AIRPORTS.DISPLAYNAME?trim><#else><#global DESTINATION_NAME = AIRPORTS.DISPLAYNAME_UNIFORM?trim></#if>
 
 <#-- FAST_TRACK_AIRPORTS_RETURN --><#if !AIRPORTS.FASTTRACK?isnull><#global FAST_TRACK_AIRPORTS_RETURN = AIRPORTS.FASTTRACK?trim><#else><#global FAST_TRACK_AIRPORTS_RETURN = "N"></#if>
 
@@ -503,14 +505,22 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- DESTINATION_US -->
 <#if AIRPORTS.COUNTRYCODE == "US"><#global DESTINATION_US = "Y"><#else><#global DESTINATION_US = "N"></#if>
 
+<#-- DESTINATION_SCHENGEN --><#if AIRPORTS.SCHENGEN_YN?isnull><#global DESTINATION_SCHENGEN = "N"><#elseif AIRPORTS.SCHENGEN_YN == "Y"><#global DESTINATION_SCHENGEN = "Y"><#else><#global DESTINATION_SCHENGEN = "N"></#if>
+
+<#-- PRIORITY_BOARDING_AVAILABLE_RETURN_DATE <#global PRIORITY_BOARDING_AVAILABLE_DATE = AIRPORTS.PRI_BOARD_ACTIVE_DATE?date?string("yyyy-MM-dd")>-->
+
+<#-- PRIORITY_BOARDING_AVAILABLE_RETURN <#if AIRPORTS.PRI_BOARD_ACTIVE_DATE?isnull><#global PRIORITY_BOARDING_AVAILABLE_RETURN = "N"><#elseif DEPARTURE_DATE_FULL gt AIRPORTS.PRI_BOARD_ACTIVE_DATE?datetime><#global PRIORITY_BOARDING_AVAILABLE_RETURN = "Y"><#else><#global PRIORITY_BOARDING_AVAILABLE_RETURN = "N"></#if>-->
+
 </#data>
 
 
 
 <#-- //////////////////////// AIRPORTS SUP TABLE (2) ///////////////////////////////////////////////-->
 <#data AIRPORTS as AIRPORTS_DEP limit=1>
-<#filter AIRPORTCODE_IATA = DEPARTURE_IATA LANGUAGECODE = AIRPORT_LANG?exec?trim><#fields CITY DISPLAYNAME AIRPORTNAME FASTTRACK>
-<#-- FROM_DEP --><#if !AIRPORTS_DEP.CITY?isnull><#global FROM_DEP = AIRPORTS_DEP.CITY><#else><#global FROM_DEP = ""></#if>
+<#filter AIRPORTCODE_IATA = DEPARTURE_IATA LANGUAGECODE = AIRPORT_LANG?exec?trim><#fields CITY DISPLAYNAME AIRPORTCODE_IATA AIRPORTNAME FASTTRACK PRI_BOARD_ACTIVE_DATE SCHENGEN_YN DISPLAYNAME_UNIFORM>
+<#-- FROM_IATA --><#global FROM_IATA = AIRPORTS_DEP.AIRPORTCODE_IATA>
+<#-- Special rule for some IATAs --><#include "cms://contentlibrary/!framework/global_variables/inclusion_files/citynames_dialogues.htm">
+<#-- FROM_DEP if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM JM--><#if !AIRPORTS_DEP.CITY?isnull><#global FROM_DEP = AIRPORTS_DEP.CITY><#elseif !AIRPORTS_DEP.DISPLAYNAME?isnull><#global FROM_DEP = AIRPORTS_DEP.DISPLAYNAME?trim><#else><#global FROM_DEP = AIRPORTS_DEP.DISPLAYNAME_UNIFORM?trim></#if>
 
 <#-- DEPARTURE_DISPLAY_NAME --><#if !AIRPORTS_DEP.DISPLAYNAME?isnull><#global DEPARTURE_DISPLAY_NAME = AIRPORTS_DEP.DISPLAYNAME?trim></#if>
 
@@ -518,14 +528,20 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- FAST_TRACK_AIRPORTS --><#if !AIRPORTS_DEP.FASTTRACK?isnull><#global FAST_TRACK_AIRPORTS = AIRPORTS_DEP.FASTTRACK?trim><#else><#global FAST_TRACK_AIRPORTS = "N"></#if>
 
+<#-- DEPARTURE_SCHENGEN --><#if AIRPORTS_DEP.SCHENGEN_YN?isnull><#global DEPARTURE_SCHENGEN = "N"><#elseif AIRPORTS_DEP.SCHENGEN_YN == "Y"><#global DEPARTURE_SCHENGEN = "Y"><#else><#global DEPARTURE_SCHENGEN = "N"></#if>
+
+<#-- PRIORITY_BOARDING_AVAILABLE_DATE --><#if !AIRPORTS_DEP.PRI_BOARD_ACTIVE_DATE?isnull><#global PRIORITY_BOARDING_AVAILABLE_DATE = AIRPORTS_DEP.PRI_BOARD_ACTIVE_DATE?date?string("yyyy-MM-dd")></#if>
+
+<#-- PRIORITY_BOARDING_AVAILABLE --><#if AIRPORTS_DEP.PRI_BOARD_ACTIVE_DATE?isnull><#global PRIORITY_BOARDING_AVAILABLE = "N"><#elseif .now gt AIRPORTS_DEP.PRI_BOARD_ACTIVE_DATE?datetime><#global PRIORITY_BOARDING_AVAILABLE = "Y"><#else><#global PRIORITY_BOARDING_AVAILABLE = "N"></#if>
+
 </#data>
 
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
 
 <#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB">
     <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2_log.txt"></#global>
-    <#elseif campaign.name == "E_SH_6DB">
-    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2_log.txt"></#global>
+    <#--<#elseif campaign.name == "E_SH_6DB">
+    <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2.txt"></#global>-->
 <#else>
     <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/assignments_nas_api.txt"></#global>
 </#if>
