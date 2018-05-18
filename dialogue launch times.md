@@ -26,6 +26,7 @@ E_SH_3DB_CHASER	1:30 PM
 
 
 LONGHAUL
+
 | Dialogue name  | Time sent out |
 | ------------- | ------------- |
 | E_LHP_1DA  | 1:30 PM  |
@@ -37,14 +38,14 @@ LONGHAUL
 | E_LHP_9DB  | 1:00 PM  |
 | E_LHP_12DB  | 1:00 PM  |
 | E_LHP_12DB_CHASER  | 1:00 PM  |
-| E_LHP_2DA  | Content Cell  |
+| E_LHP_2DA  | 1:00 PM  |
 | E_LHP_12DB_CHASER  | 1:00 PM  |
-| E_LHP_2DA  | Content Cell  |
+| E_LHP_2DA  | 1:00 PM  |
 | E_LHP_12DB_CHASER  | 1:00 PM  |
-| E_LHP_2DA  | Content Cell  |
+| E_LHP_2DA  | 1:00 PM |
 | E_LHP_12DB_CHASER  | 1:00 PM  |
-| E_LHP_2DA  | Content Cell  |
+| E_LHP_2DA  | 1:00 PM  |
 | E_LHP_12DB_CHASER  | 1:00 PM  |
-| E_LHP_2DA  | Content Cell  |
+| E_LHP_2DA  | 1:00 PM  |
 | E_LHP_12DB_CHASER  | 1:00 PM  |
-| E_LHP_2DA  | Content Cell  |
+| E_LHP_2DA  | 1:00 PM  |
