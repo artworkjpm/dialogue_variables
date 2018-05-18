@@ -203,7 +203,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- ///////////////////////////////////////////////////////////////////////////// SQL_GLOBAL SQL TABLE - Not LEG dependent information ////////////////////////////////////////////////////////////////////////////// -->
 
 <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID>
-<#fields BOOKING_DATE LEG_ID FIRST_LEG_YN BOOKING_NUMBER_OF_ADULTS BOOKING_NUMBER_OF_CHILDREN BOOKING_NUMBER_OF_INFANTS BOOKING_DEPARTURE_TIME BOOKING_RETURN_DEPARTURE_TIME1 BOOKING_START_AIRPORT BK_SOLD_IN_CURRENCY BOOKING_DEPARTURE_TIME BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP BK_NO_OF_NOT_PREMIUM_ON_LH BOOKING_LONGHAUL BOOKING_NUMBER_OF_BAGS BOOKING_NUMBER_OF_SEATS FAST_TRACK_FLAG BK_NUMBER_OF_ADULTS_INFANTS WIFI_YN BOOKING_HAS_EVERYTHING PRODUCT_CODE BOOKING_HOTEL BOOKING_ROUTE_AREA BOOKING_START_COUNTRY_CD BOOKING_RENTALCAR BOOKING_NUMBER_OF_LEGS LAST_LEG_YN LEG_NUMBER MAIN_DESTINATION BK_NO_OF_APIS_NOT_SATISFIED BOOKING_NUMBER_OF_MEALS HORIZON_TYPE LEG_DEPARTURE_TIME LEG_ARRIVAL_DATE ORIGIN_LEG DESTINATION_LEG MOBILE_OS BOOKING_LOCALBOOKINGID BOOKING_GDSBOOKINGID PASSENGER_NAME VERSION_PLANNED>
+<#fields BOOKING_DATE LEG_ID FIRST_LEG_YN BOOKING_NUMBER_OF_ADULTS BOOKING_NUMBER_OF_CHILDREN BOOKING_NUMBER_OF_INFANTS BOOKING_DEPARTURE_TIME BOOKING_RETURN_DEPARTURE_TIME1 BOOKING_START_AIRPORT BK_SOLD_IN_CURRENCY BOOKING_DEPARTURE_TIME BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP BK_NO_OF_NOT_PREMIUM_ON_LH BOOKING_LONGHAUL BOOKING_NUMBER_OF_BAGS BOOKING_NUMBER_OF_SEATS FAST_TRACK_FLAG BK_NUMBER_OF_ADULTS_INFANTS WIFI_YN BOOKING_HAS_EVERYTHING PRODUCT_CODE BOOKING_HOTEL BOOKING_ROUTE_AREA BOOKING_START_COUNTRY_CD BOOKING_RENTALCAR BOOKING_NUMBER_OF_LEGS LAST_LEG_YN LEG_NUMBER MAIN_DESTINATION BK_NO_OF_APIS_NOT_SATISFIED BOOKING_NUMBER_OF_MEALS HORIZON_TYPE LEG_DEPARTURE_TIME LEG_ARRIVAL_DATE ORIGIN_LEG DESTINATION_LEG MOBILE_OS BOOKING_LOCALBOOKINGID BOOKING_GDSBOOKINGID PASSENGER_NAME VERSION_PLANNED TRANSIT>
 
 <#-- DESTINATION_IATA --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim><#else><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim></#if>
 
@@ -215,6 +215,10 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- ONEWAY_YN --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP?isnull><#global ONEWAY_YN = "0"><#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP = "Y"><#global ONEWAY_YN = "0"><#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP = "N"><#global ONEWAY_YN = "1"><#else><#global ONEWAY_YN = "0"></#if>
 
 <#-- DEPARTURE_IATA --><#if SQL_GLOBAL.BOOKING_START_AIRPORT?isnull><#global DEPARTURE_IATA = ""><#else><#global DEPARTURE_IATA = SQL_GLOBAL.BOOKING_START_AIRPORT?trim></#if>
+
+<#-- HAS_TRANSIT checks if booking has transit stop Y or N.
+TRANSIT_NUMBER prints out the number of transits-->
+<#if SQL_GLOBAL.TRANSIT?isnull><#global HAS_TRANSIT = "N"><#global TRANSIT_NUMBER = 0><#elseif SQL_GLOBAL.TRANSIT?number gt 0><#global HAS_TRANSIT = "Y"><#global TRANSIT_NUMBER = SQL_GLOBAL.TRANSIT><#else><#global HAS_TRANSIT = "N"><#global TRANSIT_NUMBER = 0></#if>
 
 <#-- FAST_TRACK_FLAG --><#if SQL_GLOBAL.FAST_TRACK_FLAG?isnull><#global FAST_TRACK_FLAG ="N"><#else><#global FAST_TRACK_FLAG = SQL_GLOBAL.FAST_TRACK_FLAG></#if>
 
@@ -375,7 +379,12 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- APIS_SATISFIED --><#if SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?isnull><#global APIS_SATISFIED = "N"><#elseif SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?number gt 0 && DESTINATION_COUNTRY_CODE?trim?upper_case == "US"><#global APIS_SATISFIED = "Y"><#else><#global APIS_SATISFIED = "N"></#if>
 
-<#-- PREMIUM_YES --><#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global PREMIUM_YES = "N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="N"><#else><#global PREMIUM_YES ="Y"></#if>
+
+
+<#-- PREMIUM_YES I changed the code to be else N, only Premium is Y if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0 && LONG_HAUL?trim == "Y" 17/05/18 jm --><#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global PREMIUM_YES = "N">
+<#elseif LONG_HAUL?trim == "N"><#global PREMIUM_YES ="N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="Y"><#else><#global PREMIUM_YES ="N"></#if>
+
+<#-- PREMIUM_YES OLD CODE JM <#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global PREMIUM_YES = "N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="N"><#else><#global PREMIUM_YES ="Y"></#if>-->
 
 <#-- MEAL_ORDERED --><#if PREMIUM_YES == "Y"><#global MEAL_ORDERED = "Y"><#elseif HAS_FLEX == "Y"><#global MEAL_ORDERED = "Y"><#else><#if ANCILLARY_ALL?isnull || ANCILLARY_ALL == "N"><#if TESTING_BOOKING_NUMBER_OF_MEALS?isnull><#global MEAL_ORDERED = "N"><#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number gt 0><#global MEAL_ORDERED = "Y"><#else><#global MEAL_ORDERED = "N"></#if></#if></#if>
 
@@ -555,6 +564,8 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#global UNSUBSCRIBE_VAR = "${form('AbandonOptOut', 'LANGUAGEID', 'MARKET', 'EMAIL_ADDRESS_', 'CONTACT.RIID_','PERSONID')}">
 </#if>
 
+<#--DEEPLINK_PRIORITY_BOARDING--><#if HAVE_PRIORITY_BOARDING == "N"><#if MARKET == "NO"><#global DEEPLINK_PRIORITY_BOARDING = "https://www.norwegian.no/start/priorityboarding/sale?pnr=" +BOOKING_ID +"&pnrLocal=" + LOCAL_BOOKING_ID><#elseif MARKET == "ROW"><#global DEEPLINK_PRIORITY_BOARDING = "https://www.norwegian.com/en/start/priorityboarding/sale?pnr=" +BOOKING_ID +"&pnrLocal=" + LOCAL_BOOKING_ID><#else><#global DEEPLINK_PRIORITY_BOARDING = "https://www.norwegian.com/" + MARKET?lower_case + "/start/priorityboarding/sale?pnr=" +BOOKING_ID +"&pnrLocal=" + LOCAL_BOOKING_ID></#if><#else><#global DEEPLINK_PRIORITY_BOARDING = MY_TRAVELS></#if>
+
 <#-- FAST_TRACK_AIRPORTS <#join><#compress><#switch DEPARTURE_IATA?upper_case?trim>
 <#case "OSL"><#global FAST_TRACK_AIRPORTS = "Y" ><#break>
 <#case "ARN"><#global FAST_TRACK_AIRPORTS = "Y" ><#break>
@@ -713,37 +724,6 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 </#switch></#compress></#join>
 
 
-<#-- SETTINGS_FOOTER <#join><#compress><#switch MARKET>
-<#case "NO"><#global SETTINGS_FOOTER ="https://www.norwegian.no/ssl/mine-reiser/"><#break>
-<#case "SE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/se/mina-resor/"><#break>
-<#case "DK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/dk/mine-rejser/"><#break>
-<#case "FR"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/fr/mes-voyages/"><#break>
-<#case "NL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/nl/my-travels/"><#break>
-<#case "IT"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/it/i-miei-viaggi/"><#break>
-<#case "FI"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/fi/minun-matkani/"><#break>
-<#case "DE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/de/meine-reisen/"><#break>
-<#case "US"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/us/my-travels/"><#break>
-<#case "IE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/ie/my-travels/"><#break>
-<#case "SG"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/sg/my-travels/"><#break>
-<#case "UK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/uk/my-travels/"><#break>
-<#case "ES"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/es/mis-viajes/"><#break>
-<#case "PL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/pl/moje-podroze/"><#break>
-<#case "ROW"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/"><#break>
-<#default><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/">
-</#switch></#compress></#join>-->
-
-<#-- SETTINGS_FOOTER (new) -->
-<#if NAS_PROFILE_YN == "Y">
-    <#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/edit">
-    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/edit">
-    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/edit">
-    </#if>
-<#else><#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/create">
-    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/create">
-    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/create">
-    </#if>
-</#if>
-
 <#-- HOMEPAGE_FOOTER <#join><#compress><#switch MARKET>
 <#case "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#break>
 <#case "SE"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/se"><#break>
@@ -813,50 +793,18 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#default><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/">
 </#switch></#compress></#join>
 
-<#-- MY_PROFILE_URL <#join><#compress><#switch MARKET>
-<#case "NO"><#global MY_PROFILE_URL ="https://www.norwegian.no/ssl/mine-reiser/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "SE"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/se/mina-resor/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "DK"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/dk/mine-rejser/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "FR"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/fr/mes-voyages/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "NL"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/nl/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "IT"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/it/i-miei-viaggi/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "FI"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/fi/minun-matkani/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "DE"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/de/meine-reisen/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "US"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/us/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "IE"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/ie/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "SG"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/sg/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "UK"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/uk/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "ES"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/es/mis-viajes?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "PL"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/pl/moje-podroze/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#case "ROW"><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#break>
-<#default><#global MY_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID>
-</#switch></#compress></#join>-->
+<#-- MY_PROFILE_URL -->
 
-<#-- MY_PROFILE_URL (new) --><#global MY_PROFILE_URL = SETTINGS_FOOTER>
+<#if MARKET == "NO"><#global MY_PROFILE_URL = "https://www.norwegian.no/start/mytravels ">
+<#elseif MARKET == "ROW"><#global MY_PROFILE_URL = "https://www.norwegian.com/en/start/mytravels">
+<#else><#global MY_PROFILE_URL = "https://www.norwegian.com/" + MARKET?lower_case + "/start/mytravels"></#if>
 
 <#-- REWARD_01 --><#if REWARD_MEMBER == "N"><#global REWARD_01 = "0"><#elseif REWARD_MEMBER == "Y"><#global REWARD_01 = "1"><#else><#global REWARD_01 = "0"></#if>
 
-<#-- CREATE_PROFILE_URL <#join><#compress><#switch MARKET>
-<#case "NO"><#global CREATE_PROFILE_URL ="https://www.norwegian.no/ssl/mine-reiser/#/profile/create"><#break>
-<#case "SE"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/se/mina-resor/#/profile/create"><#break>
-<#case "DK"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/dk/mine-rejser/#/profile/create"><#break>
-<#case "FR"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/fr/mes-voyages/#/profile/create"><#break>
-<#case "NL"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/nl/my-travels/#/profile/create"><#break>
-<#case "IT"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/it/i-miei-viaggi/#/profile/create"><#break>
-<#case "FI"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/fi/minun-matkani/#/profile/create"><#break>
-<#case "DE"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/de/meine-reisen/#/profile/create"><#break>
-<#case "US"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/us/my-travels/#/profile/create"><#break>
-<#case "IE"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/ie/my-travels/#/profile/create"><#break>
-<#case "SG"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/sg/my-travels/#/profile/create"><#break>
-<#case "UK"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/uk/my-travels/#/profile/create"><#break>
-<#case "ES"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/es/mis-viajes/#/profile/create"><#break>
-<#case "PL"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/pl/moje-podroze/#/profile/create"><#break>
-<#case "ROW"><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/#/profile/create"><#break>
-<#default><#global CREATE_PROFILE_URL ="https://www.norwegian.com/ssl/en/my-travels/#/profile/create"><#break>
-</#switch></#compress></#join>-->
-
-<#-- CREATE_PROFILE_URL (new) --><#global CREATE_PROFILE_URL = SETTINGS_FOOTER>
-
+<#-- CREATE_PROFILE_URL -->
+<#if MARKET == "NO"><#global CREATE_PROFILE_URL = "https://www.norwegian.no/ipr/MyNorwegian#/profile/create">
+<#elseif MARKET == "ROW"><#global CREATE_PROFILE_URL = "https://www.norwegian.com/en/ipr/MyNorwegian#/profile/create">
+<#else><#global CREATE_PROFILE_URL = "https://www.norwegian.com/" + MARKET?lower_case + "/ipr/MyNorwegian#/profile/create"></#if>
 
 <#-- NL_UNSUBSCRIBE --><#global NL_UNSUBSCRIBE =form('CampaignOptOut', 'EMAIL_ADDRESS_', 'CONTACT.PERSONID')>
 
@@ -1032,6 +980,8 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#default><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
 </#switch></#compress></#join>
 
+
+
 <#-- PRICE_TO --><#global PRICE_TO = "Not in use">
 <#-- PRICE_FROM --><#global PRICE_FROM = "Not in use">
 <#-- PRIVACY_RULE --><#global PRIVACY_RULE = "Not in use">
@@ -1039,8 +989,10 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#-- SETTINGS --><#global SETTINGS = "Not in use">
 <#-- DEST_URL --><#global DEST_URL = "Not in use">
 
-
 <#-- Fast Track disclaimer text--> <#include "cms://contentlibrary/!framework/global_variables/fast_track_footer_text_dialogues.htm">
+
+<#-- PRIORITY BOARDING AIR_HAS_PB checks if the airport has PB or not and uses AIR_HAS_PB-->
+<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/pb_list.htm">
 
 <#-- <#include "cms://contentlibrary/!framework/global_variables/Test_SH_variables.htm">
 <a href="${DEEPLINK_ONLINE_CHECKIN?exec}" target ="_blank">DEEPLINK_ONLINE_CHECKIN</a>: ${DEEPLINK_ONLINE_CHECKIN?exec}<br>
@@ -1050,3 +1002,27 @@ DEPARTURE_DATE_RETURN: ${DEPARTURE_DATE_RETURN}<br>
 RETURN_DAY_CAR: ${RETURN_DAY_CAR}<br>
 LESS_24_RET: ${LESS_24_RET}<br>
 <a href="${DEEPLINK_BAG?exec}" target ="_blank">DEEPLINK_BAG: </a>: ${DEEPLINK_BAG?exec}<br> -->
+
+<#--TESTING PB VARIABLES <#if CONTACT.EMAIL == "emaildavyd@gmail.com" && campaign.name == "E_SH_RET_HOME">
+BOOKING_ID: ${BOOKING_ID}<br>
+LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}<br>
+EMAIL: ${CONTACT.EMAIL}<br>
+<hr>
+HAS_FLEX: ${HAS_FLEX}<br>
+LONG_HAUL: ${LONG_HAUL}<br>
+PREMIUM_YES: ${PREMIUM_YES}<br>
+<hr>
+HAVE_PRIORITY_BOARDING: ${HAVE_PRIORITY_BOARDING}<br>
+lets see if HAS_PB is different
+HAS_PB: ${HAS_PB}<br>
+AIR_HAS_PB: ${AIR_HAS_PB}<br>
+<hr>
+MARKET: ${MARKET}<br>
+ONEWAY_YN: ${ONEWAY_YN}<br>
+TRANSIT_NUMBER: ${TRANSIT_NUMBER}<br>
+HAS_TRANSIT: ${HAS_TRANSIT}<br>
+DEPARTURE_IATA: ${DEPARTURE_IATA}<br>
+<var>(TRANSFER_IATA uses dialogue_variables with limit =1)</var> TRANSFER_IATA: ${TRANSFER_IATA}<br>
+<var>(TRANSFER_IATA_LEG1 only uses the first leg destination)</var><strong>TRANSFER_IATA_LEG1: ${TRANSFER_IATA_LEG1}</strong><br>
+DESTINATION_IATA: ${DESTINATION_IATA}<br>
+</#if>-->
