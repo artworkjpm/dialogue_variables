@@ -23,7 +23,6 @@ SHORTHAUL PROGRAM
 | ---- | ---- |
 | E_SH_2DA  | 1:20 PM  |
 | E_SH_1DB | 1:30 PM
-| E_SH_1DB  | 1:30 PM  |
 | E_SH_3DB  | 1:30 PM  |
 | E_SH_3DB_CHASER | 1:30 PM |
 | E_SH_6DB  | 1:30 PM  |
