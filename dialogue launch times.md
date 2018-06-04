@@ -6,7 +6,7 @@ LONGHAUL PROGRAM
 | E_LHP_2DA  | 1:30 PM  | ----|
 | E_LHP_5DA  | 1:30 PM  | ----|
 | E_LHP_1DB  | 1:00 PM  | ----|
-| E_LHP_4DB  | 1:00 PM  | ----|
+| E_LHP_4DB  | 1:00 PM  | has premium column for previewing! |
 | E_LHP_7DB  | 1:00 PM  | ----|
 | E_LHP_9DB  | 1:00 PM  | ----|
 | E_LHP_12DB  | 1:00 PM  | ----|
