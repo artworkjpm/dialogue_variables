@@ -1,0 +1,6 @@
+Background images:
+- Outlook 2007, 2010,2011,2016 (uses MS word rendering engine): Do not support bacground images. Instead, use <v:rect method and use the background image as fill color.
+- NEXUS 5 on Android 5.1: No support for background images, no workarounds
+- free.fr: Background image support on table level only, not on td level. Add the image to the surrounding table. style tag must use URL() variant.
+- T-online and Yahoo! on OSX: Background image support on td level only, not on table level. Add the background image at the most inner td.
+- Mail.ru: Background image support on td level only, and only as style. Not on table level. Add the background image as style to the most inner td style variant URL() not supported.
