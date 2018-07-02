@@ -57,6 +57,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "UK"><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
 <#case "ES"><#global CREATE_REWARD_PROFILE ="https://es.norwegianreward.com/blimedlem"><#break>
 <#case "PL"><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
+<#case "FR-CA"><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
+<#case "EN-CA"><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
+<#case "AR"><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
 <#case "ROW"><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
 <#default><#global CREATE_REWARD_PROFILE ="https://en.norwegianreward.com/blimedlem"><#break>
 </#switch></#compress></#join>
@@ -76,6 +79,9 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#case "UK"><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com/"><#break>
 <#case "ES"><#global HAS_REWARD_PROFILE ="https://es.norwegianreward.com/"><#break>
 <#case "PL"><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com/"><#break>
+<#case "FR-CA"><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com"/><#break>
+<#case "EN-CA"><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com"/><#break>
+<#case "AR"><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com"/><#break>
 <#case "ROW"><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com"/><#break>
 <#default><#global HAS_REWARD_PROFILE ="https://en.norwegianreward.com/"><#break>
 </#switch></#compress></#join>
@@ -135,14 +141,11 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#-- //////////////////////// MARKET_VARIABLES SUP TABLE /////////////////////////////////////// -->
 
 <#global FORCE_ROW_MARKET = 0><#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE LANGUAGE_ID HOTEL_CAR_LANGUAGE_ID MARKET2 SURVEY_LANG>
-
-
 <#-- AIRPORT_LANG_LID --><#if !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global AIRPORT_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim?upper_case><#else><#global AIRPORT_LANG_LID = "EN"></#if>
-
 <#-- HOTEL_LANG_LID --><#if MARKET_VARIABLES.LANGUAGE_ID?isnull || MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global HOTEL_LANG_LID = "EMEA"><#elseif MARKET_VARIABLES.LANGUAGE_ID?? && !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global HOTEL_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim><#else><#global HOTEL_LANG_LID = "EMEA"></#if>
-
 <#-- CARTRAWLER_LANG_LID --><#if MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?isnull><#global CARTRAWLER_LANG_LID = "en-gb"><#else><#global CARTRAWLER_LANG_LID = MARKET_VARIABLES.HOTEL_CAR_LANGUAGE_ID?trim></#if>
 <#-- SURVEY_LANGUAGE --><#if MARKET_VARIABLES.SURVEY_LANG?isnull><#global SURVEY_LANGUAGE = "en-gb"><#else><#global SURVEY_LANGUAGE = MARKET_VARIABLES.SURVEY_LANG?trim></#if>
+
 <#-- MARKET --><#if MARKET_VARIABLES.MARKET2?isnull><#global FORCE_ROW_MARKET = 1><#global MARKET = 'ROW'><#else><#global FORCE_ROW_MARKET = 1><#global MARKET = MARKET_VARIABLES.MARKET2></#if>
 </#data>
 
@@ -229,11 +232,9 @@ TRANSIT_NUMBER prints out the number of transits-->
 <#elseif SQL_GLOBAL.HORIZON_TYPE == "D"><#global HORIZON = "D"><#elseif SQL_GLOBAL.HORIZON_TYPE == "E"><#global HORIZON = "E"><#elseif SQL_GLOBAL.HORIZON_TYPE == "F"><#global HORIZON = "F"></#if>
 <#--<#global HORIZON = "B">-->
 
-
-
 <#-- MAX_LEG_YN <#if SQL_GLOBAL.MAX_YN?trim?isnull><#global MAX_LEG_YN = "N"><#elseif SQL_GLOBAL.MAX_YN?trim?upper_case == "Y"><#global MAX_LEG_YN = "Y"><#else><#global MAX_LEG_YN = "N"></#if> REMEMBER TO ADD MAX_YN IN THE FIELDS IF USED-->
 
-<#-- ROUTE_AREA --><#if SQL_GLOBAL.BOOKING_ROUTE_AREA?isnull><#global ROUTE_AREA = "long haul"><#else><#global ROUTE_AREA = SQL_GLOBAL.BOOKING_ROUTE_AREA?lower_case?trim></#if>
+<#-- ROUTE_AREA jm to bw why is this defaulting to long haul if null? --><#if SQL_GLOBAL.BOOKING_ROUTE_AREA?isnull><#global ROUTE_AREA = "long haul"><#else><#global ROUTE_AREA = SQL_GLOBAL.BOOKING_ROUTE_AREA?lower_case?trim></#if>
 
 <#-- HOTEL_YES --><#if SQL_GLOBAL.BOOKING_HOTEL == "Y" ><#global HOTEL_YES = "Y"><#else><#global HOTEL_YES = "N"></#if>
 
@@ -250,13 +251,16 @@ TRANSIT_NUMBER prints out the number of transits-->
 
 <#-- HAS_FLEX --><#if SQL_GLOBAL.PRODUCT_CODE?isnull><#global HAS_FLEX = "N"><#elseif SQL_GLOBAL.PRODUCT_CODE == "FL"><#global HAS_FLEX = "Y"><#else><#global HAS_FLEX = "N"></#if>
 
+<#-- PRODUCT_CODE -->
+<#if SQL_GLOBAL.PRODUCT_CODE?isnull><#global PRODUCT_CODE = "null product code"><#else><#global PRODUCT_CODE = SQL_GLOBAL.PRODUCT_CODE></#if>
+
 <#-- HAS_CAR_RENTAL --><#if SQL_GLOBAL.BOOKING_RENTALCAR?isnull || SQL_GLOBAL.BOOKING_RENTALCAR?trim?upper_case == "N"><#global HAS_CAR_RENTAL = "N"><#elseif SQL_GLOBAL.BOOKING_RENTALCAR?trim?upper_case == "Y"><#global HAS_CAR_RENTAL = "Y"><#else><#global HAS_CAR_RENTAL = "N"></#if>
 
 <#-- ANCILLARY_ALL --><#if SQL_GLOBAL.BOOKING_HAS_EVERYTHING?isnull><#global ANCILLARY_ALL = "N"><#elseif SQL_GLOBAL.BOOKING_HAS_EVERYTHING == "Y" ><#global ANCILLARY_ALL = "Y"><#else><#global ANCILLARY_ALL = "N"></#if>
 
 <#-- HAS_INFANTS --><#if SQL_GLOBAL.BK_NUMBER_OF_ADULTS_INFANTS?isnull ><#global HAS_INFANTS = "N"><#elseif SQL_GLOBAL.BK_NUMBER_OF_ADULTS_INFANTS == 0 ><#global HAS_INFANTS = "N"><#elseif SQL_GLOBAL.BK_NUMBER_OF_ADULTS_INFANTS gt 0 ><#global HAS_INFANTS = "Y"><#else><#global HAS_INFANTS = "N"></#if>
 
-<#-- LONG_HAUL --><#if SQL_GLOBAL.BOOKING_LONGHAUL == "Y" ><#global LONG_HAUL = "Y"><#else><#global LONG_HAUL = "N"></#if>
+<#-- LONG_HAUL jm updated to include ROUTE_AREA 23/05/18 due to LONG_HAUL showing N for long haul flights when ONLY using BOOKING_LONGHAUL--><#if SQL_GLOBAL.BOOKING_LONGHAUL == "Y" || ROUTE_AREA == "long haul" ><#global LONG_HAUL = "Y"><#else><#global LONG_HAUL = "N"></#if>
 
 <#-- TESTING_BOOKING_NUMBER_OF_BAGS -->
 <#if SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull><#global TESTING_BOOKING_NUMBER_OF_BAGS = 0 ><#elseif !SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull><#global TESTING_BOOKING_NUMBER_OF_BAGS = SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS><#else><#global TESTING_BOOKING_NUMBER_OF_BAGS = 0></#if>
@@ -380,11 +384,17 @@ TRANSIT_NUMBER prints out the number of transits-->
 <#-- APIS_SATISFIED --><#if SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?isnull><#global APIS_SATISFIED = "N"><#elseif SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?number gt 0 && DESTINATION_COUNTRY_CODE?trim?upper_case == "US"><#global APIS_SATISFIED = "Y"><#else><#global APIS_SATISFIED = "N"></#if>
 
 
+<#-- PREMIUM_YES I changed the code to be else N, only Premium is Y if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0 && LONG_HAUL?trim == "Y" 17/05/18 jm 
+<#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global PREMIUM_YES = "N">
+<#elseif LONG_HAUL?trim == "N"><#global PREMIUM_YES ="N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="Y"><#else><#global PREMIUM_YES ="N"></#if>-->
 
-<#-- PREMIUM_YES I changed the code to be else N, only Premium is Y if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0 && LONG_HAUL?trim == "Y" 17/05/18 jm --><#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global PREMIUM_YES = "N">
-<#elseif LONG_HAUL?trim == "N"><#global PREMIUM_YES ="N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="Y"><#else><#global PREMIUM_YES ="N"></#if>
+<#--NOT_PREMIUM_BK print out this column data, if 0=premium, if >1= not premium <#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global NOT_PREMIUM_BK = "BK is null"><#else><#global NOT_PREMIUM_BK = SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH></#if>-->
 
 <#-- PREMIUM_YES OLD CODE JM <#if SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull><#global PREMIUM_YES = "N"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 && LONG_HAUL?trim == "Y"><#global PREMIUM_YES ="N"><#else><#global PREMIUM_YES ="Y"></#if>-->
+
+<#--jm temporary fix make all PREMIUM = N because premium content is showing for a lot of lowfare customers, I am yet to find a real premium customer 24/05/18 --><#--<#global PREMIUM_YES ="N">-->
+
+<#-- BW comment 31.05.2018: PREMIUM_YES is now declared in leg_variables file instead -->
 
 <#-- MEAL_ORDERED --><#if PREMIUM_YES == "Y"><#global MEAL_ORDERED = "Y"><#elseif HAS_FLEX == "Y"><#global MEAL_ORDERED = "Y"><#else><#if ANCILLARY_ALL?isnull || ANCILLARY_ALL == "N"><#if TESTING_BOOKING_NUMBER_OF_MEALS?isnull><#global MEAL_ORDERED = "N"><#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number gt 0><#global MEAL_ORDERED = "Y"><#else><#global MEAL_ORDERED = "N"></#if></#if></#if>
 
@@ -418,13 +428,28 @@ TRANSIT_NUMBER prints out the number of transits-->
 
 
 
-<#-- DEEPLINK_ONLINE_CHECKIN -->
+<#-- ONLINE_CHECKIN_AVAILABLE_YN --><#-- Online check-in is not available for some airports Added 27.06.2018 by BW -->
+<#if DEPARTURE_IATA == 'AGA' || DEPARTURE_IATA == 'AUS' || DEPARTURE_IATA == 'BDL' || DEPARTURE_IATA == 'BKK' || DEPARTURE_IATA == 'BOS' || DEPARTURE_IATA == 'DBV' || DEPARTURE_IATA == 'DEN' || DEPARTURE_IATA == 'DXB' || DEPARTURE_IATA == 'EWR' || DEPARTURE_IATA == 'EZE' || DEPARTURE_IATA == 'FLL' || DEPARTURE_IATA == 'JFK' || DEPARTURE_IATA == 'LAS' || DEPARTURE_IATA == 'LAX' || DEPARTURE_IATA == 'MCO' || DEPARTURE_IATA == 'OAK' || DEPARTURE_IATA == 'ORD' || DEPARTURE_IATA == 'PUY' || DEPARTURE_IATA == 'PVD' || DEPARTURE_IATA == 'RAK' || DEPARTURE_IATA == 'RJK' || DEPARTURE_IATA == 'SEA' || DEPARTURE_IATA == 'SIN' || DEPARTURE_IATA == 'SJU' || DEPARTURE_IATA == 'SPU' || DEPARTURE_IATA == 'STX' || DEPARTURE_IATA == 'SWF' || DEPARTURE_IATA == 'YHM' || DEPARTURE_IATA == 'YUL' || DEPARTURE_IATA == 'YQB' || DEPARTURE_IATA == 'ZAG'>
+    <#if LESS_24_DEP == "Y"  || LESS_24_RET == "Y"><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'Not available for this Departure IATA'>
+    <#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'More than 24 hours to departure, and not available for this Departure IATA'>
+    </#if>
+<#elseif DESTINATION_IATA == 'AUS' || DESTINATION_IATA == 'BDL' || DESTINATION_IATA == 'BOS' || DESTINATION_IATA == 'DEN' || DESTINATION_IATA == 'EWR' || DESTINATION_IATA == 'FLL' || DESTINATION_IATA == 'JFK' || DESTINATION_IATA == 'LAS' || DESTINATION_IATA == 'LAX' || DESTINATION_IATA == 'MCO' || DESTINATION_IATA == 'OAK' || DESTINATION_IATA == 'ORD' || DESTINATION_IATA == 'SEA' || DESTINATION_IATA == 'SWF' || DESTINATION_IATA == 'PVD'>
+    <#if LESS_24_DEP == "Y"  || LESS_24_RET == "Y"><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'Not available for this Destination IATA'>
+    <#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'More than 24 hours to departure, and not available for this Destination IATA'>
+    </#if>
+<#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'Y'>
+</#if>
 
-<#if LESS_24_DEP == "Y" || LESS_24_RET == "Y">
+
+<#-- DEEPLINK_ONLINE_CHECKIN -->
+<#if ONLINE_CHECKIN_AVAILABLE_YN == 'Y'>
+    <#if LESS_24_DEP == "Y" || LESS_24_RET == "Y">
 		<#if MARKET == "NO"><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.no/start/checkin/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA + "#">
 		<#elseif MARKET == "ROW"><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.com/en/start/checkin/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA + "#">
 		<#else><#global DEEPLINK_ONLINE_CHECKIN = "https://www.norwegian.com/" + MARKET?lower_case + "/start/checkin/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID + "&pnrName=" + PSNGR_LAST_NAME + "&departureAirportCode=" + DEPARTURE_IATA +  "&arrivalAirportCode=" + DESTINATION_IATA + "#">
 		</#if>
+    <#else><#global DEEPLINK_ONLINE_CHECKIN = MY_TRAVELS>
+    </#if>
 <#else><#global DEEPLINK_ONLINE_CHECKIN = MY_TRAVELS>
 </#if>
 
@@ -448,6 +473,14 @@ TRANSIT_NUMBER prints out the number of transits-->
 <#-- RETURN_MONTH --> <#if SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?isnull><#global RETURN_MONTH = dayadd(.now,3)?date?string("MM")?trim><#else><#if TRIP_TOO_LONG == "N"><#global RETURN_MONTH = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?date?string("MM")?trim><#else><#global RETURN_MONTH = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM")?trim></#if></#if>
 
 <#-- RETURN_YEAR --> <#if SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?isnull><#global RETURN_YEAR = dayadd(.now,3)?date?string("yyyy")?trim><#else><#if TRIP_TOO_LONG == "N"><#global RETURN_YEAR = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?date?string("yyyy")?trim><#else><#global RETURN_YEAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy")?trim></#if></#if>
+
+<#-- NEWTRIP_DAY --><#if ONEWAY_YN?string?trim == "1"><#global NEWTRIP_DAY = dayadd(SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1,2)?string("dd")><#else><#global NEWTRIP_DAY = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?string("dd")></#if>
+
+<#-- NEWTRIP_MONTH --><#if ONEWAY_YN?string?trim == "1"><#global NEWTRIP_MONTH = dayadd(SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1,2)?string("MM")><#else><#global NEWTRIP_MONTH = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?string("MM")></#if>
+
+<#-- NEWTRIP_YEAR --><#if ONEWAY_YN?string?trim == "1"><#global NEWTRIP_YEAR = dayadd(SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1,2)?string("yyyy")><#else><#global NEWTRIP_YEAR = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?string("yyyy")></#if>
+
+<#-- NEWTRIP_YEAR --><#if ONEWAY_YN?string?trim == "1"><#global NEWTRIP_YEAR = dayadd(SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1,2)?string("yyyy")><#else><#global NEWTRIP_YEAR = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?string("yyyy")></#if>
 
 </#data>
 <#-- NUMBER_OF_PASSENGERS -->
@@ -507,6 +540,9 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 
 <#-- DESTINATION_US_SA_ASIA -->
 <#if AIRPORTS.COUNTRYCODE == "AR" || AIRPORTS.COUNTRYCODE == "US" || AIRPORTS.COUNTRYCODE == "TH" || AIRPORTS.COUNTRYCODE == "SG"><#global DESTINATION_US_SA_ASIA = "Y"><#else><#global DESTINATION_US_SA_ASIA = "N"></#if>
+
+<#-- DESTINATION_AMERICA_OR_ASIA -->
+<#if AIRPORTS.COUNTRYCODE == "AR" || AIRPORTS.COUNTRYCODE == "US" || AIRPORTS.COUNTRYCODE == "TH" || AIRPORTS.COUNTRYCODE == "SG" || AIRPORTS.COUNTRYCODE == "CA"><#global DESTINATION_AMERICA_OR_ASIA = "Y"><#else><#global DESTINATION_AMERICA_OR_ASIA = "N"></#if>
 
 <#-- DESTINATION_EUROPE -->
 <#if AIRPORTS.COUNTRYCODE == "AR" || AIRPORTS.COUNTRYCODE == "US" || AIRPORTS.COUNTRYCODE == "TH" || AIRPORTS.COUNTRYCODE == "SG"><#global DESTINATION_EUROPE = "N"><#else><#global DESTINATION_EUROPE = "Y"></#if>
@@ -632,10 +668,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "ARN"><#global LOUNGE_AIRPORTS_RETURN = "Y"><#break>
 <#default><#global LOUNGE_AIRPORTS_RETURN = "N"></#switch></#compress></#join>
 
-<#-- LOUNGE_URL -->
-<#if MARKET == "UK"><#global LOUNGE_URL = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/">
-<#else><#global LOUNGE_URL = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
-</#if>
+
 
 <#-- WEBPAGE_MARKET --><#join><#compress><#switch CONTACT.LANGUAGEID?lower_case>
 <#case "nb-no"><#global WEBPAGE_MARKET = "NO"><#break>
@@ -651,7 +684,32 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "it-it"><#global WEBPAGE_MARKET = "IT"><#break>
 <#case "nl-nl"><#global WEBPAGE_MARKET = "NL"><#break>
 <#case "en-ie"><#global WEBPAGE_MARKET = "IE"><#break>
+<#case "en-ca"><#global WEBPAGE_MARKET = "EN-CA"><#break>
+<#case "fr-ca"><#global WEBPAGE_MARKET = "FR-CA"><#break>
+<#case "es-ar"><#global WEBPAGE_MARKET = "AR"><#break>
+<#case "en-sg"><#global WEBPAGE_MARKET = "SG"><#break>
 <#default><#global WEBPAGE_MARKET = "EN"></#switch></#compress></#join>
+
+<#-- MARKET_DOMAIN -->
+<#join><#compress><#switch MARKET>
+<#case "NO"><#global MARKET_DOMAIN = ".no"><#break>
+<#case "SE"><#global MARKET_DOMAIN = ".com/se"><#break>
+<#case "DK"><#global MARKET_DOMAIN = ".com/dk"><#break>
+<#case "FI"><#global MARKET_DOMAINT = ".com/fi"><#break>
+<#case "DE"><#global MARKET_DOMAIN = ".com/de"><#break>
+<#case "US"><#global MARKET_DOMAIN = ".com/us"><#break>
+<#case "UK"><#global MARKET_DOMAIN = ".com/uk"><#break>
+<#case "ES"><#global MARKET_DOMAIN = ".com/es"><#break>
+<#case "FR"><#global MARKET_DOMAIN = ".com/fr"><#break>
+<#case "PL"><#global MARKET_DOMAIN = ".com/pl"><#break>
+<#case "IT"><#global MARKET_DOMAIN = ".com/it"><#break>
+<#case "NL"><#global MARKET_DOMAIN = ".com/nl"><#break>
+<#case "IE"><#global MARKET_DOMAIN = ".com/ie"><#break>
+<#case "EN-CA"><#global MARKET_DOMAIN = ".com/en-ca"><#break>
+<#case "FR-CA"><#global MARKET_DOMAIN = ".com/fr-ca"><#break>
+<#case "AR"><#global MARKET_DOMAIN = ".com/ar"><#break>
+<#case "SG"><#global MARKET_DOMAIN = ".com/sg"><#break>
+<#default><#global MARKET_DOMAIN = ".com/en"></#switch></#compress></#join>
 
 <#-- CURRENCY --><#switch MARKET>
 <#case "UK"><#global CURRENCY = "GBP"><#break>
@@ -667,7 +725,11 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "EN"><#global CURRENCY = "EUR"><#break>
 <#case "IE"><#global CURRENCY = "EUR"><#break>
 <#case "ROW"><#global CURRENCY = "EUR"><#break>
-<#case "PL"><#global CURRENCY = "EUR"><#break>
+<#case "SG"><#global CURRENCY = "EUR"><#break>
+<#case "AR"><#global CURRENCY = "ARS"><#break>
+<#case "EN-CA"><#global CURRENCY = "CAD"><#break>
+<#case "FR-CA"><#global CURRENCY = "CAD"><#break>
+<#case "PL"><#global CURRENCY = "SGD"><#break>
 <#default><#global CURRENCY = "EUR"></#switch>
 
 <#-- HOTEL_LOCALE --><#if MARKET == "NO"><#global HOTEL_LOCALE = "no_NO"><#elseif MARKET == "ROW"><#global HOTEL_LOCALE = "en_IE"><#else><#global HOTEL_LOCALE = CONTACT.LANGUAGEID?string[0..1]?lower_case?trim></#if>
@@ -719,6 +781,9 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "UK"><#global LOWFARE_FOOTER ="https://www.norwegian.com/uk/booking/flight-tickets/low-fare-calendar/"><#break>
 <#case "ES"><#global LOWFARE_FOOTER ="https://www.norwegian.com/es/reserva/reserve-su-vuelo/calendario-de-tarifas-bajas/"><#break>
 <#case "PL"><#global LOWFARE_FOOTER ="https://www.norwegian.com/pl/rezerwacja/zarezerwuj-przelot/kalendarz-taryf-promocyjnych/"><#break>
+<#case "AR"><#global LOWFARE_FOOTER ="https://www.norwegian.com/ar/reserva/reserve-su-vuelo/calendario-de-tarifas-bajas/"><#break>
+<#case "EN-CA"><#global LOWFARE_FOOTER ="https://www.norwegian.com/en-ca/booking/flight-tickets/low-fare-calendar/"><#break>
+<#case "FR-CA"><#global LOWFARE_FOOTER ="https://www.norwegian.com/fr-ca/reservation/reservez-votre-vol/calendrier-de-nos-tarifs-les-plus-bas/"><#break>
 <#case "ROW"><#global LOWFARE_FOOTER ="https://www.norwegian.com/en/booking/flight-tickets/low-fare-calendar/"><#break>
 <#default><#global LOWFARE_FOOTER ="https://www.norwegian.com/en/booking/flight-tickets/low-fare-calendar/">
 </#switch></#compress></#join>
@@ -760,6 +825,9 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "UK"><#global CONTACT_FOOTER ="https://www.norwegian.com/uk/help-contact/"><#break>
 <#case "ES"><#global CONTACT_FOOTER ="https://www.norwegian.com/es/ayuda-y-contacto/"><#break>
 <#case "PL"><#global CONTACT_FOOTER ="https://www.norwegian.com/pl/pomoc-i-kontakt/"><#break>
+<#case "AR"><#global CONTACT_FOOTER ="https://www.norwegian.com/ar/ayuda-y-contacto/"><#break>
+<#case "EN-CA"><#global CONTACT_FOOTER ="https://www.norwegian.com/en-ca/help-contact/"><#break>
+<#case "FR-CA"><#global CONTACT_FOOTER ="https://www.norwegian.com/fr-ca/aide-et-contact/"><#break>
 <#case "ROW"><#global CONTACT_FOOTER ="https://www.norwegian.com/en/help-contact/"><#break>
 <#default><#global CONTACT_FOOTER ="https://www.norwegian.com/en/help-contact/">
 </#switch></#compress></#join>
@@ -789,6 +857,9 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "UK"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/uk/booking/booking-information/legal/privacy-policy/"><#break>
 <#case "ES"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/aspectos-juridicos/politica-de-privacidad/"><#break>
 <#case "PL"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/kwestie-prawne/polityka-prywatnosci/"><#break>
+<#case "AR"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/ar/reserva/informacion-util-sobre-reservas/aspectos-juridicos/politica-de-privacidad/"><#break>
+<#case "EN-CA"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en-ca/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "FR-CA"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/dispositions-legales/politique-de-confidentialite/"><#break>
 <#case "ROW"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/"><#break>
 <#default><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/">
 </#switch></#compress></#join>
@@ -848,91 +919,276 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
     <#case "DE"><#global DEST_TRANSLATION_TEXT = "/reiseziele/"><#break>
     <#case "AR"><#global DEST_TRANSLATION_TEXT = "/destinos/"><#break>
      <#case "NO"><#global DEST_TRANSLATION_TEXT = "/destinasjoner"><#break>
+     <#case "SG"><#global DEST_TRANSLATION_TEXT = "/destinos/"><#break>
     <#default><#global DEST_TRANSLATION_TEXT = "/destinations/">
 </#switch></#compress></#join>
 
 <#-- PREMIUM_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global PREMIUM_INFO = "https://www.norwegian.com/uk/travel-info/on-board/premium-cabin/"><#break>
-<#case "ES"><#global PREMIUM_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "AR"><#global PREMIUM_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "DE"><#global PREMIUM_INFO = "https://www.norwegian.com/de/buchung/buchungsinformationen/tarifbedingungen/internationale-langstrecke-premium/"><#break>
 <#case "DK"><#global PREMIUM_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/premium-kabine/"><#break>
-    <#default><#global PREMIUM_INFO = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/">
+<#case "EN-CA"><#global PREMIUM_INFO = "https://www.norwegian.com/en-ca/travel-info/on-board/premium-cabin/"><#break>
+<#case "ES"><#global PREMIUM_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "FI"><#global PREMIUM_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/koneessa/premium-matkustamo/"><#break>
+<#case "FR"><#global PREMIUM_INFO = "https://www.norwegian.com/fr/infos-voyageurs/a-bord/cabine-premium/"><#break>
+<#case "FR-CA"><#global PREMIUM_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/a-bord/cabine-premium/"><#break>
+<#case "IE"><#global PREMIUM_INFO = "https://www.norwegian.com/ie/travel-info/on-board/premium-cabin/"><#break>
+<#case "IT"><#global PREMIUM_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/a-bordo/cabina-premium/"><#break>
+<#case "NL"><#global PREMIUM_INFO = "https://www.norwegian.com/nl/travel-info/on-board/premium-cabin/"><#break>
+<#case "NO"><#global PREMIUM_INFO = "https://www.norwegian.no/reiseinformasjon/om-bord/premium-kabin/"><#break>
+<#case "PL"><#global PREMIUM_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/na-pokladzie/klasa-premium/"><#break>
+<#case "ROW"><#global PREMIUM_INFO = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/"><#break>
+<#case "SE"><#global PREMIUM_INFO = "https://www.norwegian.com/se/reseinformation/ombord/premiumkabin/"><#break>
+<#case "SG"><#global PREMIUM_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "UK"><#global PREMIUM_INFO = "https://www.norwegian.com/uk/travel-info/on-board/premium-cabin/"><#break>
+<#case "US"><#global PREMIUM_INFO = "https://www.norwegian.com/us/travel-info/on-board/premium-cabin/"><#break>
+<#default><#global PREMIUM_INFO = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/">
     </#switch></#compress></#join>
 
 <#-- ENTERTAINMENT_INFO --><#join><#compress><#switch MARKET>
+<#case "AR"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "DE"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/de/reiseinfo/an-bord/unterhaltungsprogramm-an-bord/"><#break>
+<#case "DK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/premium-kabine/"><#break>
+<#case "EN-CA"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en-ca/travel-info/on-board/in-flight-entertainment/"><#break>
+<#case "ES"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
+<#case "FI"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/koneessa/viihdetarjonta-lennoillamme/"><#break>
+<#case "FR"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/fr/infos-voyageurs/a-bord/loisirs-en-vol/"><#break>
+<#case "FR-CA"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/a-bord/loisirs-en-vol/"><#break>
+<#case "IE"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/it/travel-info/on-board/in-flight-entertainment/"><#break>
+<#case "IT"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/a-bordo/intrattenimento-a-bordo/"><#break>
+<#case "NL"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/nl/travel-info/on-board/in-flight-entertainment/"><#break>
+<#case "NO"><#global ENTERTAINMENT_INFO = "https://www.norwegian.no/reiseinformasjon/om-bord/underholdning-om-bord/"><#break>
+<#case "PL"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/na-pokladzie/rozrywka-pokladowa/"><#break>
+<#case "ROW"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/"><#break>
+<#case "SE"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/se/reseinformation/ombord/underhallning-under-flygresan/"><#break>
+<#case "SG"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
 <#case "UK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/"><#break>
-<#case "ES"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/"><#break>
-<#case "DK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/underholdning-om-bord/"><#break>
-    <#default><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/">
+<#case "US"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/us/travel-info/on-board/in-flight-entertainment/"><#break>
+<#default><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/">
     </#switch></#compress></#join>
 
 <#-- ENTERTAINMENT_MENU --><#join><#compress><#switch MARKET>
-<#case "UK"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
-<#case "ES"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "AR"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "DE"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
 <#case "DK"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
-    <#default><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#">
+<#case "EN-CA"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "ES"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "FI"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "FR"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "FR-CA"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "IE"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "IT"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "NL"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "NO"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "PL"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "ROW"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "SE"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "SG"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "UK"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#case "US"><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#"><#break>
+<#default><#global ENTERTAINMENT_MENU = "https://entertainment.norwegian.com/#/onboard#">
     </#switch></#compress></#join>
 
 <#-- MEAL_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global MEAL_INFO = "https://www.norwegian.com/uk/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
-<#case "ES"><#global MEAL_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/alimentos-y-bebidas/vuelos-internacionales-de-larga-distancia/"><#break>
+<#case "AR"><#global MEAL_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/a-bordo/alimentos-y-bebidas/vuelos-internacionales-de-larga-distancia/"><#break>
+<#case "DE"><#global MEAL_INFO = "https://www.norwegian.com/de/reiseinfo/an-bord/essen-und-trinken/"><#break>
 <#case "DK"><#global MEAL_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/mad-og-drikke/langdistanceruter/"><#break>
-    <#default><#global MEAL_INFO = "https://www.norwegian.com/en/travel-info/on-board/food-and-drinks/international-long-haul-flights/">
+<#case "EN-CA"><#global MEAL_INFO = "https://www.norwegian.com/en-ca/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#case "ES"><#global MEAL_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/alimentos-y-bebidas/vuelos-internacionales-de-larga-distancia/"><#break>
+<#case "FI"><#global MEAL_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/koneessa/ruoka-ja-juomat/"><#break>
+<#case "FR"><#global MEAL_INFO = "https://www.norwegian.com/fr/infos-voyageurs/a-bord/nourriture-et-boissons/"><#break>
+<#case "FR-CA"><#global MEAL_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/a-bord/nourriture-et-boissons/"><#break>
+<#case "IE"><#global MEAL_INFO = "https://www.norwegian.com/ie/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#case "IT"><#global MEAL_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/a-bordo/pasti-e-bevande/"><#break>
+<#case "NL"><#global MEAL_INFO = "https://www.norwegian.com/nl/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#case "NO"><#global MEAL_INFO = "https://www.norwegian.no/reiseinformasjon/om-bord/mat-og-drikke/internasjonale-langdistanseruter/"><#break>
+<#case "PL"><#global MEAL_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/na-pokladzie/jedzenie-i-napoje/"><#break>
+<#case "ROW"><#global MEAL_INFO = "https://www.norwegian.com/en/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#case "SE"><#global MEAL_INFO = "https://www.norwegian.com/se/reseinformation/ombord/mat-och-dryck/internationella-langdistansflyg/"><#break>
+<#case "SG"><#global MEAL_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/a-bordo/alimentos-y-bebidas/vuelos-internacionales-de-larga-distancia/"><#break>
+<#case "UK"><#global MEAL_INFO = "https://www.norwegian.com/uk/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#case "US"><#global MEAL_INFO = "https://www.norwegian.com/us/travel-info/on-board/food-and-drinks/international-long-haul-flights/"><#break>
+<#default><#global MEAL_INFO = "https://www.norwegian.com/en/travel-info/on-board/food-and-drinks/international-long-haul-flights/">
     </#switch></#compress></#join>
 
 <#-- LOUNGE_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global LOUNGE_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/"><#break>
-<#case "ES"><#global LOUNGE_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/acceso-a-salas-vip/"><#break>
+<#case "AR"><#global LOUNGE_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/facturacion-y-embarque/acceso-a-salas-vip/"><#break>
+<#case "DE"><#global LOUNGE_INFO = "https://www.norwegian.com/de/reiseinfo/check-in-und-boarding/lounge-zugang/"><#break>
 <#case "DK"><#global LOUNGE_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/lounge-adgang/"><#break>
-    <#default><#global LOUNGE_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
+<#case "EN-CA"><#global LOUNGE_INFO = "https://www.norwegian.com/en-ca/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#case "ES"><#global LOUNGE_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/acceso-a-salas-vip/"><#break>
+<#case "FI"><#global LOUNGE_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/lahtoselvitys-ja-koneeseen-nousu/lounge-palvelu/"><#break>
+<#case "FR"><#global LOUNGE_INFO = "https://www.norwegian.com/fr/infos-voyageurs/enregistrement-et-embarquement/acces-au-salon-d-attente/"><#break>
+<#case "FR-CA"><#global LOUNGE_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/enregistrement-et-embarquement/acces-au-salon-d-attente/"><#break>
+<#case "IE"><#global LOUNGE_INFO = "https://www.norwegian.com/ie/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#case "IT"><#global LOUNGE_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/check-in-e-imbarco/accesso-alla-lounge/"><#break>
+<#case "NL"><#global LOUNGE_INFO = "https://www.norwegian.com/nl/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#case "NO"><#global LOUNGE_INFO = "https://www.norwegian.no/reiseinformasjon/innsjekking-og-boarding/lounge-tilgang/"><#break>
+<#case "PL"><#global LOUNGE_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/odprawa-i-wejscie-na-poktad/dostep-do-saloniku-lotniskowego/"><#break>
+<#case "ROW"><#global LOUNGE_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#case "SE"><#global LOUNGE_INFO = "https://www.norwegian.com/se/reseinformation/incheckning-och-ombordstigning/loungetillgang/"><#break>
+<#case "SG"><#global LOUNGE_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/facturacion-y-embarque/acceso-a-salas-vip/"><#break>
+<#case "UK"><#global LOUNGE_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#case "US"><#global LOUNGE_INFO = "https://www.norwegian.com/us/travel-info/check-in-and-boarding/lounge-access/"><#break>
+<#default><#global LOUNGE_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/lounge-access/">
     </#switch></#compress></#join>
 
 <#-- FASTTRACK_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global FASTTRACK_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/fast-track/"><#break>
-<#case "ES"><#global FASTTRACK_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/fast-track/"><#break>
+<#case "AR"><#global FASTTRACK_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/facturacion-y-embarque/fast-track/"><#break>
+<#case "DE"><#global FASTTRACK_INFO = "https://www.norwegian.com/de/reiseinfo/check-in-und-boarding/fast-track/"><#break>
 <#case "DK"><#global FASTTRACK_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/fast-track/"><#break>
-    <#default><#global FASTTRACK_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/fast-track/">
+<#case "EN-CA"><#global FASTTRACK_INFO = "https://www.norwegian.com/en-ca/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#case "ES"><#global FASTTRACK_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/fast-track/"><#break>
+<#case "FI"><#global FASTTRACK_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/lahtoselvitys-ja-koneeseen-nousu/fast-track/"><#break>
+<#case "FR"><#global FASTTRACK_INFO = "https://www.norwegian.com/fr/infos-voyageurs/enregistrement-et-embarquement/fast-track/"><#break>
+<#case "FR-CA"><#global FASTTRACK_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/enregistrement-et-embarquement/fast-track/"><#break>
+<#case "IE"><#global FASTTRACK_INFO = "https://www.norwegian.com/ie/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#case "IT"><#global FASTTRACK_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/check-in-e-imbarco/fast-track/"><#break>
+<#case "NL"><#global FASTTRACK_INFO = "https://www.norwegian.com/nl/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#case "NO"><#global FASTTRACK_INFO = "https://www.norwegian.no/reiseinformasjon/innsjekking-og-boarding/fast-track/"><#break>
+<#case "PL"><#global FASTTRACK_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/odprawa-i-wejscie-na-poktad/fast-track/"><#break>
+<#case "ROW"><#global FASTTRACK_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#case "SE"><#global FASTTRACK_INFO = "https://www.norwegian.com/se/reseinformation/incheckning-och-ombordstigning/fast-track/"><#break>
+<#case "SG"><#global FASTTRACK_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/facturacion-y-embarque/fast-track/"><#break>
+<#case "UK"><#global FASTTRACK_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#case "US"><#global FASTTRACK_INFO = "https://www.norwegian.com/us/travel-info/check-in-and-boarding/fast-track/"><#break>
+<#default><#global FASTTRACK_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/fast-track/">
     </#switch></#compress></#join>
     
 <#-- REWARD_FAMILY_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "AR"><#global REWARD_FAMILY_INFO = "https://es.norwegianreward.com/sobre-nosotros/cuenta-familiar"><#break>
+<#case "DE"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "DK"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "EN-CA"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
 <#case "ES"><#global REWARD_FAMILY_INFO = "https://es.norwegianreward.com/sobre-nosotros/cuenta-familiar"><#break>
-    <#default><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account">
+<#case "FI"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "FR"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "FR-CA"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "IE"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "IT"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "NL"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "NO"><#global REWARD_FAMILY_INFO = "https://no.norwegianreward.com/om-oss/familiekonto"><#break>
+<#case "PL"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "ROW"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "SE"><#global REWARD_FAMILY_INFO = "https://se.norwegianreward.com/om-oss/familjekonto"><#break>
+<#case "SG"><#global REWARD_FAMILY_INFO = "https://es.norwegianreward.com/sobre-nosotros/cuenta-familiar"><#break>
+<#case "UK"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#case "US"><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account"><#break>
+<#default><#global REWARD_FAMILY_INFO = "https://en.norwegianreward.com/about-us/family-account">
     </#switch></#compress></#join>
 
 <#-- APP_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global APP_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
-<#case "ES"><#global APP_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/aplicacion-travel-assistant/"><#break>
+<#case "AR"><#global APP_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/facturacion-y-embarque/aplicacion-travel-assistant/"><#break>
+<#case "DE"><#global APP_INFO = "https://www.norwegian.com/de/reiseinfo/check-in-und-boarding/travel-assistant-app/"><#break>
 <#case "DK"><#global APP_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/rejseassistent-app/"><#break>
-    <#default><#global APP_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/travel-assistant-app">
+<#case "EN-CA"><#global APP_INFO = "https://www.norwegian.com/en-ca/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#case "ES"><#global APP_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/aplicacion-travel-assistant/"><#break>
+<#case "FI"><#global APP_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/lahtoselvitys-ja-koneeseen-nousu/travel-assistant-sovellus/"><#break>
+<#case "FR"><#global APP_INFO = "https://www.norwegian.com/fr/infos-voyageurs/enregistrement-et-embarquement/application-travel-assistant/"><#break>
+<#case "FR-CA"><#global APP_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/enregistrement-et-embarquement/application-travel-assistant/"><#break>
+<#case "IE"><#global APP_INFO = "https://www.norwegian.com/ie/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#case "IT"><#global APP_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/check-in-e-imbarco/app-travel-assistant/"><#break>
+<#case "NL"><#global APP_INFO = "https://www.norwegian.com/nl/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#case "NO"><#global APP_INFO = "https://www.norwegian.no/reiseinformasjon/innsjekking-og-boarding/reiseassistent-app/"><#break>
+<#case "PL"><#global APP_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/odprawa-i-wejscie-na-poktad/aplikacja-travel-assistant/"><#break>
+<#case "ROW"><#global APP_INFO = "https://www.norwegian.com/enk/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#case "SE"><#global APP_INFO = "https://www.norwegian.com/se/reseinformation/incheckning-och-ombordstigning/reseassistent-appen/"><#break>
+<#case "SG"><#global APP_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/facturacion-y-embarque/aplicacion-travel-assistant/"><#break>
+<#case "UK"><#global APP_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#case "US"><#global APP_INFO = "https://www.norwegian.com/us/travel-info/check-in-and-boarding/travel-assistant-app"><#break>
+<#default><#global APP_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/travel-assistant-app">
     </#switch></#compress></#join>
 
 <#-- PASSPORT_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/"><#break>
-<#case "ES"><#global PASSPORT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/pasaporte-visado-y-documento-de-identificacion/"><#break>
+<#case "AR"><#global PASSPORT_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/facturacion-y-embarque/pasaporte-visado-y-documento-de-identificacion/"><#break>
+<#case "DE"><#global PASSPORT_INFO = "https://www.norwegian.com/de/reiseinfo/check-in-und-boarding/reisepass-visum-und-personalausweis/"><#break>
 <#case "DK"><#global PASSPORT_INFO = "https://www.norwegian.com/dk/rejseinformation/indcheckning-og-boarding/pas-visum-og-id/"><#break>
-    <#default><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/">
+<#case "EN-CA"><#global PASSPORT_INFO = "https://www.norwegian.com/en-ca/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#case "ES"><#global PASSPORT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/pasaporte-visado-y-documento-de-identificacion/"><#break>
+<#case "FI"><#global PASSPORT_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/lahtoselvitys-ja-koneeseen-nousu/passi-viisumi-ja-henkilokortti/"><#break>
+<#case "FR"><#global PASSPORT_INFO = "https://www.norwegian.com/fr/infos-voyageurs/enregistrement-et-embarquement/passeport-visa-et-piece-d-identite/"><#break>
+<#case "FR-CA"><#global PASSPORT_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/enregistrement-et-embarquement/passeport-visa-et-piece-d-identite/"><#break>
+<#case "IE"><#global PASSPORT_INFO = "https://www.norwegian.com/ie/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#case "IT"><#global PASSPORT_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/check-in-e-imbarco/passaporto-visto-e-documenti-di-identita/"><#break>
+<#case "NL"><#global PASSPORT_INFO = "https://www.norwegian.com/nl/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#case "NO"><#global PASSPORT_INFO = "https://www.norwegian.no/reiseinformasjon/innsjekking-og-boarding/pass-visum-og-id/"><#break>
+<#case "PL"><#global PASSPORT_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/odprawa-i-wejscie-na-poktad/paszport-wiza-i-dowod-tozsamosci/"><#break>
+<#case "ROW"><#global PASSPORT_INFO = "https://www.norwegian.com/en/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#case "SE"><#global PASSPORT_INFO = "https://www.norwegian.com/se/reseinformation/incheckning-och-ombordstigning/pass-visum-och-id/"><#break>
+<#case "SG"><#global PASSPORT_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/facturacion-y-embarque/pasaporte-visado-y-documento-de-identificacion/"><#break>
+<#case "UK"><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#case "US"><#global PASSPORT_INFO = "https://www.norwegian.com/us/travel-info/check-in-and-boarding/passport-visa/"><#break>
+<#default><#global PASSPORT_INFO = "https://www.norwegian.com/uk/travel-info/check-in-and-boarding/passport-visa/">
     </#switch></#compress></#join>
 
 <#-- CHILDREN_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global CHILDREN_INFO  = "https://www.norwegian.com/uk/travel-info/travelling-with-children/baggage/"><#break>
-<#case "ES"><#global CHILDREN_INFO  = "https://www.norwegian.com/es/informacion-sobre-el-viaje/viajar-con-ninos/equipaje/"><#break>
-<#case "DK"><#global CHILDREN_INFO  = "https://www.norwegian.com/dk/rejseinformation/rejse-med-born/bagage/"><#break>
-    <#default><#global CHILDREN_INFO  = "https://www.norwegian.com/en/travel-info/travelling-with-children/baggage/">
+<#case "AR"><#global CHILDREN_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/viajar-con-ninos/equipaje/"><#break>
+<#case "DE"><#global CHILDREN_INFO = "https://www.norwegian.com/de/reiseinfo/reisen-mit-kindern/gepaeck/"><#break>
+<#case "DK"><#global CHILDREN_INFO = "https://www.norwegian.com/dk/rejseinformation/rejse-med-born/bagage/"><#break>
+<#case "EN-CA"><#global CHILDREN_INFO = "https://www.norwegian.com/en-ca/travel-info/travelling-with-children/baggage/"><#break>
+<#case "ES"><#global CHILDREN_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/viajar-con-ninos/equipaje/"><#break>
+<#case "FI"><#global CHILDREN_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/matkustaminen-lasten-kanssa/matkatavarat/"><#break>
+<#case "FR"><#global CHILDREN_INFO = "https://www.norwegian.com/fr/infos-voyageurs/voyager-avec-des-enfants/bagages/"><#break>
+<#case "FR-CA"><#global CHILDREN_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/voyager-avec-des-enfants/bagages/"><#break>
+<#case "IE"><#global CHILDREN_INFO = "https://www.norwegian.com/ie/travel-info/travelling-with-children/baggage/"><#break>
+<#case "IT"><#global CHILDREN_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/bambini/bagagli/"><#break>
+<#case "NL"><#global CHILDREN_INFO = "https://www.norwegian.com/nl/travel-info/travelling-with-children/baggage/"><#break>
+<#case "NO"><#global CHILDREN_INFO = "https://www.norwegian.no/reiseinformasjon/reise-med-barn/bagasje/"><#break>
+<#case "PL"><#global CHILDREN_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/podrozowanie-z-dziecmi/bagaz/"><#break>
+<#case "ROW"><#global CHILDREN_INFO = "https://www.norwegian.com/en/travel-info/travelling-with-children/baggage/"><#break>
+<#case "SE"><#global CHILDREN_INFO = "https://www.norwegian.com/se/reseinformation/resa-med-barn/bagage/"><#break>
+<#case "SG"><#global CHILDREN_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/viajar-con-ninos/equipaje/"><#break>
+<#case "UK"><#global CHILDREN_INFO = "https://www.norwegian.com/uk/travel-info/travelling-with-children/baggage/"><#break>
+<#case "US"><#global CHILDREN_INFO = "https://www.norwegian.com/us/travel-info/travelling-with-children/baggage/"><#break>
+<#default><#global CHILDREN_INFO  = "https://www.norwegian.com/en/travel-info/travelling-with-children/baggage/">
     </#switch></#compress></#join>
 
 <#-- SNACKBAR_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global SNACKBAR_INFO  = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
-<#case "ES"><#global SNACKBAR_INFO  = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/#interactive_3D_map"><#break>
-<#case "DK"><#global SNACKBAR_INFO  = "https://www.norwegian.com/dk/rejseinformation/i-flyet/underholdning-om-bord/#interactive_3D_map"><#break>
-    <#default><#global SNACKBAR_INFO  = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/#interactive_3D_map">
+<#case "AR"><#global SNACKBAR_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/#interactive_3D_map"><#break>
+<#case "DE"><#global SNACKBAR_INFO = "https://www.norwegian.com/de/reiseinfo/an-bord/unterhaltungsprogramm-an-bord/#interactive_3D_map"><#break>
+<#case "DK"><#global SNACKBAR_INFO = "https://www.norwegian.com/dk/rejseinformation/i-flyet/underholdning-om-bord/#interactive_3D_map"><#break>
+<#case "EN-CA"><#global SNACKBAR_INFO = "https://www.norwegian.com/en-ca/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#case "ES"><#global SNACKBAR_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/#interactive_3D_map"><#break>
+<#case "FI"><#global SNACKBAR_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/koneessa/viihdetarjonta-lennoillamme/#interactive_3D_map"><#break>
+<#case "FR"><#global SNACKBAR_INFO = "https://www.norwegian.com/fr/infos-voyageurs/a-bord/loisirs-en-vol/#interactive_3D_map"><#break>
+<#case "FR-CA"><#global SNACKBAR_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/a-bord/loisirs-en-vol/#interactive_3D_map"><#break>
+<#case "IE"><#global SNACKBAR_INFO = "https://www.norwegian.com/ie/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#case "IT"><#global SNACKBAR_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/a-bordo/#interactive_3D_map"><#break>
+<#case "NL"><#global SNACKBAR_INFO = "https://www.norwegian.com/nl/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#case "NO"><#global SNACKBAR_INFO = "https://www.norwegian.no/reiseinformasjon/om-bord/underholdning-om-bord/#interactive_3D_map"><#break>
+<#case "PL"><#global SNACKBAR_INFO = "https://www.norwegian.com/pl/informacje-o-lotach/na-pokladzie/rozrywka-pokladowa/#interactive_3D_map"><#break>
+<#case "ROW"><#global SNACKBAR_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#case "SE"><#global SNACKBAR_INFO = "https://www.norwegian.com/se/reseinformation/ombord/underhallning-under-flygresan/#interactive_3D_map"><#break>
+<#case "SG"><#global SNACKBAR_INFO = "https://www.norwegian.com/sg/informacion-sobre-el-viaje/a-bordo/entretenimiento-durante-el-vuelo/#interactive_3D_map"><#break>
+<#case "UK"><#global SNACKBAR_INFO = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#case "US"><#global SNACKBAR_INFO = "https://www.norwegian.com/us/travel-info/on-board/in-flight-entertainment/#interactive_3D_map"><#break>
+<#default><#global SNACKBAR_INFO  = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/#interactive_3D_map">
     </#switch></#compress></#join>
 
 <#-- DREAMLINER_INFO --><#join><#compress><#switch MARKET>
-<#case "UK"><#global DREAMLINER_INFO  = "https://www.norwegian.com/uk/about/experience-us/dreamliner"><#break>
-<#case "ES"><#global DREAMLINER_INFO  = "https://www.norwegian.com/es/acerca-de-nosotros/descubrenos/dreamliner/"><#break>
-<#case "DK"><#global DREAMLINER_INFO  = "https://www.norwegian.com/dk/om-os/oplev-os/dreamliner/"><#break>
-    <#default><#global DREAMLINER_INFO  = "https://www.norwegian.com/en/about/experience-us/dreamliner">
+<#case "AR"><#global DREAMLINER_INFO = "https://www.norwegian.com/ar/acerca-de-nosotros/descubrenos/dreamliner/"><#break>
+<#case "DE"><#global DREAMLINER_INFO = "https://www.norwegian.com/de/uber-uns/warum-mit-norwegian-fliegen/dreamliner/"><#break>
+<#case "DK"><#global DREAMLINER_INFO = "https://www.norwegian.com/dk/om-os/oplev-os/dreamliner/"><#break>
+<#case "EN-CA"><#global DREAMLINER_INFO = "https://www.norwegian.com/en-ca/about/experience-us/dreamliner"><#break>
+<#case "ES"><#global DREAMLINER_INFO = "https://www.norwegian.com/es/acerca-de-nosotros/descubrenos/dreamliner/"><#break>
+<#case "FI"><#global DREAMLINER_INFO = "https://www.norwegian.com/fi/tietoja-meista/koe-meidat/dreamliner/"><#break>
+<#case "FR"><#global DREAMLINER_INFO = "https://www.norwegian.com/fr/a-propos-de-nous/vivez-experience-norwegian/dreamliner/"><#break>
+<#case "FR-CA"><#global DREAMLINER_INFO = "https://www.norwegian.com/fr-ca/a-propos-de-nous/vivez-experience-norwegian/dreamliner/"><#break>
+<#case "IE"><#global DREAMLINER_INFO = "https://www.norwegian.com/ie/about/experience-us/dreamliner"><#break>
+<#case "IT"><#global DREAMLINER_INFO = "https://www.norwegian.com/it/info-su-norwegian/prova-norwegian/dreamliner/"><#break>
+<#case "NL"><#global DREAMLINER_INFO = "https://www.norwegian.com/nl/about/experience-us/dreamliner"><#break>
+<#case "NO"><#global DREAMLINER_INFO = "https://www.norwegian.no/om-oss/opplev-oss/dreamliner/"><#break>
+<#case "PL"><#global DREAMLINER_INFO = "https://www.norwegian.com/pl/o-nas/spraw-sobie-przyjemnosc/dreamliner/"><#break>
+<#case "ROW"><#global DREAMLINER_INFO = "https://www.norwegian.com/en/about/experience-us/dreamliner"><#break>
+<#case "SE"><#global DREAMLINER_INFO = "https://www.norwegian.com/se/om-oss/upplev-oss/dreamliner/"><#break>
+<#case "SG"><#global DREAMLINER_INFO = "https://www.norwegian.com/sg/acerca-de-nosotros/descubrenos/dreamliner/"><#break>
+<#case "UK"><#global DREAMLINER_INFO = "https://www.norwegian.com/uk/about/experience-us/dreamliner"><#break>
+<#case "US"><#global DREAMLINER_INFO = "https://www.norwegian.com/us/about/experience-us/dreamliner"><#break>
+<#default><#global DREAMLINER_INFO  = "https://www.norwegian.com/en/about/experience-us/dreamliner">
     </#switch></#compress></#join>
+
+<#-- LOUNGE_URL -->
+<#global LOUNGE_URL = LOUNGE_INFO>
 
 <#-- BK_PERSON_GENDER -->
 <#if CONTACT.GENDER?isnull><#global BK_PERSON_GENDER = "unknown"><#elseif CONTACT.GENDER?upper_case == "F"><#global BK_PERSON_GENDER = "female"><#else><#global BK_PERSON_GENDER = "male"></#if>
@@ -950,6 +1206,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#if PREFFERED_AIRPORT?isnull><#global RETURN_HOME = "N"><#elseif PREFFERED_AIRPORT?trim == DESTINATION_IATA?trim><#global RETURN_HOME = "Y"><#else><#global RETURN_HOME = "N"></#if>
 
 <#-- ENTERTAINMENT --><#if HOTEL_YES?trim == "Y" && PREMIUM_YES?trim == "Y" && ANCILLARY_ALL?trim == "Y"><#global ENTERTAINMENT = "Y"><#else><#global ENTERTAINMENT = "N"></#if>
+
 
 
 
@@ -972,15 +1229,18 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "DE"><#global SEARCH_COMMERCIAL_TEXT ="Unterstützt von"><#break>
 <#case "US"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
 <#case "IE"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
-<#case "SG"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "SG"><#global SEARCH_COMMERCIAL_TEXT ="Ofrecido por"><#break>
 <#case "UK"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
 <#case "ES"><#global SEARCH_COMMERCIAL_TEXT ="Ofrecido por"><#break>
 <#case "PL"><#global SEARCH_COMMERCIAL_TEXT ="Wspierany przez"><#break>
 <#case "ROW"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "EN-CA"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "FR-CA"><#global SEARCH_COMMERCIAL_TEXT ="Optimisé par"><#break>
+<#case "AR"><#global SEARCH_COMMERCIAL_TEXT ="Ofrecido por"><#break>
 <#default><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
 </#switch></#compress></#join>
 
-
+<#-- SETTINGS_FOOTER --><#global SETTINGS_FOOTER = MY_PROFILE_URL>
 
 <#-- PRICE_TO --><#global PRICE_TO = "Not in use">
 <#-- PRICE_FROM --><#global PRICE_FROM = "Not in use">
@@ -1001,9 +1261,14 @@ LESS_24_DEP: ${LESS_24_DEP}<br>
 DEPARTURE_DATE_RETURN: ${DEPARTURE_DATE_RETURN}<br>
 RETURN_DAY_CAR: ${RETURN_DAY_CAR}<br>
 LESS_24_RET: ${LESS_24_RET}<br>
-<a href="${DEEPLINK_BAG?exec}" target ="_blank">DEEPLINK_BAG: </a>: ${DEEPLINK_BAG?exec}<br> -->
+<a href="${DEEPLINK_BAG?exec}" target ="_blank">DEEPLINK_BAG: </a>: ${DEEPLINK_BAG?exec}<br>
+<#if CONTACT.EMAIL == "bdsimmons92@gmail.com" && campaign.name == "E_LHP_4DB">
+-->
 
-<#--TESTING PB VARIABLES <#if CONTACT.EMAIL == "emaildavyd@gmail.com" && campaign.name == "E_SH_RET_HOME">
+<#--<#if campaign.name == "E_LHP_4DB">
+FORCE_ROW_MARKET: ${FORCE_ROW_MARKET}<br>
+<strong>LANGUAGEID: ${LANGUAGEID}</strong><br>
+<strong>MARKET_EXTERNAL_LINK: ${MARKET_EXTERNAL_LINK}</strong><br>
 BOOKING_ID: ${BOOKING_ID}<br>
 LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}<br>
 EMAIL: ${CONTACT.EMAIL}<br>
@@ -1011,10 +1276,9 @@ EMAIL: ${CONTACT.EMAIL}<br>
 HAS_FLEX: ${HAS_FLEX}<br>
 LONG_HAUL: ${LONG_HAUL}<br>
 PREMIUM_YES: ${PREMIUM_YES}<br>
+NOT_PREMIUM_BK: ${NOT_PREMIUM_BK}<br>
 <hr>
 HAVE_PRIORITY_BOARDING: ${HAVE_PRIORITY_BOARDING}<br>
-lets see if HAS_PB is different
-HAS_PB: ${HAS_PB}<br>
 AIR_HAS_PB: ${AIR_HAS_PB}<br>
 <hr>
 MARKET: ${MARKET}<br>
@@ -1022,7 +1286,9 @@ ONEWAY_YN: ${ONEWAY_YN}<br>
 TRANSIT_NUMBER: ${TRANSIT_NUMBER}<br>
 HAS_TRANSIT: ${HAS_TRANSIT}<br>
 DEPARTURE_IATA: ${DEPARTURE_IATA}<br>
-<var>(TRANSFER_IATA uses dialogue_variables with limit =1)</var> TRANSFER_IATA: ${TRANSFER_IATA}<br>
 <var>(TRANSFER_IATA_LEG1 only uses the first leg destination)</var><strong>TRANSFER_IATA_LEG1: ${TRANSFER_IATA_LEG1}</strong><br>
 DESTINATION_IATA: ${DESTINATION_IATA}<br>
+<hr>
+PRODUCT_CODE: ${PRODUCT_CODE}<br>
+HORIZON: ${HORIZON}
 </#if>-->
