@@ -1,8 +1,8 @@
 LONGHAUL PROGRAM
 
-| Dialogue name  | Time sent out | ----|
+| Dialogue name  | Time sent out | Notes|
 | ---- | ----| ----|
-| E_LHP_1DA  | 1:30 PM  | |
+| E_LHP_1DA  | 1:30 PM  | ----|
 | E_LHP_2DA  | 1:30 PM  | ----|
 | E_LHP_5DA  | 1:30 PM  | ----|
 | E_LHP_1DB  | 1:00 PM  | ----|
@@ -19,12 +19,12 @@ LONGHAUL PROGRAM
 
 SHORTHAUL PROGRAM
 
-| Dialogue name  | Time sent out |
-| ---- | ---- |
-| E_SH_2DA  | 1:20 PM  |
-| E_SH_1DB | 1:30 PM
-| E_SH_3DB  | 1:30 PM  |
-| E_SH_3DB_CHASER | 1:30 PM |
-| E_SH_6DB  | 1:30 PM  |
-| E_SH_RET_HOME | 1:30 PM  |
-| E_SH_WHOME  | 1:30 PM  |
+| Dialogue name  | Time sent out | Notes|
+| ---- | ---- |----|
+| E_SH_2DA  | 1:20 PM  |----|
+| E_SH_1DB | 1:30 PM |----|
+| E_SH_3DB  | 1:30 PM |----|
+| E_SH_3DB_CHASER | 1:30 PM |----|
+| E_SH_6DB  | 1:30 PM |----|
+| E_SH_RET_HOME | 1:30 PM |----|
+| E_SH_WHOME  | 1:30 PM |----|
