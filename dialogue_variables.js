@@ -41,6 +41,8 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 <#global TEXT_SHOW_DEFAULT = 1>
 <#global SEARCH_SHOW_DEFAULT = 1>
 <#global TRIPINFO_SHOW_DEFAULT = 1>
+<#global CAR_SHOW_DEFAULT = 1>
+<#global HOTELS_SHOW_DEFAULT = 1>
 
 <#-- CREATE_REWARD_PROFILE --><#join><#compress><#switch MARKET>
 <#case "NO"><#global CREATE_REWARD_PROFILE ="https://no.norwegianreward.com/blimedlem"><#break>
@@ -376,12 +378,15 @@ TRANSIT_NUMBER prints out the number of transits-->
 </#if>
 
 <#-- DEEPLINK_ORDER_MEAL -->
-<#if MARKET == "NO"><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.no/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-<#elseif MARKET == "ROW"><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.com/en/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
-<#else><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.com/" + MARKET?lower_case + "/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+<#if TESTING_BOOKING_NUMBER_OF_MEALS?isnull || TESTING_BOOKING_NUMBER_OF_MEALS?number gt 0><#global DEEPLINK_ORDER_MEAL = MY_TRAVELS>
+<#else>
+    <#if MARKET == "NO"><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.no/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+    <#elseif MARKET == "ROW"><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.com/en/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+    <#else><#global DEEPLINK_ORDER_MEAL = "https://www.norwegian.com/" + MARKET?lower_case + "/start/meal/sale/?pnr=" + SQL_GLOBAL.BOOKING_GDSBOOKINGID + "&pnrLocal=" + SQL_GLOBAL.BOOKING_LOCALBOOKINGID>
+    </#if>   
 </#if>
 
-<#-- SOME_OR_NONE_ANC_DEEPLINK --><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_SEAT><#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_ORDER_MEAL><#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_BAG><#else><#global SOME_OR_NONE_ANC_DEEPLINK = MY_TRAVELS></#if>
+<#-- SOME_OR_NONE_ANC_DEEPLINK --><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_SEAT><#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y"><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_ORDER_MEAL><#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0><#global SOME_OR_NONE_ANC_DEEPLINK = DEEPLINK_BAG><#else><#global SOME_OR_NONE_ANC_DEEPLINK = MY_TRAVELS></#if>
 
 
 <#-- APIS_SATISFIED --><#if SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?isnull><#global APIS_SATISFIED = "N"><#elseif SQL_GLOBAL.BK_NO_OF_APIS_NOT_SATISFIED?number gt 0 && DESTINATION_COUNTRY_CODE?trim?upper_case == "US"><#global APIS_SATISFIED = "Y"><#else><#global APIS_SATISFIED = "N"></#if>
@@ -485,6 +490,10 @@ TRANSIT_NUMBER prints out the number of transits-->
 
 <#-- NEWTRIP_YEAR --><#if ONEWAY_YN?string?trim == "1"><#global NEWTRIP_YEAR = dayadd(SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1,2)?string("yyyy")><#else><#global NEWTRIP_YEAR = SQL_GLOBAL.BOOKING_RETURN_DEPARTURE_TIME1?string("yyyy")></#if>
 
+
+
+
+<#-- ////////////////GLOBAL DATA CALL ENDS HERE/////////////////// -->
 </#data>
 <#-- NUMBER_OF_PASSENGERS -->
 <#if NUMBER_OF_ADULTS?isnull><#assign NUMBER_OF_ADULTS = 1></#if><#if NUMBER_OF_ADULTS == 0 && NUMBER_OF_CHILDREN?isnull><#assign NUMBER_OF_CHILDREN = 1><#elseif NUMBER_OF_CHILDREN?isnull><#assign NUMBER_OF_CHILDREN = 0></#if><#if NUMBER_OF_INFANTS?isnull><#assign NUMBER_OF_INFANTS = 0></#if>
@@ -948,6 +957,29 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#default><#global PREMIUM_INFO = "https://www.norwegian.com/en/travel-info/on-board/premium-cabin/">
     </#switch></#compress></#join>
 
+<#-- FLEX_INFO --><#join><#compress><#switch MARKET>
+<#case "AR"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/ar/reservar/informacion-util-sobre-reservas/normas-sobre-las-tarifas/vuelos-internacionales-de-larga-distancia---flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/ar/reservar/informacion-util-sobre-reservas/normas-sobre-las-tarifas/vuelos-internacionales-de-larga-distancia---premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/ar/reservar/informacion-util-sobre-reservas/normas-sobre-las-tarifas/todos-los-vuelos-excepto-los-de-larga-distancia---flex/"></#if><#break>
+<#case "DE"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/de/buchung/buchungsinformationen/tarifbedingungen/internationale-langstrecke-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/de/buchung/buchungsinformationen/tarifbedingungen/internationale-langstrecke-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/de/buchung/buchungsinformationen/tarifbedingungen/alle-fluge-ausgenommen-langstrecke-flex/"></#if><#break>
+<#case "DK"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/dk/booking/bookingoplysninger/takstregler/internationale-langdistanceflyvninger-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/dk/booking/bookingoplysninger/takstregler/internationale-langdistanceflyvninger-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/dk/booking/bookingoplysninger/takstregler/alle-flyrejser-undtagen-langdistance-flex/"></#if><#break>
+<#case "EN-CA"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/en-ca/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/en-ca/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/en-ca/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "ES"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/normas-sobre-las-tarifas/vuelos-internacionales-de-larga-distancia-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/normas-sobre-las-tarifas/vuelos-internacionales-de-larga-distancia-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/normas-sobre-las-tarifas/todos-los-vuelos-excepto-los-de-larga-distancia--flex/"></#if><#break>
+<#case "FI"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/hintasaannot/kansainvaliset-kaukolennot-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/hintasaannot/kansainvaliset-kaukolennot-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/hintasaannot/kaikki-lennot-lukuun-ottamatta-kaukolentoja-flex/"></#if><#break>
+<#case "FR"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/vols-long-courriers-internationaux-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/vols-long-courriers-internationaux-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/tous-les-vols-sauf-les-long-courriers-flex/"></#if><#break>
+<#case "FR-CA"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/vols-long-courriers-internationaux--flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/vols-long-courriers-internationaux--premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/tous-les-vols-sauf-les-long-courriers--flex/"></#if><#break>
+<#case "IE"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/ie/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/ie/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/ie/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "IT"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "http://www.norwegian.com/en/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "http://www.norwegian.com/en/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "NL"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/nl/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "http://www.norwegian.com/nl/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/nl/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "NO"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.no/booking/bestillingsinformasjon/regler-og-vilkar-for-vare-billettyper/internasjonale-langdistanseruter-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/uk/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.no/booking/bestillingsinformasjon/regler-og-vilkar-for-vare-billettyper/alle-flyvninger-unntatt-langdistanseruter-flex/"></#if><#break>
+<#case "US"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/us/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/us/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/us/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "PL"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/warunki-taryf/miedzynarodowe-loty-na-dlugich-dystansach--taryfa-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/nasze-taryfy/"><#else><#global FLEX_INFO = "https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/warunki-taryf/wszystkie-loty-z-wyjatkiem-dlugodystansowych-taryfa-flex/"></#if><#break>
+<#case "ROW"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "SE"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/biljettregler/internationella-langdistansflyg-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/biljettregler/internationella-langdistansflyg-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/biljettregler/alla-flyg-exkl-langdistansflyg-flex/"></#if><#break>
+<#case "SG"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/sg/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/biljettregler/internationella-langdistansflyg-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/sg/booking/booking-information/fare-rules/international-long-haul-premiumflex/"></#if><#break>
+<#case "UK"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/uk/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/uk/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/uk/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#case "US"><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/us/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/us/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/us/booking/booking-information/fare-rules/all-flights-flex/"></#if><#break>
+<#default><#if ROUTE_AREA == 'long haul' && PREMIUM_YES == "N"><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/international-long-haul-flex/"><#elseif ROUTE_AREA == 'long haul' && PREMIUM_YES == "Y"><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/international-long-haul-premiumflex/"><#else><#global FLEX_INFO = "https://www.norwegian.com/en/booking/booking-information/fare-rules/all-flights-flex/"></#if>">
+    </#switch></#compress></#join>
+
 <#-- ENTERTAINMENT_INFO --><#join><#compress><#switch MARKET>
 <#case "AR"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/ar/informacion-sobre-el-viaje/a-bordo/cabina-de-clase-premium/"><#break>
 <#case "DE"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/de/reiseinfo/an-bord/unterhaltungsprogramm-an-bord/"><#break>
@@ -968,6 +1000,28 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "UK"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/uk/travel-info/on-board/in-flight-entertainment/"><#break>
 <#case "US"><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/us/travel-info/on-board/in-flight-entertainment/"><#break>
 <#default><#global ENTERTAINMENT_INFO = "https://www.norwegian.com/en/travel-info/on-board/in-flight-entertainment/">
+    </#switch></#compress></#join>
+
+<#-- TICKET_TYPES --><#join><#compress><#switch MARKET>
+<#case "AR"><#global TICKET_TYPES = "https://www.norwegian.com/ar/reservar/informacion-util-sobre-reservas/nuestros-tipos-de-pasajes/"><#break>
+<#case "DE"><#global TICKET_TYPES = "https://www.norwegian.com/de/buchung/buchungsinformationen/unsere-tickettypen/"><#break>
+<#case "DK"><#global TICKET_TYPES = "https://www.norwegian.com/dk/booking/bookingoplysninger/vores-billettyper/"><#break>
+<#case "EN-CA"><#global TICKET_TYPES = "https://www.norwegian.com/en-ca/booking/booking-information/our-ticket-types/"><#break>
+<#case "ES"><#global TICKET_TYPES = "https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/nuestros-tipos-de-billetes/"><#break>
+<#case "FI"><#global TICKET_TYPES = "https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/lipputyyppimme/"><#break>
+<#case "FR"><#global TICKET_TYPES = "https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/nos-types-de-billets/"><#break>
+<#case "FR-CA"><#global TICKET_TYPES = "https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/nos-types-de-billet/"><#break>
+<#case "IE"><#global TICKET_TYPES = "https://www.norwegian.com/ie/booking/booking-information/ticket-types/"><#break>
+<#case "IT"><#global TICKET_TYPES = "https://www.norwegian.com/it/prenotazione/informazioni-utili/tipi-di-biglietto/"><#break>
+<#case "NL"><#global TICKET_TYPES = "https://www.norwegian.com/nl/prenotazione/informazioni-utili/tipi-di-biglietto/"><#break>
+<#case "NO"><#global TICKET_TYPES = "https://www.norwegian.no/booking/bestillingsinformasjon/billettyper/"><#break>
+<#case "PL"><#global TICKET_TYPES = "https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/nasze-taryfy/"><#break>
+<#case "ROW"><#global TICKET_TYPES = "https://www.norwegian.com/en/booking/booking-information/ticket-types/"><#break>
+<#case "SE"><#global TICKET_TYPES = "https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/vara-biljettyper/"><#break>
+<#case "SG"><#global TICKET_TYPES = "https://www.norwegian.com/sg/booking/booking-information/ticket-types/"><#break>
+<#case "UK"><#global TICKET_TYPES = "https://www.norwegian.com/uk/booking/booking-information/ticket-types/"><#break>
+<#case "US"><#global TICKET_TYPES = "https://www.norwegian.com/uS/booking/booking-information/ticket-types/"><#break>
+<#default><#global TICKET_TYPES = "https://www.norwegian.com/en/booking/booking-information/ticket-types/">
     </#switch></#compress></#join>
 
 <#-- ENTERTAINMENT_MENU --><#join><#compress><#switch MARKET>
@@ -1200,7 +1254,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 
 <#--SURVEY_LINK2 --><#global SURVEY_LINK2 = "https://survey.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Age=" + BK_PERSON_AGE + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Depcountry=" + DEPARTURE_COUNTRY?exec?trim + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Gender=" + BK_PERSON_GENDER + "&opt_Reward=" + REWARD_01?exec?trim + "&langident=" + SURVEY_LANGUAGE?exec?trim>
 
-<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + ROUTE_AREA?trim?replace(" ","_") + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + SURVEY_LANGUAGE?exec?trim>
+<#--SURVEY_LINK3 --><#global SURVEY_LINK3 = "https://surveys.enalyzer.com/?pid=" + SURVEY_PID + "&opt_Children=" + CHILDREN_ON_BOOKING + "&opt_Route_Type=" + LH_OR_SH + "&opt_Departure_Airport=" + DEPARTURE_IATA + "&opt_Destination_Airport=" + DESTINATION_IATA + "&opt_Departure=" + DEPARTURE_DATE_SURVEY + "&opt_Email=" + CONTACT.EMAIL?trim + "&opt_Age=" + BK_PERSON_AGE + "&opt_Depcountry=" + DEPARTURE_COUNTRY + "&opt_Aircraft=" + OPT_AIRCRAFT + "&opt_Gender=" + BK_PERSON_GENDER + "&langIdent=" + SURVEY_LANGUAGE?exec?trim>
 
 <#-- DESTINATION_URL_PART -->
 <#if MARKET == "NO"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.no/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.no"  + DEST_TRANSLATION_TEXT></#if><#elseif MARKET == "ROW"><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/en/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/en"  + DEST_TRANSLATION_TEXT></#if><#else><#if LONG_HAUL == "Y"><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + "/" + DESTINATION_IATA?lower_case><#else><#global DESTINATION_URL_PART = "https://www.norwegian.com/" + MARKET?lower_case + DEST_TRANSLATION_TEXT></#if></#if>
@@ -1254,8 +1308,22 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 
 <#-- Fast Track disclaimer text--> <#include "cms://contentlibrary/!framework/global_variables/fast_track_footer_text_dialogues.htm">
 
-<#-- PRIORITY BOARDING AIR_HAS_PB checks if the airport has PB or not and uses AIR_HAS_PB-->
-<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/pb_list.htm">
+<#-- PRIORITY BOARDING AIR_HAS_PB checks if the airport has PB or not and uses AIR_HAS_PB. Updated to one table on 18/07/18 JM. Original file is called PB_List is still there-->
+<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/pb_list_one_table.htm">
+
+
+<#-- HAS_REWARD_FAMILY created on 23/07/18 to show/hide reward family content in display rules JM -->
+<#if REWARD_FAMILY?isnull><#global HAS_REWARD_FAMILY = "N">
+<#elseif REWARD_FAMILY?number == "1"><#global HAS_REWARD_FAMILY = "Y">
+<#elseif REWARD_FAMILY?number == "0"><#global HAS_REWARD_FAMILY = "N"></#if>
+
+<#-- HAS_FAMILY created on 23/07/18 to find out if there are children or infants -->
+<#if NUMBER_OF_CHILDREN?number gt 0 && NUMBER_OF_INFANTS?number gt 0><#global HAS_FAMILY = "Y">
+<#else><#global HAS_FAMILY  = "N"></#if>
+
+
+
+
 
 <#-- <#include "cms://contentlibrary/!framework/global_variables/Test_SH_variables.htm">
 <a href="${DEEPLINK_ONLINE_CHECKIN?exec}" target ="_blank">DEEPLINK_ONLINE_CHECKIN</a>: ${DEEPLINK_ONLINE_CHECKIN?exec}<br>
@@ -1294,3 +1362,14 @@ DESTINATION_IATA: ${DESTINATION_IATA}<br>
 PRODUCT_CODE: ${PRODUCT_CODE}<br>
 HORIZON: ${HORIZON}
 </#if>-->
+<#if campaign.name == "E_MAX_LH_4DB" || campaign.name == 'E_MAX_LH_9DB' || campaign.name == 'E_MAX_LH_1DA' || campaign.name == 'E_MAX_LH_RET_HOME' || campaign.name == 'E_MAX_LH_23DB' || campaign.name == 'E_MAX_LH_7DB' || campaign.name == 'E_MAX_LH_7DB_CHASER' || campaign.name = 'E_MAX_LH_2DA' || campaign.name == 'E_MAX_LH_5DA' || campaign.name == 'E_MAX_LH_12DB'>CAMPAIGN: ${CAMPAIGN}<br>
+HORIZON: ${HORIZON}<br>
+HAS_FLEX: ${HAS_FLEX}<br>MEAL_AVAILABLE: ${MEAL_AVAILABLE}<br>LH_OR_SH: ${LH_OR_SH}<br>MEAL_AVAILABLE_IS_SET: ${MEAL_AVAILABLE_IS_SET}<br>TESTING_BOOKING_NUMBER_OF_MEALS: ${TESTING_BOOKING_NUMBER_OF_MEALS}<br>TESTING_BOOKING_NUMBER_OF_BAGS: ${TESTING_BOOKING_NUMBER_OF_BAGS}<br>TESTING_BOOKING_NUMBER_OF_SEATS: ${TESTING_BOOKING_NUMBER_OF_SEATS}<br>DEEPLINK_ORDER_MEAL: ${DEEPLINK_ORDER_MEAL}<br>PREMIUM_YES: ${PREMIUM_YES}<br>HAS_MEAL_IS_SET: ${HAS_MEAL_IS_SET}<br>HAS_MEAL: ${HAS_MEAL}<br>MY_TRAVELS: ${MY_TRAVELS}<br>
+HAVE_PRIORITY_BOARDING:${HAVE_PRIORITY_BOARDING}...AIR_HAS_PB:${AIR_HAS_PB}<br>NUMBER_OF_CHILDREN/INFANTS: ${NUMBER_OF_CHILDREN + '/' + NUMBER_OF_INFANTS}<br>
+<hr>
+REWARD_MEMBER: ${REWARD_MEMBER}<br>
+REWARD_FAMILY: ${REWARD_FAMILY} >>>>> HAS_REWARD_FAMILY: ${HAS_REWARD_FAMILY}<br>
+HAS_FAMILY: ${HAS_FAMILY}<br>
+
+
+</#if>
