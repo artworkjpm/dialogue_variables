@@ -2,18 +2,18 @@ MAX LONGHAUL launched in UK market only 26/07/18
 
 | Dialogue name  | Time sent out | Notes|
 | ---- | ----| ----|
-| E_MAX_LH_12DB | 2.00pm | ----|
-|E_MAX_LH_12DB_CHASER | 2.00pm | ----|
-|E_MAX_LH_1DA | 2.00pm | ----|
-|E_MAX_LH_1DB | 2.00pm | ----|
-|E_MAX_LH_23DB | 2.00pm| ----|
-|E_MAX_LH_2DA | 2.00pm| ----|
-|E_MAX_LH_4DB | 2.00pm| ----|
-|E_MAX_LH_5DA | 2.00pm| ----|
-|E_MAX_LH_7DB | 2.00pm| ----|
-|E_MAX_LH_7DB_CHASER | 2.00pm| ----|
-|E_MAX_LH_9DB | 2.00pm | ----|
-|E_MAX_LH_RET_HOME | 2.00pm | ----|
+| E_MAX_LH_12DB | 2.30pm | ----|
+|E_MAX_LH_12DB_CHASER | 2.30pm | ----|
+|E_MAX_LH_1DA | 2.30pm | ----|
+|E_MAX_LH_1DB | 2.30pm | ----|
+|E_MAX_LH_23DB | 2.30pm| ----|
+|E_MAX_LH_2DA | 2.30pm| ----|
+|E_MAX_LH_4DB | 2.30pm| ----|
+|E_MAX_LH_5DA | 2.30pm| ----|
+|E_MAX_LH_7DB | 2.30pm| ----|
+|E_MAX_LH_7DB_CHASER | 2.30pm| ----|
+|E_MAX_LH_9DB | 2.30pm | ----|
+|E_MAX_LH_RET_HOME | 2.30pm | ----|
 
 
 
