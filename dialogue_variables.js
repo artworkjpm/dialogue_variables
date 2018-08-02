@@ -25,7 +25,19 @@ BOOKING_ID: ${BOOKING_ID}
 LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 -->
 
-
+<#-- Load all the static information needed -->
+<#data FRAMEWORK_STATIC_1_COL as STATIC>
+	<#filter STATIC_MARKET = MARKET>
+	<#fields STATIC_LOGO_TEXT STATIC_LOGO_URL STATIC_UNSUBSCRIBE_TEXT STATIC_WEBVERSION_TEXT STATIC_PRIVACY_TEXT STATIC_CONTACT_TEXT STATIC_SETTINGS_TEXT STATIC_DAYS_TO_TAKEOFF>
+<#global LOGO_TEXT = STATIC.STATIC_LOGO_TEXT>
+	<#global LOGO_URL = STATIC.STATIC_LOGO_URL>
+	<#global UNSUBSCRIBE_TEXT = STATIC.STATIC_UNSUBSCRIBE_TEXT>
+	<#global WEBVERSION_TEXT = STATIC.STATIC_WEBVERSION_TEXT>
+<#global PRIVACY_TEXT = STATIC.STATIC_PRIVACY_TEXT>
+<#global CONTACT_TEXT = STATIC.STATIC_CONTACT_TEXT>
+<#global SETTINGS_TEXT = STATIC.STATIC_SETTINGS_TEXT>
+<#global DAYS_TO_TAKEOFF = STATIC.STATIC_DAYS_TO_TAKEOFF>
+</#data>
 
 
 <#-- setting module default states -->
@@ -90,7 +102,7 @@ LOCAL_BOOKING_ID: ${LOCAL_BOOKING_ID}
 
 <#-- REWARD_MEMBER --><#if CONTACT.REWARD_YN?isnull><#global REWARD_MEMBER = "N"><#elseif CONTACT.REWARD_YN == "N"><#global REWARD_MEMBER = "N"><#elseif CONTACT.REWARD_YN== "Y"><#global REWARD_MEMBER = "Y"><#else><#global REWARD_MEMBER = "N"></#if>
 <#-- MY_TRAVELS -->
-<#if MARKET == "NO"><#global MY_TRAVELS = "https://www.norwegian.no/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#elseif MARKET == "ROW"><#global MY_TRAVELS = "https://www.norwegian.com/en/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#else><#global MY_TRAVELS = "https://www.norwegian.com/" +MARKET?lower_case + "/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID></#if>
+<#if MARKET == "NO"><#global MY_TRAVELS = "https://www.norwegian.no/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#elseif MARKET == "ROW"><#global MY_TRAVELS = "https://www.norwegian.com/en/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID><#else><#global MY_TRAVELS = "https://www.norwegian.com/" + MARKET?lower_case + "/start/booking/details?pnr=" + BOOKING_ID + "&pnrLocal=" + LOCAL_BOOKING_ID></#if>
 
 <#-- ABANDON_BASKET TABLE -->
 <#if DV_PRELOAD_TRIPINFO = "Y">
@@ -437,15 +449,13 @@ TRANSIT_NUMBER prints out the number of transits-->
 
 
 <#-- ONLINE_CHECKIN_AVAILABLE_YN --><#-- Online check-in is not available for some airports Added 27.06.2018 by BW -->
-<#if DEPARTURE_IATA == 'AGA' || DEPARTURE_IATA == 'AUS' || DEPARTURE_IATA == 'BDL' || DEPARTURE_IATA == 'BKK' || DEPARTURE_IATA == 'BOS' || DEPARTURE_IATA == 'DBV' || DEPARTURE_IATA == 'DEN' || DEPARTURE_IATA == 'DXB' || DEPARTURE_IATA == 'EWR' || DEPARTURE_IATA == 'EZE' || DEPARTURE_IATA == 'FLL' || DEPARTURE_IATA == 'JFK' || DEPARTURE_IATA == 'LAS' || DEPARTURE_IATA == 'LAX' || DEPARTURE_IATA == 'MCO' || DEPARTURE_IATA == 'OAK' || DEPARTURE_IATA == 'ORD' || DEPARTURE_IATA == 'PUY' || DEPARTURE_IATA == 'PVD' || DEPARTURE_IATA == 'RAK' || DEPARTURE_IATA == 'RJK' || DEPARTURE_IATA == 'SEA' || DEPARTURE_IATA == 'SIN' || DEPARTURE_IATA == 'SJU' || DEPARTURE_IATA == 'SPU' || DEPARTURE_IATA == 'STX' || DEPARTURE_IATA == 'SWF' || DEPARTURE_IATA == 'YHM' || DEPARTURE_IATA == 'YUL' || DEPARTURE_IATA == 'YQB' || DEPARTURE_IATA == 'ZAG'>
-    <#if LESS_24_DEP == "Y"  || LESS_24_RET == "Y"><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'Not available for this Departure IATA'>
-    <#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'More than 24 hours to departure, and not available for this Departure IATA'>
-    </#if>
-<#elseif DESTINATION_IATA == 'AUS' || DESTINATION_IATA == 'BDL' || DESTINATION_IATA == 'BOS' || DESTINATION_IATA == 'DEN' || DESTINATION_IATA == 'EWR' || DESTINATION_IATA == 'FLL' || DESTINATION_IATA == 'JFK' || DESTINATION_IATA == 'LAS' || DESTINATION_IATA == 'LAX' || DESTINATION_IATA == 'MCO' || DESTINATION_IATA == 'OAK' || DESTINATION_IATA == 'ORD' || DESTINATION_IATA == 'SEA' || DESTINATION_IATA == 'SWF' || DESTINATION_IATA == 'PVD'>
-    <#if LESS_24_DEP == "Y"  || LESS_24_RET == "Y"><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'Not available for this Destination IATA'>
-    <#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'More than 24 hours to departure, and not available for this Destination IATA'>
-    </#if>
-<#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'Y'>
+<#if DEPARTURE_IATA == 'AGA' || DEPARTURE_IATA == 'AUS' || DEPARTURE_IATA == 'BDL' || DEPARTURE_IATA == 'BKK' || DEPARTURE_IATA == 'BOS' || DEPARTURE_IATA == 'DBV' || DEPARTURE_IATA == 'DEN' || DEPARTURE_IATA == 'DXB' || DEPARTURE_IATA == 'BOJ' || DEPARTURE_IATA == 'EWR' || DEPARTURE_IATA == 'EZE' || DEPARTURE_IATA == 'FLL' || DEPARTURE_IATA == 'JFK' || DEPARTURE_IATA == 'LAS' || DEPARTURE_IATA == 'LAX' || DEPARTURE_IATA == 'MCO' || DEPARTURE_IATA == 'OAK' || DEPARTURE_IATA == 'ORD' || DEPARTURE_IATA == 'PUY' || DEPARTURE_IATA == 'VAR' || DEPARTURE_IATA == 'PVD' || DEPARTURE_IATA == 'RAK' || DEPARTURE_IATA == 'RJK' || DEPARTURE_IATA == 'SEA' || DEPARTURE_IATA == 'SIN' || DEPARTURE_IATA == 'SJU' || DEPARTURE_IATA == 'SPU' || DEPARTURE_IATA == 'STX' || DEPARTURE_IATA == 'SWF' || DEPARTURE_IATA == 'YHM' || DEPARTURE_IATA == 'YUL' || DEPARTURE_IATA == 'YQB' || DEPARTURE_IATA == 'ZAG'>
+    <#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'Not available for this Departure IATA'>
+   
+<#elseif DESTINATION_IATA == 'AUS' || DESTINATION_IATA == 'BDL' || DESTINATION_IATA == 'BOS' || DESTINATION_IATA == 'DEN' || DESTINATION_IATA == 'EWR' || DESTINATION_IATA == 'FLL' || DESTINATION_IATA == 'DBV' || DESTINATION_IATA == 'PUY' || DESTINATION_IATA == 'BOJ' || DESTINATION_IATA == 'SPU' || DESTINATION_IATA == 'JFK' || DESTINATION_IATA == 'LAS' || DESTINATION_IATA == 'LAX' || DESTINATION_IATA == 'MCO' || DESTINATION_IATA == 'OAK' || DESTINATION_IATA == 'ORD' || DESTINATION_IATA == 'SEA' || DESTINATION_IATA == 'SWF' || DESTINATION_IATA == 'PVD' || DESTINATION_IATA == 'VAR'>
+    <#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'><#-- REASON is created to make it easier to test. It is not beeing used in any live campqaigns --><#assign REASON = 'Not available for this Destination IATA'>
+<#elseif  LESS_24_DEP == "Y"  || LESS_24_RET == "Y"><#global ONLINE_CHECKIN_AVAILABLE_YN = 'Y'> 
+<#else><#global ONLINE_CHECKIN_AVAILABLE_YN = 'N'>
 </#if>
 
 
@@ -564,9 +574,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 
 <#-- DESTINATION_SCHENGEN --><#if AIRPORTS.SCHENGEN_YN?isnull><#global DESTINATION_SCHENGEN = "N"><#elseif AIRPORTS.SCHENGEN_YN == "Y"><#global DESTINATION_SCHENGEN = "Y"><#else><#global DESTINATION_SCHENGEN = "N"></#if>
 
-<#-- PRIORITY_BOARDING_AVAILABLE_RETURN_DATE <#global PRIORITY_BOARDING_AVAILABLE_DATE = AIRPORTS.PRI_BOARD_ACTIVE_DATE?date?string("yyyy-MM-dd")>-->
-
-<#-- PRIORITY_BOARDING_AVAILABLE_RETURN <#if AIRPORTS.PRI_BOARD_ACTIVE_DATE?isnull><#global PRIORITY_BOARDING_AVAILABLE_RETURN = "N"><#elseif DEPARTURE_DATE_FULL gt AIRPORTS.PRI_BOARD_ACTIVE_DATE?datetime><#global PRIORITY_BOARDING_AVAILABLE_RETURN = "Y"><#else><#global PRIORITY_BOARDING_AVAILABLE_RETURN = "N"></#if>-->
+<#-- PB_TEXT was designed to print out the airports of the PB, was originally in fast_track_footer_text_dialogues file. We deleted it today because it is not being used, all the code was comented out. JM 01/08/18 -->
 
 </#data>
 
@@ -594,6 +602,9 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 </#data>
 
 <#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
+
+<#-- HOTEL_LOCALE --><#if MARKET == "NO"><#global HOTEL_LOCALE = "no_NO"><#elseif MARKET == "ROW"><#global HOTEL_LOCALE = "en_IE"><#elseif MARKET == "FR-CA"><#global HOTEL_LOCALE = "fr_CA"><#elseif MARKET == "EN-CA"><#global HOTEL_LOCALE = "en_CA"><#elseif MARKET == "IE"><#global HOTEL_LOCALE = "ie"><#else><#global HOTEL_LOCALE = CONTACT.LANGUAGEID?string[0..1]?lower_case?trim></#if>
+
 
 <#-- HOTEL_URL --><#if campaign.name == "DEBUG_E_SH_6DB">
     <#global HOTEL_URL><#include "cms://contentlibrary/!framework/emailcampaign/modules/hotels/debug_assignments_nas_api_2_log.txt"></#global>
@@ -744,8 +755,6 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "PL"><#global CURRENCY = "SGD"><#break>
 <#default><#global CURRENCY = "EUR"></#switch>
 
-<#-- HOTEL_LOCALE --><#if MARKET == "NO"><#global HOTEL_LOCALE = "no_NO"><#elseif MARKET == "ROW"><#global HOTEL_LOCALE = "en_IE"><#else><#global HOTEL_LOCALE = CONTACT.LANGUAGEID?string[0..1]?lower_case?trim></#if>
-
 <#-- WEBPAGE_URL_PATH <#join><#compress><#switch LANGUAGEID?lower_case>
     <#case "nb-no"><#global WEBPAGE_URL_PATH ="booking/fly/lavpris"><#break>
     <#case "sv-se"><#global WEBPAGE_URL_PATH ="bokning/flyg/lagpris"><#break>
@@ -776,7 +785,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 
 <#-- CAR_URL--><#global CAR_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/book?clientID=" + CAR_CLIENT_ID?trim + "&residencyId=" + AIRPORT_LANG?lower_case?trim + "&Currency=" + BOOKING_CURRENCY?trim + "&lang=" + CARTRAWLER_LANG_LID?trim + "&pickupIATACode=" + DESTINATION_IATA?trim + "&returnIATACode=" + DESTINATION_IATA?trim + "&pickupDateTime=" + DEPARTURE_YEAR?trim + "-" + DEPARTURE_MONTH?trim + "-" + DEPARTURE_DAY?trim + "T09:00&returnDateTime=" + RETURN_YEAR_CAR?trim + "-" + RETURN_MONTH_CAR?trim + "-" + RETURN_DAY_CAR?trim + "T09:00&oneway=" + ONEWAY_YN?trim>
 
-<#-- AIRPORT_TRANSFER_URL--><#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?clientID=" + CAR_GT_CLIENT_ID?trim + "&Currency=" + BOOKING_CURRENCY?trim + "&pickupIATACode=" + DESTINATION_IATA + "&pickupDateTime=" + MAIN_LEG_ARRIVAL_DATE_HOTEL + "&returnDateTime=" + RETURN_DATE_HOTEL?trim + "&oneway=" + ONEWAY_YN?trim + "#/search#">
+<#-- AIRPORT_TRANSFER_URL--><#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?clientID=" + CAR_GT_CLIENT_ID?trim + "&Currency=" + BOOKING_CURRENCY?trim + "&pickupIATACode=" + DESTINATION_IATA + "&pickupDateTime=" + MAIN_LEG_ARRIVAL_DATE_HOTEL + "T" + MAIN_LEG_ARRIVAL_TIME + ":00" + "&returnDateTime=" + RETURN_DATE_HOTEL?trim + "T" + RETURN_TIME + ":00" + "&adults=" + NUMBER_OF_ADULTS + "&oneway=" + ONEWAY_YN?trim + "#/search#">
 <#-- AIRPORT_TRANSFER_URL<#global AIRPORT_TRANSFER_URL = "https://cars.cartrawler.com/norwegian-new/" + CARTRAWLER_LANG_LID?trim + "/gt/?currency=" + BOOKING_CURRENCY?trim + "&clientID=" + CAR_GT_CLIENT_ID?trim + "#/search#">-->
 <#-- LOWFARE_FOOTER --><#join><#compress><#switch MARKET>
 <#case "NO"><#global LOWFARE_FOOTER ="https://www.norwegian.no/booking/fly/lavpriskalender/"><#break>
@@ -1076,7 +1085,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "ES"><#global LOUNGE_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/acceso-a-salas-vip/"><#break>
 <#case "FI"><#global LOUNGE_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/lahtoselvitys-ja-koneeseen-nousu/lounge-palvelu/"><#break>
 <#case "FR"><#global LOUNGE_INFO = "https://www.norwegian.com/fr/infos-voyageurs/enregistrement-et-embarquement/acces-au-salon-d-attente/"><#break>
-<#case "FR-CA"><#global LOUNGE_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/enregistrement-et-embarquement/acces-au-salon-d-attente/"><#break>
+<#case "FR-CA"><#global LOUNGE_INFO = "https://www.norwegian.com/fr-ca/voyager-avec-nous/enregistrement-et-embarquement/acces-au-salon-dattente-lounge/"><#break>
 <#case "IE"><#global LOUNGE_INFO = "https://www.norwegian.com/ie/travel-info/check-in-and-boarding/lounge-access/"><#break>
 <#case "IT"><#global LOUNGE_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/check-in-e-imbarco/accesso-alla-lounge/"><#break>
 <#case "NL"><#global LOUNGE_INFO = "https://www.norwegian.com/nl/travel-info/check-in-and-boarding/lounge-access/"><#break>
@@ -1164,7 +1173,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "ES"><#global PASSPORT_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/facturacion-y-embarque/pasaporte-visado-y-documento-de-identificacion/"><#break>
 <#case "FI"><#global PASSPORT_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/lahtoselvitys-ja-koneeseen-nousu/passi-viisumi-ja-henkilokortti/"><#break>
 <#case "FR"><#global PASSPORT_INFO = "https://www.norwegian.com/fr/infos-voyageurs/enregistrement-et-embarquement/passeport-visa-et-piece-d-identite/"><#break>
-<#case "FR-CA"><#global PASSPORT_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/enregistrement-et-embarquement/passeport-visa-et-piece-d-identite/"><#break>
+<#case "FR-CA"><#global PASSPORT_INFO = "https://www.norwegian.com/fr-ca/voyager-avec-nous/enregistrement-et-embarquement/passeport-visa-et-piece-didentite/"><#break>
 <#case "IE"><#global PASSPORT_INFO = "https://www.norwegian.com/ie/travel-info/check-in-and-boarding/passport-visa/"><#break>
 <#case "IT"><#global PASSPORT_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/check-in-e-imbarco/passaporto-visto-e-documenti-di-identita/"><#break>
 <#case "NL"><#global PASSPORT_INFO = "https://www.norwegian.com/nl/travel-info/check-in-and-boarding/passport-visa/"><#break>
@@ -1186,7 +1195,7 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 <#case "ES"><#global CHILDREN_INFO = "https://www.norwegian.com/es/informacion-sobre-el-viaje/viajar-con-ninos/equipaje/"><#break>
 <#case "FI"><#global CHILDREN_INFO = "https://www.norwegian.com/fi/matkusta-kanssamme/matkustaminen-lasten-kanssa/matkatavarat/"><#break>
 <#case "FR"><#global CHILDREN_INFO = "https://www.norwegian.com/fr/infos-voyageurs/voyager-avec-des-enfants/bagages/"><#break>
-<#case "FR-CA"><#global CHILDREN_INFO = "https://www.norwegian.com/fr-ca/infos-voyageurs/voyager-avec-des-enfants/bagages/"><#break>
+<#case "FR-CA"><#global CHILDREN_INFO = "https://www.norwegian.com/fr-ca/voyager-avec-nous/voyager-avec-des-enfants/bagages-pour-enfants-et-bebes/"><#break>
 <#case "IE"><#global CHILDREN_INFO = "https://www.norwegian.com/ie/travel-info/travelling-with-children/baggage/"><#break>
 <#case "IT"><#global CHILDREN_INFO = "https://www.norwegian.com/it/informazioni-di-viaggio/bambini/bagagli/"><#break>
 <#case "NL"><#global CHILDREN_INFO = "https://www.norwegian.com/nl/travel-info/travelling-with-children/baggage/"><#break>
@@ -1314,13 +1323,16 @@ JM if CITY and DISPLAYNAME are null use the DISPLAYNAME_UNIFORM
 
 <#-- HAS_REWARD_FAMILY created on 23/07/18 to show/hide reward family content in display rules JM -->
 <#if REWARD_FAMILY?isnull><#global HAS_REWARD_FAMILY = "N">
-<#elseif REWARD_FAMILY?number == "1"><#global HAS_REWARD_FAMILY = "Y">
-<#elseif REWARD_FAMILY?number == "0"><#global HAS_REWARD_FAMILY = "N"></#if>
+<#elseif REWARD_FAMILY?number == 1><#global HAS_REWARD_FAMILY = "Y">
+<#elseif REWARD_FAMILY?number == 0><#global HAS_REWARD_FAMILY = "N"></#if>
 
 <#-- HAS_FAMILY created on 23/07/18 to find out if there are children or infants -->
 <#if NUMBER_OF_CHILDREN?number gt 0 && NUMBER_OF_INFANTS?number gt 0><#global HAS_FAMILY = "Y">
 <#else><#global HAS_FAMILY  = "N"></#if>
 
+<#-- PRINT_OUT_NAME use this variable to be = "Y" to print out the display rule inside hero variant A. If you want to see the display rule of other modules, add the same code as done to variant A of the hero to the html of the module. JM 31/07/18
+<#global PRINT_OUT_NAME = "Y">
+-->
 
 
 
@@ -1362,14 +1374,52 @@ DESTINATION_IATA: ${DESTINATION_IATA}<br>
 PRODUCT_CODE: ${PRODUCT_CODE}<br>
 HORIZON: ${HORIZON}
 </#if>-->
-<#if campaign.name == "E_MAX_LH_4DB" || campaign.name == 'E_MAX_LH_9DB' || campaign.name == 'E_MAX_LH_1DA' || campaign.name == 'E_MAX_LH_RET_HOME' || campaign.name == 'E_MAX_LH_23DB' || campaign.name == 'E_MAX_LH_7DB' || campaign.name == 'E_MAX_LH_7DB_CHASER' || campaign.name = 'E_MAX_LH_2DA' || campaign.name == 'E_MAX_LH_5DA' || campaign.name == 'E_MAX_LH_12DB'>CAMPAIGN: ${CAMPAIGN}<br>
+
+<#--<#if campaign.name?contains("E_MAX_LH")>
+CAMPAIGN: ${CAMPAIGN}<br>
+MARKET: ${MARKET}<br>
 HORIZON: ${HORIZON}<br>
 HAS_FLEX: ${HAS_FLEX}<br>MEAL_AVAILABLE: ${MEAL_AVAILABLE}<br>LH_OR_SH: ${LH_OR_SH}<br>MEAL_AVAILABLE_IS_SET: ${MEAL_AVAILABLE_IS_SET}<br>TESTING_BOOKING_NUMBER_OF_MEALS: ${TESTING_BOOKING_NUMBER_OF_MEALS}<br>TESTING_BOOKING_NUMBER_OF_BAGS: ${TESTING_BOOKING_NUMBER_OF_BAGS}<br>TESTING_BOOKING_NUMBER_OF_SEATS: ${TESTING_BOOKING_NUMBER_OF_SEATS}<br>DEEPLINK_ORDER_MEAL: ${DEEPLINK_ORDER_MEAL}<br>PREMIUM_YES: ${PREMIUM_YES}<br>HAS_MEAL_IS_SET: ${HAS_MEAL_IS_SET}<br>HAS_MEAL: ${HAS_MEAL}<br>MY_TRAVELS: ${MY_TRAVELS}<br>
-HAVE_PRIORITY_BOARDING:${HAVE_PRIORITY_BOARDING}...AIR_HAS_PB:${AIR_HAS_PB}<br>NUMBER_OF_CHILDREN/INFANTS: ${NUMBER_OF_CHILDREN + '/' + NUMBER_OF_INFANTS}<br>
+HAVE_PRIORITY_BOARDING:${HAVE_PRIORITY_BOARDING}...AIR_HAS_PB:${AIR_HAS_PB}<br>NUMBER_OF_CHILDREN/INFANTS: ${NUMBER_OF_CHILDREN + '/' + NUMBER_OF_INFANTS}<br>AIRPORT_TRANSFER_URL: ${AIRPORT_TRANSFER_URL}<br>
 <hr>
 REWARD_MEMBER: ${REWARD_MEMBER}<br>
 REWARD_FAMILY: ${REWARD_FAMILY} >>>>> HAS_REWARD_FAMILY: ${HAS_REWARD_FAMILY}<br>
 HAS_FAMILY: ${HAS_FAMILY}<br>
+<hr>
+ONLINE_CHECKIN_AVAILABLE_YN: ${ONLINE_CHECKIN_AVAILABLE_YN}<br>
+LESS_24_DEP: ${LESS_24_DEP}<br>
+</#if>-->
 
-
+<#if campaign.name == "DEBUG_E_LHP_4DB">
+CAMPAIGN: ${CAMPAIGN}<br>
+EMAIL: ${CONTACT.EMAIL}<br>
+MARKET: ${MARKET}  <hr>
+HAS_FLEX: ${HAS_FLEX}<br>
+PREMIUM_YES: ${PREMIUM_YES}<BR>
+ROUNDTRIP: ${ROUNDTRIP}<br>
+LH_OR_SH: ${LH_OR_SH}<br>
+<hr>
+HAVE_PRIORITY_BOARDING: ${HAVE_PRIORITY_BOARDING}<br>
+AIR_HAS_PB: ${AIR_HAS_PB}<br>
 </#if>
+
+<#--if campaign.name == "E_SH_3DB" && CONTACT.EMAIL == "koeln@suntimes.de" > -->
+<#--if campaign.name == 'E_MAX_LH_1DA'>
+
+ MARKET: ${MARKET}<br>
+ MARKET_VAR: ${MARKET_VAR}<br>
+ LANGUAGEID: ${LANGUAGEID}<br>
+ FORCE_ROW_MARKET: ${FORCE_ROW_MARKET}<br>
+ EMAIL: ${CONTACT.EMAIL}<br>
+ MY_TRAVELS: ${MY_TRAVELS}<br>
+ HOTEL_URL: ${HOTEL_URL}<br>
+ <hr>
+ TESTING_BOOKING_NUMBER_OF_MEALS: ${TESTING_BOOKING_NUMBER_OF_MEALS}<br>
+ TESTING_BOOKING_NUMBER_OF_BAGS: ${TESTING_BOOKING_NUMBER_OF_BAGS}<br>
+ TESTING_BOOKING_NUMBER_OF_SEATS: ${TESTING_BOOKING_NUMBER_OF_SEATS}<br>
+MEAL_AVAILABLE: ${MEAL_AVAILABLE}<br>
+
+ DAYS_TO_DEP: ${DAYS_TO_DEP}<br>
+ DAYS_TO_TAKEOFF: ${DAYS_TO_TAKEOFF}
+ 
+</#if-->
