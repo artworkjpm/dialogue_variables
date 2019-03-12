@@ -1,0 +1,299 @@
+$setvars(HOMEPAGE_URL, cond(eq(G_MARKET, NO), https://www.norwegian.no, cond(eq(G_MARKET, ROW),   https://www.norwegian.com, concat(https://www.norwegian.com/, lowercase(lookup(G_MARKET))))))$
+$setvars(CAMPAIGN_NAME, SURVEY_AGENT_CORP)$
+$setvars(G_MARKET, SE)$
+
+
+
+
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://surveyjs.azureedge.net/1.0.55/survey.jquery.min.js"></script>
+<link href="https://surveyjs.azureedge.net/1.0.55/survey.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://www.norwegian.com/style-bundle/cms-brand.css">
+<style>
+.button, .numberfield__button {
+	padding: 0;
+}
+.button-pad {
+	padding: 17px 16px 11px 16px;
+	margin-top: 30px;
+}
+.sv_main .sv_container .sv_body .sv_p_root .sv_q .sv_q_radiogroup > label, .sv_main .sv_container .sv_body .sv_p_root .sv_q .sv_q_checkbox > label {
+	white-space: inherit;
+}
+span {
+	color: #6d7072;
+	font-size: 14px;
+}
+.sv_main, .sv_main .sv_custom_header {
+	background-color: #f1f1f1;
+}
+.sv_main .sv_container .sv_header {
+	padding: 0;
+}
+.sv_container {
+	max-width: 50%;
+	margin: auto;
+	padding: 0 1em;
+}
+.sv_main .sv_container .sv_body .sv_p_root .sv_q_title {
+	margin: 0;
+	color: #003d50;
+	padding-bottom: 10px;
+}
+.sv_main .sv_container .sv_body .sv_p_root .sv_q {
+	padding: 1.5em 1em 0.5em 1em;
+}
+.sv_main .sv_container {
+	padding: 0em 1em 1.5em 1em;
+}
+p {
+	font-family: "ApercuProRegular", Helvetica, sans-serif;
+	margin: 0 0em 1em 0em;
+}
+.sv_main input[type="button"], .sv_main button {
+	font-family: "ApercuProRegular", Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	border: none;
+	cursor: pointer;
+	padding: 14px 36px 12px 12px;
+	min-width: auto;
+	line-height: normal;
+}
+.sv_main .sv_progress_bar, .sv_main input[type="button"], .sv_main button {
+	background-color: #d81939;
+}
+.button--primary:hover .sv_main input[type="button"], .button--primary:focus .sv_main button {
+	background-color: #c11633;
+}
+.sv_main input[type="button"]:hover, .sv_main button:hover {
+	background-color: #c11633;
+}
+.sv_main .sv_body {
+	background-color: white;
+	border-top: none;
+}
+.sv_main .sv_container .sv_body .sv_progress .sv_progress_bar > span {
+	width: 200px;
+}
+.sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix td {
+	min-width: 1em;
+}
+.sv_main .sv_container .sv_body .sv_nav {
+	padding: 2em 1em 2em 1em;
+}
+.sv_main .sv_container .sv_body {
+	padding: 1em 1em 1em 1em;
+}
+.sv_main .sv_p_root > .sv_row {
+	border-bottom: 0;
+}
+.sv_main .sv_p_root > .sv_row:nth-child(even) {
+	background-color: #ffffff;
+}
+.legend {
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid #e7e7e7;
+	float: right;
+	font-style: italic;
+	text-align: right;
+}
+.sv_main .sv_container .sv_body.sv_completed_page {
+	text-align: center;
+	padding: 6.5em 1em 5em 1em;
+}
+.margin_lr_10 {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.sv_main .sv_container .sv_body.sv_completed_page > h3 {
+	margin: 0;
+	font-size: 30px;
+	font-weight: 300;
+	line-height: 110%;
+}
+	
+.sv_main .sv_q_rating_item.active .sv_q_rating_item_text {
+    background-color: #d81939;
+    border-color: #d81939;
+}
+	
+.sv_main .sv_q_rating_item.active .sv_q_rating_item_text span {
+    color: white;
+}
+	
+.sv_main .sv_q_rating_item .sv_q_rating_item_text:hover {
+    border: 1px solid #6d7072;
+}
+
+.sv_main .sv_q_other input:focus, .sv_main .sv_q_text_root:focus, .sv_main .sv_q_dropdown_control:focus, .sv_main input[type="text"]:focus, .sv_main select:focus, .sv_main textarea:focus {
+    border: 1px solid #6d7072;
+}
+
+.sv_main .sv_select_wrapper:before {
+    background-color: #d81939;
+}
+span.button.button--medium.button--primary:nth-child(2) {
+float:right;
+}
+
+span.button.button--medium.button--primary:nth-child(3) {
+float:right;
+}
+
+@media only screen and (min-width: 680px) and (max-width: 1400px) {
+.sv_container {
+	max-width: 80%;
+}
+}
+
+@media (max-width: 680px) {
+.sv_main input[type="button"]:hover, .sv_main button:hover {
+	background-color: #d81939;
+}
+.sv_main .sv_container {
+	max-width: 100%;
+	margin: auto;
+	padding: 0;
+}
+.sv_main .sv_container .sv_body {
+	padding: 1em 0em 2em 0em;
+}
+.sv_main .sv_container .sv_body .sv_p_root .sv_q {
+	padding: 1em 1em 1.5em 1em;
+}
+.sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix td {
+	min-width: 1em;
+}
+.sv_main .sv_container .sv_body .sv_p_root table td {
+	padding: 0.5em 0.2em 0.5em 0em;
+}
+}
+
+</style>
+<script type="text/javascript">
+	
+	$( document ).ready(function() {
+	
+	//add logo
+	$("div.sv_container").prepend("<div class='page-header__branding'><a href='${HOMEPAGE_URL}' title='Norwegian' style='border-bottom-style: none;' target='_blank'><img src='https://www.norwegian.com/Content/img/ident.svg' class='page-header__logo  page-header__logo--md' alt='Norwegian Air Shuttle ASA'><img src='https://www.norwegian.com/Content/img/ident-mobile.svg' class='page-header__logo' alt='Norwegian Air Shuttle ASA'></a></div>");
+	
+	//add norwegian buttons
+	$("input[type='button']").wrap("<span class='button button--medium button--primary'>");
+
+	$("td[data-bind='visible: question.hasRows']").css("min-width", "100px");
+	
+	/*on click of span
+	$("span.button--primary").click(function(){
+	if ($("div.sv_body.sv_completed_page").length){
+			$("div.sv_body.sv_completed_page").append("<a class='button button--primary' target='_blank' href='${HOMEPAGE_URL}'>Visit Norwegian.com</a>");
+		}
+	
+	});*/
+	
+	$("div.sv_completed_page").append("<a class='button button--primary' target='_blank' href='${HOMEPAGE_URL}'>Visit Norwegian.com</a>");
+        
+	sendDataToResponsysOnload();
+//page load end
+});
+</script>
+<title>Norwegian Survey</title>
+</head>
+
+<body>
+<div id="surveyContainer"></div>
+<script>
+
+      var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'));
+    
+var surveyJSON = {"pages":[{"name":"page1","elements":[{"type":"radiogroup","name":"question1","title":"1. Did you use WiFI on your last flight (Y/N)? ","choices":[{"value":"item1","text":"Yes"},{"value":"item2","text":"No"}]}]},{"name":"page2","elements":[{"type":"radiogroup","name":"question2","title":"2. What did you choose?","choices":[{"value":"item1","text":"Free Wi-Fi"},{"value":"item2","text":"Paid Wi-Fi"}]}]},{"name":"page3","elements":[{"type":"html","name":"question3","html":"3. How satisfied were you with: (1-5)"},{"type":"rating","name":"question3_1","title":"Registration"},{"type":"rating","name":"question3_2","title":"Connecting time"},{"type":"rating","name":"question3_3","title":"Internet speed"},{"type":"rating","name":"question3_4","title":"Internet stability "},{"type":"rating","name":"question3_5","title":"Price"}]},{"name":"page4","elements":[{"type":"rating","name":"question4","title":"4. How likely are you to recommend our Wi-Fi service to a friend or colleague? (1-5) "}]},{"name":"page5","elements":[{"type":"rating","name":"question5","title":"5. How did your Wi-Fi experience on this flight compare with Wi-Fi services on any other airlines you have flown? (1-5) "},{"type":"boolean","name":"question5_1","title":"This question is not relevant to me"}]},{"name":"page6","elements":[{"type":"comment","name":"question6","title":"6. How can we improve your Wi-Fi experience"}]},{"name":"page7","elements":[{"type":"html","name":"question7","html":"Finally, please tell us a little bit about yourself"},{"type":"radiogroup","name":"question7_1","title":"7. Gender","choices":[{"value":"item1","text":"Female"},{"value":"item2","text":"Male"},{"value":"item3","text":"(Does not identify with either) "}]},{"type":"dropdown","name":"question8","title":"8. What is your country of origin?","choicesByUrl":{"url":"https://restcountries.eu/rest/v2/all","valueName":"name"}},{"type":"radiogroup","name":"question9","title":"9. What was the purpose of your trip?","choices":[{"value":"item1","text":"Leisure"},{"value":"item2","text":"Business"}]},{"type":"radiogroup","name":"question10","title":"10. What was the duration of your flight? ","choices":[{"value":"item1","text":"<1hr"},{"value":"item2","text":"1-2hrs"},{"value":"item3","text":"2-4hrs"},{"value":"item4","text":">4hrs"}]}]}],"showPageTitles":false,"showQuestionNumbers":"off","showProgressBar":"bottom"}
+
+
+
+//from here starts code from older survey
+
+var survey = new Survey.Model(surveyJSON);
+
+var xhttp;
+
+$("#surveyContainer").Survey({    
+    model: survey,    
+      onComplete: sendDataToServerFinish
+});
+
+  
+    
+function sendDataToServer(survey) {  
+    //console.log(survey.data);
+  sendDataToResponsys(survey);
+}
+
+function sendDataToResponsysOnload() {
+//console.log(survey.data);    
+        
+  var url = "https://air.norwegian.com/pub/rf" + "?_ri_=X0Gzc2X%3DYQpglLjHJlTQGzbo7f7TiggzfmctqSzduCvIb4ojjTBzdyreX4g4ylCVwjpnpgHlpgneHmgJoXX0Gzc2X%3DYQpglLjHJlTQGNzfygaMq9jrNpd7Suus5cfHojjTBzdyreX4g4ylC";
+  url = url + "&RIID_=" + "$RIID_$";
+  url = url + "&CAMPAIGN_NAME=" + qs['CAMPAIGN_NAME'];
+  url = url + "&EMAIL=${EMAIL_ADDRESS_}"
+  url = url + "&MARKET=${G_MARKET}"
+    }
+    
+function sendDataToResponsys(survey) {
+//console.log(survey.data);
+  var url = "https://air.norwegian.com/pub/rf" + "?_ri_=X0Gzc2X%3DYQpglLjHJlTQGzbo7f7TiggzfmctqSzduCvIb4ojjTBzdyreX4g4ylCVwjpnpgHlpgneHmgJoXX0Gzc2X%3DYQpglLjHJlTQGNzfygaMq9jrNpd7Suus5cfHojjTBzdyreX4g4ylC";
+  
+	//we need to post the RIID and CAMPAIGN because they are the SURVEY_LIKE data checks
+	url = url + "&RIID_=" + "${RIID_?c}";
+	url = url + "&CAMPAIGN_NAME=" + qs['CAMPAIGN_NAME'];
+
+var postData = {};	
+for (var mainkey in survey.data) {
+
+	console.log(mainkey + " - " + survey.data[mainkey]);
+
+  if(typeof survey.data[mainkey] === 'object'){
+    for (var key in survey.data[mainkey]) {
+     // url = url + "&" + key + "=" + survey.data[mainkey][key];
+        postData[key.toUpperCase()] = survey.data[mainkey][key];
+    }   
+  }else{
+    //url = url + "&" + mainkey + "=" + survey.data[mainkey];
+        postData[mainkey.toUpperCase()] = survey.data[mainkey];
+  }
+
+}
+    
+    console.log(postData);
+     console.log("Json: " + JSON.stringify(postData));
+    $.post(url, postData);
+	
+   // $.post(url, {"QUESTION1":"Text content","QUESTION2":3,"QUESTION3":"1213"});
+   
+
+}
+
+function sendDataToServerFinish(survey) { 
+    //console.log(survey.data);
+  sendDataToResponsys(survey);
+  setTimeout(function(){window.location.href='$HOMEPAGE_URL$'},5000);
+}
+</script>
+</body>
+</html>
