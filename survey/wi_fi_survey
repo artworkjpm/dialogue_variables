@@ -250,9 +250,9 @@ function sendDataToResponsysOnload() {
         
   var url = "https://air.norwegian.com/pub/rf" + "?_ri_=X0Gzc2X%3DYQpglLjHJlTQGzbo7f7TiggzfmctqSzduCvIb4ojjTBzdyreX4g4ylCVwjpnpgHlpgneHmgJoXX0Gzc2X%3DYQpglLjHJlTQGNzfygaMq9jrNpd7Suus5cfHojjTBzdyreX4g4ylC";
   url = url + "&RIID_=" + "$RIID_$";
-  url = url + "&CAMPAIGN_NAME=" + qs['CAMPAIGN_NAME'];
-  url = url + "&EMAIL=${EMAIL_ADDRESS_}"
-  url = url + "&MARKET=${G_MARKET}"
+  url = url + "&CAMPAIGN_NAME=E_WIFI_SURVEY_2019";
+  url = url + "&EMAIL=$EMAIL_ADDRESS$"
+  url = url + "&MARKET=$G_MARKET$"
     }
     
 function sendDataToResponsys(survey) {
@@ -260,8 +260,8 @@ function sendDataToResponsys(survey) {
   var url = "https://air.norwegian.com/pub/rf" + "?_ri_=X0Gzc2X%3DYQpglLjHJlTQGzbo7f7TiggzfmctqSzduCvIb4ojjTBzdyreX4g4ylCVwjpnpgHlpgneHmgJoXX0Gzc2X%3DYQpglLjHJlTQGNzfygaMq9jrNpd7Suus5cfHojjTBzdyreX4g4ylC";
   
 	//we need to post the RIID and CAMPAIGN because they are the SURVEY_LIKE data checks
-	url = url + "&RIID_=" + "${RIID_?c}";
-	url = url + "&CAMPAIGN_NAME=" + qs['CAMPAIGN_NAME'];
+	url = url + "&RIID_=" + "$RIID_$";
+	url = url + "&CAMPAIGN_NAME=E_WIFI_SURVEY_2019";
 
 var postData = {};	
 for (var mainkey in survey.data) {
