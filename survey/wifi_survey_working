@@ -15,6 +15,30 @@ $setvars(G_MARKET, SE)$
 <link href="https://surveyjs.azureedge.net/1.0.55/survey.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://www.norwegian.com/style-bundle/cms-brand.css">
 <style>
+	element.style{float: left!important;}
+.wifi-logo {
+    background: url(https://brand.norwegian.com/norwegian-assets/img/icons/large/wifi.svg)no-repeat;
+    background-size: 243px;
+    top: -30px;
+    left: -62px;
+    height: 100px;
+    margin: 0;
+    float: left;
+    width: 60%;
+    position: relative;
+	
+}
+
+.wifi-text {
+    position: relative;
+    top: 56px;
+    left: 232px;
+    font-size: 23px;
+    width: 200px;
+    color: #003251;
+    font-weight: bold;
+}
+
 .button, .numberfield__button {
 	padding: 0;
 }
@@ -116,6 +140,7 @@ p {
 	font-size: 30px;
 	font-weight: 300;
 	line-height: 110%;
+	float: left;
 }
 	
 .sv_main .sv_q_rating_item.active .sv_q_rating_item_text {
@@ -181,7 +206,7 @@ float:right;
 	$( document ).ready(function() {
 	
 	//add logo
-	$("div.sv_container").prepend("<div class='page-header__branding'><a href='${HOMEPAGE_URL}' title='Norwegian' style='border-bottom-style: none;' target='_blank'><img src='https://www.norwegian.com/Content/img/ident.svg' class='page-header__logo  page-header__logo--md' alt='Norwegian Air Shuttle ASA'><img src='https://www.norwegian.com/Content/img/ident-mobile.svg' class='page-header__logo' alt='Norwegian Air Shuttle ASA'></a></div>");
+	$("div.sv_container").prepend("<div class='page-header__branding'><a href='$HOMEPAGE_URL$' title='Norwegian' style='border-bottom-style: none;' target='_blank'><img src='https://www.norwegian.com/Content/img/ident.svg' class='page-header__logo  page-header__logo--md' alt='Norwegian Air Shuttle ASA'><img src='https://www.norwegian.com/Content/img/ident-mobile.svg' class='page-header__logo' alt='Norwegian Air Shuttle ASA'></a></div>");
 	
 	//add norwegian buttons
 	$("input[type='button']").wrap("<span class='button button--medium button--primary'>");
@@ -195,7 +220,8 @@ float:right;
 		}
 	
 	});*/
-	
+	$("div.sv_container").prepend("<div class='wifi-logo'><div class ='wifi-text'>WiFi Survey</div></div>");
+		
 	$("div.sv_completed_page").append("<a class='button button--primary' target='_blank' href='${HOMEPAGE_URL}'>Visit Norwegian.com</a>");
         
 	sendDataToResponsysOnload();
@@ -223,7 +249,11 @@ float:right;
     return b;
 })(window.location.search.substr(1).split('&'));
     
-var surveyJSON = {"pages":[{"name":"page1","elements":[{"type":"radiogroup","name":"question1","title":"1. Did you use WiFI on your last flight (Y/N)? ","choices":[{"value":"item1","text":"Yes"},{"value":"item2","text":"No"}]}]},{"name":"page2","elements":[{"type":"radiogroup","name":"question2","title":"2. What did you choose?","choices":[{"value":"item1","text":"Free Wi-Fi"},{"value":"item2","text":"Paid Wi-Fi"}]}]},{"name":"page3","elements":[{"type":"html","name":"question3","html":"3. How satisfied were you with: (1-5)"},{"type":"rating","name":"question3_1","title":"Registration"},{"type":"rating","name":"question3_2","title":"Connecting time"},{"type":"rating","name":"question3_3","title":"Internet speed"},{"type":"rating","name":"question3_4","title":"Internet stability "},{"type":"rating","name":"question3_5","title":"Price"}]},{"name":"page4","elements":[{"type":"rating","name":"question4","title":"4. How likely are you to recommend our Wi-Fi service to a friend or colleague? (1-5) "}]},{"name":"page5","elements":[{"type":"rating","name":"question5","title":"5. How did your Wi-Fi experience on this flight compare with Wi-Fi services on any other airlines you have flown? (1-5) "},{"type":"boolean","name":"question5_1","title":"This question is not relevant to me"}]},{"name":"page6","elements":[{"type":"comment","name":"question6","title":"6. How can we improve your Wi-Fi experience"}]},{"name":"page7","elements":[{"type":"html","name":"question7","html":"Finally, please tell us a little bit about yourself"},{"type":"radiogroup","name":"question7_1","title":"7. Gender","choices":[{"value":"item1","text":"Female"},{"value":"item2","text":"Male"},{"value":"item3","text":"(Does not identify with either) "}]},{"type":"dropdown","name":"question8","title":"8. What is your country of origin?","choicesByUrl":{"url":"https://restcountries.eu/rest/v2/all","valueName":"name"}},{"type":"radiogroup","name":"question9","title":"9. What was the purpose of your trip?","choices":[{"value":"item1","text":"Leisure"},{"value":"item2","text":"Business"}]},{"type":"radiogroup","name":"question10","title":"10. What was the duration of your flight? ","choices":[{"value":"item1","text":"<1hr"},{"value":"item2","text":"1-2hrs"},{"value":"item3","text":"2-4hrs"},{"value":"item4","text":">4hrs"}]}]}],"showPageTitles":false,"showQuestionNumbers":"off","showProgressBar":"bottom"}
+var surveyJSON = {pages:[{name:"page1",elements:[{type:"radiogroup",name:"question0",title:"1. Did you use WiFI on your last flight (Y/N)? ",isRequired:true,choices:[{value:"Yes",text:"Yes"},{value:"No",text:"No"}]}]},{name:"page2",elements:[{type:"radiogroup",name:"question1",title:"2. What did you choose?",isRequired:true,choices:[{value:"Free Wi-Fi",text:"Free Wi-Fi"},{value:"Paid Wi-Fi",text:"Paid Wi-Fi"}]}],visibleIf:"{question0} = \"Yes\""},{name:"page3",elements:[{type:"html",name:"question3",html:{default:"3. How satisfied were you with: (1-5)",sv:"3. How satisfied were you with: (1-10)"}},{type:"rating",name:"question3_1",title:"Registration",isRequired:true,rateMax:10},{type:"rating",name:"question3_2",title:"Connecting time",isRequired:true,rateMax:10},{type:"rating",name:"question3_3",title:"Internet speed",isRequired:true,rateMax:10},{type:"rating",name:"question3_4",title:"Internet stability ",isRequired:true,rateMax:10},{type:"rating",name:"question3_5",title:"Price",isRequired:true,rateMax:10}],visibleIf:"{question0} = \"Yes\""},{name:"page4",elements:[{type:"rating",name:"question4",title:{default:"4. How likely are you to recommend our Wi-Fi service to a friend or colleague? (1-5) ",sv:"4. How likely are you to recommend our Wi-Fi service to a friend or colleague? (1-10) "},isRequired:true,rateMax:10}],visibleIf:"{question0} = \"Yes\""},{name:"page5",elements:[{type:"rating",name:"question5",title:{default:"5. How did your Wi-Fi experience on this flight compare with Wi-Fi services on any other airlines you have flown? (1-5) ",sv:"5. How did your Wi-Fi experience on this flight compare with Wi-Fi services on any other airlines you have flown? (1-10) "},isRequired:true,rateMax:10},{type:"boolean",name:"question5_1",title:"This question is not relevant to me"}],visibleIf:"{question0} = \"Yes\""},{name:"page6",elements:[{type:"comment",name:"question6",title:"6. How can we improve your Wi-Fi experience"}],visibleIf:"{question0} = \"Yes\""},{name:"page7",elements:[{type:"html",name:"question7",html:"Finally, please tell us a little bit about yourself"},{type:"radiogroup",name:"question7_1",title:"7. Gender",isRequired:true,choices:[{value:"Female",text:"Female"},{value:"Male",text:"Male"},{value:"(Does not identify with either) ",text:"(Does not identify with either) "}]},{type:"dropdown",name:"question8",title:"8. What is your country of origin?",isRequired:true,choicesByUrl:{url:"https://restcountries.eu/rest/v2/all",valueName:"name"}},{type:"radiogroup",name:"question9",title:"9. What was the purpose of your trip?",isRequired:true,choices:[{value:"Leisure",text:"Leisure"},{value:"Business",text:"Business"}]},{type:"radiogroup",name:"question2",title:"10. What was the duration of your flight? ",isRequired:true,choices:[{value:"<1hr",text:"<1hr"},{value:"1-2hrs",text:"1-2hrs"},{value:"2-4hrs",text:"2-4hrs"},{value:">4hrs",text:">4hrs"}]}],visibleIf:"{question0} = \"Yes\""}],showPageTitles:false,showQuestionNumbers:"off",showProgressBar:"bottom"}
+
+
+
+
 
 
 
