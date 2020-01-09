@@ -1,0 +1,882 @@
+<#-- ///////////////////////////////////////////////////// GENERAL ///////////////////////////////////////////////////// -->
+<#if FROM_IATA == "AEP"><#assign FROM_DEP = "Buenos Aires"></#if>
+<#if TO_IATA == "AEP"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+<#if FROM_IATA == "COR"><#assign FROM_DEP = "Córdoba"></#if>
+<#if TO_IATA == "COR"><#assign DESTINATION_NAME = "Córdoba"></#if>
+<#if FROM_IATA == "NQN"><#assign FROM_DEP = "Neuquén"></#if>
+<#if TO_IATA == "NQN"><#assign DESTINATION_NAME = "Neuquén"></#if>
+<#if FROM_IATA == "IGR"><#assign FROM_DEP = "Iguazú"></#if>
+<#if TO_IATA == "IGR"><#assign DESTINATION_NAME = "Iguazú"></#if>
+<#if FROM_IATA == "OAK"><#assign FROM_DEP = "Oakland"></#if>
+<#if TO_IATA == "OAK"><#assign DESTINATION_NAME = "Oakland"></#if>
+<#if TO_IATA == "FLL"><#assign DESTINATION_NAME = "Fort Lauderdale"></#if>
+<#if FROM_IATA == "FLL"><#assign FROM_DEP = "Fort Lauderdale"></#if>
+<#if FROM_IATA == "AQJ"><#assign FROM_DEP = "Aqaba"></#if>
+<#if TO_IATA == "AQJ"><#assign DESTINATION_NAME = "Aqaba"></#if>
+<#if FROM_IATA == "BLE"><#assign FROM_DEP = "Borlange"></#if>
+<#if TO_IATA == "BLE"><#assign DESTINATION_NAME = "Borlange"></#if>
+<#if FROM_IATA == "BWI"><#assign FROM_DEP = "Baltimore"></#if>
+<#if TO_IATA == "BWI"><#assign DESTINATION_NAME = "Baltimore"></#if>
+<#if FROM_IATA == "EVE"><#assign FROM_DEP = "Harstad-Narvik"></#if>
+<#if TO_IATA == "EVE"><#assign DESTINATION_NAME = "Harstad-Narvik"></#if>
+<#if FROM_IATA == "GRO"><#assign FROM_DEP = "Gerona"></#if>
+<#if TO_IATA == "GRO"><#assign DESTINATION_NAME = "Gerona"></#if>
+<#if FROM_IATA == "PLQ"><#assign FROM_DEP = "Palanga"></#if>
+<#if TO_IATA == "PLQ"><#assign DESTINATION_NAME = "Palanga"></#if>
+<#if FROM_IATA == "MJV"><#assign FROM_DEP = "Murcia"></#if>
+<#if TO_IATA == "MJV"><#assign DESTINATION_NAME = "Murcia"></#if>
+<#if FROM_IATA == "TXL"><#assign FROM_DEP = "Berlin"></#if>
+<#if TO_IATA == "TXL"><#assign DESTINATION_NAME = "Berlin"></#if>
+<#if FROM_IATA == "CHQ"><#assign FROM_DEP = "Crete"></#if>
+<#if TO_IATA == "CHQ"><#assign DESTINATION_NAME = "Crete"></#if>
+<#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Cyprus"></#if>
+<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Cyprus"></#if>
+<#if TO_IATA == "MCO"><#assign DESTINATION_NAME = "Orlando"></#if>
+<#if FROM_IATA == "MCO"><#assign FROM_DEP = "Orlando"></#if>
+<#if TO_IATA == "JFK"><#assign DESTINATION_NAME = "New York"></#if>
+<#if FROM_IATA == "JFK"><#assign FROM_DEP = "New York"></#if>
+<#if TO_IATA == "MIA"><#assign DESTINATION_NAME = "Miami"></#if>
+<#if FROM_IATA == "MIA"><#assign FROM_DEP = "Miami"></#if>
+<#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "London"></#if>
+<#if FROM_IATA == "LGW"><#assign FROM_DEP = "London-"></#if>
+<#if TO_IATA == "SXF"><#assign DESTINATION_NAME = "Berlin"></#if>
+<#if FROM_IATA == "SXF"><#assign FROM_DEP = "Berlin"></#if>
+<#if TO_IATA == "FDF"><#assign DESTINATION_NAME = "Fort-de-France"></#if>
+<#if FROM_IATA == "FDF"><#assign FROM_DEP = "Fort-de-France"></#if>
+<#if TO_IATA == "HER"><#assign DESTINATION_NAME = "Crete"></#if>
+<#if FROM_IATA == "HER"><#assign FROM_DEP = "Crete"></#if>
+<#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Corsica"></#if>
+<#if FROM_IATA == "AJA"><#assign FROM_DEP = "Corsica"></#if>
+<#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante"></#if>
+<#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante"></#if>
+<#if TO_IATA == "AMM"><#assign DESTINATION_NAME = "Amman"></#if>
+<#if FROM_IATA == "AMM"><#assign FROM_DEP = "Amman"></#if>
+<#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stockholm"></#if>
+<#if FROM_IATA == "ARN"><#assign FROM_DEP = "Stockholm"></#if>
+<#if TO_IATA == "BDL"><#assign DESTINATION_NAME = "Connecticut"></#if>
+<#if FROM_IATA == "BDL"><#assign FROM_DEP = "Connecticut"></#if>
+<#if TO_IATA == "BER"><#assign DESTINATION_NAME = "Berlin"></#if>
+<#if FROM_IATA == "BER"><#assign FROM_DEP = "Berlin"></#if>
+<#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin"></#if>
+<#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin"></#if>
+<#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Corsica"></#if>
+<#if FROM_IATA == "BIA"><#assign FROM_DEP = "Corsica"></#if>
+<#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston"></#if>
+<#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston"></#if>
+<#if TO_IATA == "BUE"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+<#if FROM_IATA == "BUE"><#assign FROM_DEP = "Buenos Aires"></#if>
+<#if TO_IATA == "FAO"><#assign DESTINATION_NAME = "Algarve"></#if>
+<#if FROM_IATA == "FAO"><#assign FROM_DEP = "Algarve"></#if>
+<#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+<#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires"></#if>
+<#if TO_IATA == "BVA"><#assign DESTINATION_NAME = "Paris"></#if>
+<#if FROM_IATA == "BVA"><#assign FROM_DEP = "Paris"></#if>
+<#if TO_IATA == "CDG"><#assign DESTINATION_NAME = "Paris"></#if>
+<#if FROM_IATA == "CDG"><#assign FROM_DEP = "Paris"></#if>
+<#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Rome"></#if>
+<#if FROM_IATA == "CIA"><#assign FROM_DEP = "Rome"></#if>
+<#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sicily"></#if>
+<#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sicily"></#if>
+<#if TO_IATA == "DME"><#assign DESTINATION_NAME = "Moscow"></#if>
+<#if FROM_IATA == "DME"><#assign FROM_DEP = "Moscow"></#if>
+<#if TO_IATA == "EWR"><#assign DESTINATION_NAME = "New York"></#if>
+<#if FROM_IATA == "EWR"><#assign FROM_DEP = "New York"></#if>
+<#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Rome"></#if>
+<#if FROM_IATA == "FCO"><#assign FROM_DEP = "Rome"></#if>
+<#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida"></#if>
+<#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida"></#if>
+<#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Gothenburg"></#if>
+<#if FROM_IATA == "GOT"><#assign FROM_DEP = "Gothenburg"></#if>
+<#if TO_IATA == "LCJ"><#assign DESTINATION_NAME = "Warsaw"></#if>
+<#if FROM_IATA == "LCJ"><#assign FROM_DEP = "Warsaw"></#if>
+<#if TO_IATA == "LED"><#assign DESTINATION_NAME = "St. Petersburg"></#if>
+<#if FROM_IATA == "LED"><#assign FROM_DEP = "St. Petersburg"></#if>
+<#if TO_IATA == "LEJ"><#assign DESTINATION_NAME = "Leipzig"></#if>
+<#if FROM_IATA == "LEJ"><#assign FROM_DEP = "Leipzig"></#if>
+<#if TO_IATA == "LON"><#assign DESTINATION_NAME = "London"></#if>
+<#if FROM_IATA == "LON"><#assign FROM_DEP = "London"></#if>
+<#if TO_IATA == "LYR"><#assign DESTINATION_NAME = "Svalbard"></#if>
+<#if FROM_IATA == "LYR"><#assign FROM_DEP = "Svalbard"></#if>
+<#if TO_IATA == "MRS"><#assign DESTINATION_NAME = "Marseille"></#if>
+<#if FROM_IATA == "MRS"><#assign FROM_DEP = "Marseillee"></#if>
+<#if TO_IATA == "NYCALL"><#assign DESTINATION_NAME = "New York"></#if>
+<#if FROM_IATA == "NYCALL"><#assign FROM_DEP = "New York"></#if>
+<#if TO_IATA == "NYO"><#assign DESTINATION_NAME = "Stockholm"></#if>
+<#if FROM_IATA == "NYO"><#assign FROM_DEP = "Stockholm"></#if>
+<#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardinia"></#if>
+<#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardinia"></#if>
+<#if TO_IATA == "ORY"><#assign DESTINATION_NAME = "Paris"></#if>
+<#if FROM_IATA == "ORY"><#assign FROM_DEP = "Paris"></#if>
+<#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+<#if FROM_IATA == "OSL"><#assign FROM_DEP = "Oslo"></#if>
+<#if TO_IATA == "OSLALL"><#assign DESTINATION_NAME = "Oslo"></#if>
+<#if FROM_IATA == "OSLALL"><#assign FROM_DEP = "Oslo"></#if>
+<#if TO_IATA == "PARALL"><#assign DESTINATION_NAME = "Paris"></#if>
+<#if FROM_IATA == "PARALL"><#assign FROM_DEP = "Paris"></#if>
+<#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Majorca"></#if>
+<#if FROM_IATA == "PMI"><#assign FROM_DEP = "Majorca"></#if>
+<#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicily"></#if>
+<#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicily"></#if>
+<#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa"></#if>
+<#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa"></#if>
+<#if TO_IATA == "PTP"><#assign DESTINATION_NAME = "Guadeloupe"></#if>
+<#if FROM_IATA == "PTP"><#assign FROM_DEP = "Guadeloupe"></#if>
+<#if TO_IATA == "PVD"><#assign DESTINATION_NAME = "Boston"></#if>
+<#if FROM_IATA == "PVD"><#assign FROM_DEP = "Boston"></#if>
+<#if TO_IATA == "RFD"><#assign DESTINATION_NAME = "Chicago"></#if>
+<#if FROM_IATA == "RFD"><#assign FROM_DEP = "Chicago"></#if>
+<#if TO_IATA == "RYG"><#assign DESTINATION_NAME = "Oslo"></#if>
+<#if FROM_IATA == "RYG"><#assign FROM_DEP = "Oslo"></#if>
+<#if TO_IATA == "SAW"><#assign DESTINATION_NAME = "Istanbul"></#if>
+<#if FROM_IATA == "SAW"><#assign FROM_DEP = "Istanbul"></#if>
+<#if TO_IATA == "SFOALL"><#assign DESTINATION_NAME = "San Francisco"></#if>
+<#if FROM_IATA == "SFOALL"><#assign FROM_DEP = "San Francisco"></#if>
+<#if TO_IATA == "SJU"><#assign DESTINATION_NAME = "Puerto Rico"></#if>
+<#if FROM_IATA == "SJU"><#assign FROM_DEP = "Puerto Rico"></#if>
+<#if TO_IATA == "STN"><#assign DESTINATION_NAME = "London"></#if>
+<#if FROM_IATA == "STN"><#assign FROM_DEP = "London"></#if>
+<#if TO_IATA == "SWF"><#assign DESTINATION_NAME = "New York"></#if>
+<#if FROM_IATA == "SWF"><#assign FROM_DEP = "New York"></#if>
+<#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife"></#if>
+<#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife"></#if>
+<#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife"></#if>
+<#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife"></#if>
+<#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife"></#if>
+<#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife"></#if>
+<#if TO_IATA == "TIV"><#assign DESTINATION_NAME = "Montenegro"></#if>
+<#if FROM_IATA == "TIV"><#assign FROM_DEP = "Montenegro"></#if>
+<#if TO_IATA == "TRF"><#assign DESTINATION_NAME = "Oslo"></#if>
+<#if FROM_IATA == "TRF"><#assign FROM_DEP = "Oslo"></#if>
+<#if TO_IATA == "VBY"><#assign DESTINATION_NAME = "Visby"></#if>
+<#if FROM_IATA == "VBY"><#assign FROM_DEP = "Visby"></#if>
+<#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Warsaw"></#if>
+<#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Warsaw"></#if>
+<#if TO_IATA == "YHM"><#assign DESTINATION_NAME = "Toronto"></#if>
+<#if FROM_IATA == "YHM"><#assign FROM_DEP = "Toronto"></#if>
+<#if TO_IATA == "YUL"><#assign DESTINATION_NAME = "Montreal"></#if>
+<#if FROM_IATA == "YUL"><#assign FROM_DEP = "Montreal"></#if>
+
+<#-- ///////////////////////////////////////////////////// MARKET SPECIFIC ///////////////////////////////////////////////////// -->
+<#if MARKET == "US">
+	<#if FROM_IATA == "FLL"><#assign FROM_DEP = "Miami"></#if>
+    <#if TO_IATA == "FLL"><#assign DESTINATION_NAME = "Miami"></#if>
+    <#if FROM_IATA == "JFK"><#assign FROM_DEP = "New York"></#if>
+    <#if TO_IATA == "JFK"><#assign DESTINATION_NAME = "New York"></#if>
+    <#if FROM_IATA == "EWR"><#assign FROM_DEP = "New York"></#if>
+    <#if TO_IATA == "EWR"><#assign DESTINATION_NAME = "New York"></#if>
+    <#if FROM_IATA == "PVD"><#assign FROM_DEP = "Boston"></#if>
+    <#if FROM_IATA == "BDL"><#assign FROM_DEP = "Hartford-Bradley"></#if>
+    <#if FROM_IATA == "SWF"><#assign FROM_DEP = "New York"></#if>
+    <#if TO_IATA == "SWF"><#assign DESTINATION_NAME = "New York"></#if>
+    <#if TO_IATA == "FDF"><#assign DESTINATION_NAME = "Martinique"></#if>
+    <#if FROM_IATA == "FDF"><#assign FROM_DEP = "Martinique"></#if>
+    <#if TO_IATA == "PTP"><#assign DESTINATION_NAME = "Guadeloupe"></#if>
+    <#if FROM_IATA == "PTP"><#assign FROM_DEP = "Guadeloupe"></#if>
+    <#if TO_IATA == "CDG"><#assign DESTINATION_NAME = "Paris"></#if>
+    <#if FROM_IATA == "CDG"><#assign FROM_DEP = "Paris"></#if>
+    <#if TO_IATA == "ORY"><#assign DESTINATION_NAME = "Paris"></#if>
+    <#if FROM_IATA == "ORY"><#assign FROM_DEP = "Paris"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires"></#if>
+    <#if TO_IATA == "EZE"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "EZE"><#assign FROM_DEP = "Buenos Aires"></#if>
+</#if>
+<#if MARKET == "ES" || MARKET == 'AR'>
+	<#if TO_IATA == "AGP"><#assign DESTINATION_NAME = "Málaga"></#if>
+    <#if FROM_IATA == "AGP"><#assign FROM_DEP = "Málaga"></#if>
+    <#if TO_IATA == "MXP"><#assign DESTINATION_NAME = "Milán"></#if>
+    <#if FROM_IATA == "MXP"><#assign FROM_DEP = "Milán"></#if>
+    <#if TO_IATA == "EWR"><#assign DESTINATION_NAME = "Nueva York"></#if>
+    <#if FROM_IATA == "EWR"><#assign FROM_DEP = "Nueva York"></#if>
+    <#if TO_IATA == "JFK"><#assign DESTINATION_NAME = "Nueva York"></#if>
+    <#if FROM_IATA == "JFK"><#assign FROM_DEP = "Nueva York"></#if>
+    <#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Colonia"></#if>
+    <#if TO_IATA == "GRO"><#assign DESTINATION_NAME = "Barcelona"></#if>
+    <#if FROM_IATA == "GRO"><#assign FROM_DEP = "Barcelona"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Córcega"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Córcega"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Córcega"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Córcega"></#if>
+    <#if TO_IATA == "HER"><#assign DESTINATION_NAME = "Creta"></#if>
+    <#if FROM_IATA == "HER"><#assign FROM_DEP = "Creta"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Chipre"></#if>
+	<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Chipre"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Estocolmo"></#if>
+    <#if FROM_IATA == "ARN"><#assign FROM_DEP = "Estocolmo"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires"></#if>
+    <#if TO_IATA == "EZE"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "EZE"><#assign FROM_DEP = "Buenos Aires"></#if>
+    <#if TO_IATA == "BVA"><#assign DESTINATION_NAME = "París"></#if>
+    <#if FROM_IATA == "BVA"><#assign FROM_DEP = "París"></#if>
+    <#if TO_IATA == "CDG"><#assign DESTINATION_NAME = "París"></#if>
+    <#if FROM_IATA == "CDG"><#assign FROM_DEP = "París"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Roma"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Roma"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sicilia"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sicilia"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Roma"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Roma"></#if>
+    <#if TO_IATA == "FDF"><#assign DESTINATION_NAME = "Martinica"></#if>
+    <#if FROM_IATA == "FDF"><#assign FROM_DEP = "Martinica"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Gotemburgo"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Gotemburgo"></#if>
+    <#if TO_IATA == "LED"><#assign DESTINATION_NAME = "S. Petersburgo"></#if>
+    <#if FROM_IATA == "LED"><#assign FROM_DEP = "S. Petersburgo"></#if>
+    <#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "Londres"></#if>
+    <#if FROM_IATA == "LGW"><#assign FROM_DEP = "Londres"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "Londres"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "Londres"></#if>
+    <#if TO_IATA == "MRS"><#assign DESTINATION_NAME = "Marsella"></#if>
+    <#if FROM_IATA == "MRS"><#assign FROM_DEP = "Marsella"></#if>
+    <#if TO_IATA == "NYCALL"><#assign DESTINATION_NAME = "Nueva York"></#if>
+    <#if FROM_IATA == "NYCALL"><#assign FROM_DEP = "Nueva York"></#if>
+    <#if TO_IATA == "NYO"><#assign DESTINATION_NAME = "Estocolmo"></#if>
+    <#if FROM_IATA == "NYO"><#assign FROM_DEP = "Estocolmo"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Cerdeña"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Cerdeña"></#if>
+    <#if TO_IATA == "ORY"><#assign DESTINATION_NAME = "París"></#if>
+    <#if FROM_IATA == "ORY"><#assign FROM_DEP = "París"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicilia"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicilia"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa"></#if>
+    <#if TO_IATA == "SAW"><#assign DESTINATION_NAME = "Estambul"></#if>
+    <#if FROM_IATA == "SAW"><#assign FROM_DEP = "Estambul"></#if>
+    <#if TO_IATA == "STN"><#assign DESTINATION_NAME = "Londres"></#if>
+    <#if FROM_IATA == "STN"><#assign FROM_DEP = "Londres"></#if>
+    <#if TO_IATA == "SWF"><#assign DESTINATION_NAME = "Nueva York"></#if>
+    <#if FROM_IATA == "SWF"><#assign FROM_DEP = "Nueva York"></#if>
+    <#if TO_IATA == "SXF"><#assign DESTINATION_NAME = "Berlín"></#if>
+    <#if FROM_IATA == "SXF"><#assign FROM_DEP = "Berlín"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Varsovia"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Varsovia"></#if>
+</#if>
+<#if MARKET == "FR" || MARKET == 'CA-FR'>
+	<#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stockholm"></#if>
+    <#if FROM_IATA == "ORY"><#assign FROM_DEP = "Paris"></#if>
+    <#if FROM_IATA == "CDG"><#assign FROM_DEP = "Paris"></#if>
+    <#if FROM_IATA == "PARALL"><#assign FROM_DEP = "Paris"></#if>
+    <#if TO_IATA == "NYCALL"><#assign DESTINATION_NAME = "New York"></#if>
+    <#if FROM_IATA == "NYCALL"><#assign FROM_DEP = "New York"></#if>
+    <#if TO_IATA == "FDF"><#assign DESTINATION_NAME = "Fort-de-France"></#if>
+    <#if FROM_IATA == "FDF"><#assign FROM_DEP = "Fort-de-France"></#if>
+    <#if TO_IATA == "JFK"><#assign DESTINATION_NAME = "New York"></#if>
+    <#if FROM_IATA == "JFK"><#assign FROM_DEP = "New York"></#if>
+    <#if TO_IATA == "PTP"><#assign DESTINATION_NAME = "Pointe-à-Pitre"></#if>
+    <#if FROM_IATA == "PTP"><#assign FROM_DEP = "Pointe-à-Pitre"></#if>
+    <#if TO_IATA == "YUL"><#assign DESTINATION_NAME = "Montreal"></#if>
+    <#if FROM_IATA == "YUL"><#assign FROM_DEP = "Montreal"></#if>
+    <#if TO_IATA == "GRO"><#assign DESTINATION_NAME = "Barcelone"></#if>
+    <#if FROM_IATA == "GRO"><#assign FROM_DEP = "Barcelone"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Chypre"></#if>
+	<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Chypre"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Corse"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Corse"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Corse"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Corse"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires"></#if>
+    <#if FROM_IATA == "FLL"><#assign FROM_DEP = "Floride"></#if>
+    <#if TO_IATA == "FLL"><#assign DESTINATION_NAME = "Floride"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Floride"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Floride"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "Londres"></#if>
+    <#if FROM_IATA == "LGW"><#assign FROM_DEP = "Londres"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "Londres"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "Londres"></#if>
+    <#if TO_IATA == "MCO"><#assign DESTINATION_NAME = "Floride"></#if>
+    <#if FROM_IATA == "MCO"><#assign FROM_DEP = "Floride"></#if>
+    <#if TO_IATA == "MIA"><#assign DESTINATION_NAME = "Miami"></#if>
+    <#if FROM_IATA == "MIA"><#assign FROM_DEP = "Miami"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardaigne"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardaigne"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Majorque"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Majorque"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicile"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicile"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pise"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pise"></#if>
+    <#if TO_IATA == "STN"><#assign DESTINATION_NAME = "Londres"></#if>
+    <#if FROM_IATA == "STN"><#assign FROM_DEP = "Londres"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Varsovie"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Varsovie"></#if>
+</#if>
+<#if MARKET == "IT">
+	<#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+    <#if TO_IATA == "EWR"><#assign DESTINATION_NAME = "New York"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stoccolma"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Roma"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Roma"></#if>
+    <#if FROM_IATA == "MXP"><#assign FROM_DEP = "Milano"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Tutti gli aeroporti"></#if>
+    <#if TO_IATA == "CDG"><#assign DESTINATION_NAME = "Parigi-Charles De Gaulle"></#if>
+    <#if FROM_IATA == "CDG"><#assign FROM_DEP = "Parigi-Charles De Gaulle"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Roma-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Roma-Ciampino"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sicilia-Catania"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sicilia-Catania"></#if>    
+    <#if TO_IATA == "FDF"><#assign DESTINATION_NAME = "Martinica/Fort-de-France"></#if>
+    <#if FROM_IATA == "FDF"><#assign FROM_DEP = "Martinica/Fort-de-France"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Floride-Tutti gli aeroporti"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Floride-Tutti gli aeroporti"></#if>
+    <#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "Londra-Gatwick"></#if>
+    <#if FROM_IATA == "LGW"><#assign FROM_DEP = "Londra-Gatwick"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "Londra-Tutti gli aeroporti"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "Londra-Tutti gli aeroporti"></#if>
+    <#if TO_IATA == "MCO"><#assign DESTINATION_NAME = "Floride-Orlando"></#if>
+    <#if FROM_IATA == "MCO"><#assign FROM_DEP = "Floride-Orlando"></#if>
+    <#if TO_IATA == "MIA"><#assign DESTINATION_NAME = "Floride-Miami"></#if>
+    <#if FROM_IATA == "MIA"><#assign FROM_DEP = "Floride-Miami"></#if>
+    <#if TO_IATA == "MRS"><#assign DESTINATION_NAME = "Marsiglia-Provenza"></#if>
+    <#if FROM_IATA == "MRS"><#assign FROM_DEP = "Marsiglia-Provenza"></#if>
+    <#if TO_IATA == "NYO"><#assign DESTINATION_NAME = "Stoccolma-Skavsta"></#if>
+    <#if FROM_IATA == "NYO"><#assign FROM_DEP = "Stoccolma-Skavsta"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardegna-Olbia"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardegna-Olbia"></#if>
+    <#if TO_IATA == "PARALL"><#assign DESTINATION_NAME = "Parigi"></#if>
+    <#if FROM_IATA == "PARALL"><#assign FROM_DEP = "Parigi"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Maiorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Maiorca-Palma"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicilia-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicilia-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa-Toscana"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa-Toscana"></#if>
+    <#if TO_IATA == "PTP"><#assign DESTINATION_NAME = "Guadeloupa"></#if>
+    <#if FROM_IATA == "PTP"><#assign FROM_DEP = "Guadeloupa"></#if>
+    <#if TO_IATA == "SJU"><#assign DESTINATION_NAME = "Porto Rico - San Juan"></#if>
+    <#if FROM_IATA == "SJU"><#assign FROM_DEP = "Porto Rico - San Juan"></#if>
+    <#if TO_IATA == "SXF"><#assign DESTINATION_NAME = "Berlino-Schönefeld"></#if>
+    <#if FROM_IATA == "SXF"><#assign FROM_DEP = "Berlino-Schönefeld"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife-Tutti gli aeroporti"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife-Tutti gli aeroporti"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife-Nord"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife-Nord"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife-Sud"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife-Sud"></#if>
+    <#if TO_IATA == "TIV"><#assign DESTINATION_NAME = "Montenegro-Teodo"></#if>
+    <#if FROM_IATA == "TIV"><#assign FROM_DEP = "Montenegro-Teodo"></#if>
+    <#if FROM_IATA == "TXL"><#assign FROM_DEP = "Berlino-tegel"></#if>
+    <#if TO_IATA == "TXL"><#assign DESTINATION_NAME = "Berlino-tegel"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Varsavia-Tutti gli aeroporti"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Varsavia-Tutti gli aeroporti"></#if>
+</#if>
+<#if MARKET == "PL">
+    <#if TO_IATA == "GDN"><#assign DESTINATION_NAME = "Gdańsk"></#if>
+    <#if FROM_IATA == "GDN"><#assign FROM_DEP = "Gdańsk"></#if>
+	<#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+    <#if FROM_IATA == "OSL"><#assign FROM_DEP = "Oslo"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Sztokholm"></#if>
+    <#if FROM_IATA == "ARN"><#assign FROM_DEP = "Sztokholm"></#if>
+    <#if TO_IATA == "JFK"><#assign DESTINATION_NAME = "Nowy Jork"></#if>
+    <#if FROM_IATA == "JFK"><#assign FROM_DEP = "Nowy Jork"></#if>
+     <#if TO_IATA == "CDG"><#assign DESTINATION_NAME = "Paryż-CDG"></#if>
+    <#if FROM_IATA == "CDG"><#assign FROM_DEP = "Paryż-CDG"></#if>
+    <#if TO_IATA == "PLQ"><#assign DESTINATION_NAME = "Palanga/Klajpeda"></#if>
+    <#if FROM_IATA == "PLQ"><#assign FROM_DEP = "Palanga/Klajpeda"></#if>
+     <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Cypr-Larnaca"></#if>
+	<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Cypr-Larnaca"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Korsyka-Ajaccio"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Korsyka-Ajaccio"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Korsyka-Bastia"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Korsyka-Bastia"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "BVA"><#assign DESTINATION_NAME = "Paryz-Beauvais"></#if>
+    <#if FROM_IATA == "BVA"><#assign FROM_DEP = "Paryz-Beauvais"></#if>
+    <#if FROM_IATA == "BWI"><#assign FROM_DEP = "Baltimore/Waszyngton"></#if>
+    <#if TO_IATA == "BWI"><#assign DESTINATION_NAME = "Baltimore/Waszyngton"></#if>
+    <#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Kolonia/Bonn"></#if>
+    <#if FROM_IATA == "CGN"><#assign FROM_DEP = "Kolonia/Bonn"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Rzym-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Rzym-Ciampino"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sycylia-Catania"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sycylia-Catania"></#if>
+    <#if TO_IATA == "EWR"><#assign DESTINATION_NAME = "Nowy Jork"></#if>
+    <#if FROM_IATA == "EWR"><#assign FROM_DEP = "Nowy Jork"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Rzym-Fiumicino"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Rzym-Fiumicino"></#if>
+    <#if FROM_IATA == "FLL"><#assign FROM_DEP = "Floryda-Fort Lauderdale/Miami"></#if>
+    <#if TO_IATA == "FLL"><#assign DESTINATION_NAME = "Floryda-Fort Lauderdale/Miami"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Floryda-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Floryda-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "Londyn-Gatwick"></#if>
+    <#if FROM_IATA == "LGW"><#assign FROM_DEP = "Londyn-Gatwick"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "Londyn-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "Londyn-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "MCO"><#assign DESTINATION_NAME = "Floryda-Orlando"></#if>
+    <#if FROM_IATA == "MCO"><#assign FROM_DEP = "Floryda-Orlando"></#if>
+    <#if TO_IATA == "MIA"><#assign DESTINATION_NAME = "Floryda-Miami"></#if>
+    <#if FROM_IATA == "MIA"><#assign FROM_DEP = "Floryda-Miami"></#if>
+    <#if TO_IATA == "NYCALL"><#assign DESTINATION_NAME = "Nowy Jork"></#if>
+    <#if FROM_IATA == "NYCALL"><#assign FROM_DEP = "Nowy Jork"></#if>
+    <#if TO_IATA == "NYO"><#assign DESTINATION_NAME = "Sztokholm-Skavsta"></#if>
+    <#if FROM_IATA == "NYO"><#assign FROM_DEP = "Sztokholm-Skavsta"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardynia-Olbia"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardynia-Olbia"></#if>
+    <#if TO_IATA == "ORY"><#assign DESTINATION_NAME = "Paryz-Orly"></#if>
+    <#if FROM_IATA == "ORY"><#assign FROM_DEP = "Paryz-Orly"></#if>
+    <#if TO_IATA == "PARALL"><#assign DESTINATION_NAME = "Paryz"></#if>
+    <#if FROM_IATA == "PARALL"><#assign FROM_DEP = "Paryz"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sycylia-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sycylia-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Piza-Toskania"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Piza-Toskania"></#if>
+    <#if TO_IATA == "PTP"><#assign DESTINATION_NAME = "Gwadelupa"></#if>
+    <#if FROM_IATA == "PTP"><#assign FROM_DEP = "Gwadelupa"></#if>
+    <#if TO_IATA == "STN"><#assign DESTINATION_NAME = "Londyn-Stansted"></#if>
+    <#if FROM_IATA == "STN"><#assign FROM_DEP = "Londyn-Stansted"></#if>
+    <#if TO_IATA == "SWF"><#assign DESTINATION_NAME = "Nowy Jork-Stewart"></#if>
+    <#if FROM_IATA == "SWF"><#assign FROM_DEP = "Nowy Jork-Stewart"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Teneryfa-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Teneryfa-Wszystkie lotniska"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Teneryfa-Północ"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Teneryfa-Północ"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Teneryfa-Poludnie"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Teneryfa-Poludnie"></#if>
+    <#if TO_IATA == "TIV"><#assign DESTINATION_NAME = "Czarnogóra-Tivat"></#if>
+    <#if FROM_IATA == "TIV"><#assign FROM_DEP = "Czarnogóra-Tivat"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Warszawa-Wszystkie lotniska"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Warszawa-Wszystkie lotniska"></#if>
+</#if>
+
+
+<#if MARKET == "NL">	
+    <#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stockholm"></#if>
+</#if>
+<#if MARKET == "DE">
+	<#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Köln-Bonn"></#if>
+    <#if FROM_IATA == "CGN"><#assign FROM_DEP = "Köln-Bonn"></#if>
+    <#if TO_IATA == "CHQ"><#assign DESTINATION_NAME = "Kreta-Chania"></#if>
+    <#if FROM_IATA == "CHQ"><#assign FROM_DEP = "Kreta-Chania"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Zypern-Larnaca"></#if>
+	<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Zypern-Larnaca"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Korsika-Ajaccio"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Korsika-Ajaccio"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Alicante-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Alicante-Alle Flughäfen"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin-Alle Flughäfen"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Korsika-Bastia"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Korsika-Bastia"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston-Alle Flughäfen"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Alle Flughäfen"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Rom-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Rom-Ciampino"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sizilien-Catania"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sizilien-Catania"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Rom-Fiumicino"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Rom-Fiumicino"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida-Alle Flughäfen"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "London-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "London-Alle Flughäfen"></#if>
+    <#if TO_IATA == "LYR"><#assign DESTINATION_NAME = "Longyearbyen-Spitzbergen"></#if>
+    <#if FROM_IATA == "LYR"><#assign FROM_DEP = "Longyearbyen-Spitzbergen"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardinien-Olbia"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardinien-Olbia"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca-Palma"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sizilien-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sizilien-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa-Toskana"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa-Toskana"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Teneriffa-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Teneriffa-Alle Flughäfen"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Teneriffa-Nord"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Teneriffa-Nord"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Teneriffa-Süd"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Teneriffa-Süd"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Warschau-Alle Flughäfen"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Warschau-Alle Flughäfen"></#if>
+</#if>
+<#if MARKET == "ROW">
+	<#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stockholm"></#if>
+    <#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+</#if>
+<#if MARKET == "SE">
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Rom"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Rom"></#if>
+	<#if FROM_IATA == "MMX"><#assign FROM_DEP = "Malmö"></#if>
+    <#if FROM_IATA == "ARN"><#assign FROM_DEP = "Stockholm"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if TO_IATA == "OSD"><#assign DESTINATION_NAME = "Östersund/Åre"></#if>
+    <#if FROM_IATA == "OSD"><#assign FROM_DEP = "Östersund/Åre"></#if>
+    <#if TO_IATA == "CHQ"><#assign DESTINATION_NAME = "Kreta-Chania"></#if>
+    <#if FROM_IATA == "CHQ"><#assign FROM_DEP = "Kreta-Chania"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Cypern-Larnaca"></#if>
+	<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Cypern-Larnaca"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Korsika-Ajaccio"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Korsika-Ajaccio"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante-Alla flygplatser"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante-Alla flygplatser"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin-Alla flygplatser"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin-Alla flygplatser"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Korsika-Bastia"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Korsika-Bastia"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston-Alla flygplatser"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston-Alla flygplatser"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires-Alla flygplatser"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Alla flygplatser"></#if>
+    <#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Köln/Bonn"></#if>
+    <#if FROM_IATA == "CGN"><#assign FROM_DEP = "Köln/Bonn"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Rom-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Rom-Ciampino"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sicilien-Catania"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sicilien-Catania"></#if>
+    <#if TO_IATA == "DME"><#assign DESTINATION_NAME = "Moskva-Domodedovo"></#if>
+    <#if FROM_IATA == "DME"><#assign FROM_DEP = "Moskva-Domodedovo"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida-Alla flygplatser"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida-Alla flygplatser"></#if>
+    <#if TO_IATA == "LCJ"><#assign DESTINATION_NAME = "Warszawa-Lodz"></#if>
+    <#if FROM_IATA == "LCJ"><#assign FROM_DEP = "Warszawa-Lodz"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "London-Alla flygplatser"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "London-Alla flygplatser"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardinien-Olbia"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardinien-Olbia"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca-Palma"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicilien-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicilien-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa-Toscana"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa-Toscana"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Teneriffa-Alla flygplatser"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Teneriffa-Alla flygplatser"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Teneriffa-Nord"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Teneriffa-Nord"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Teneriffa-Söder"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Teneriffa-Söder"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Warszawa-Alla flygplatser"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Warszawa-Alla flygplatser"></#if>
+</#if>
+
+<#if MARKET == "NO">
+	<#if FROM_IATA == "OSL"><#assign FROM_DEP = "Oslo"></#if>
+    <#if TO_IATA == "CHQ"><#assign DESTINATION_NAME = "Kreta"></#if>
+    <#if FROM_IATA == "CHQ"><#assign FROM_DEP = "Kreta"></#if>
+    <#if TO_IATA == "NAP"><#assign DESTINATION_NAME = "Napoli"></#if>
+    <#if FROM_IATA == "NAP"><#assign FROM_DEP = "Napoli"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Kypros"></#if>
+    <#if FROM_IATA == "LCA"><#assign FROM_DEP = "Kypros"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Korsika"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Korsika"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Korsika"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Korsika"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires"></#if>
+    <#if TO_IATA == "EZE"><#assign DESTINATION_NAME = "Buenos Aires"></#if>
+    <#if FROM_IATA == "EZE"><#assign FROM_DEP = "Buenos Aires"></#if>
+    <#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Køln"></#if>
+    <#if FROM_IATA == "CGN"><#assign FROM_DEP = "Køln"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Roma"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Roma"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sicilia"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sicilia"></#if>
+    <#if TO_IATA == "DME"><#assign DESTINATION_NAME = "Moskva"></#if>
+    <#if FROM_IATA == "DME"><#assign FROM_DEP = "Moskva"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Roma"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Roma"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Gøteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Gøteborg"></#if>
+    <#if TO_IATA == "LCJ"><#assign DESTINATION_NAME = "Warszawa"></#if>
+    <#if FROM_IATA == "LCJ"><#assign FROM_DEP = "Warszawa"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "London"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "London"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicilia"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicilia"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Warszawa"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Warszawa"></#if>
+</#if>
+<#if MARKET == "DK">
+	<#if TO_IATA == "GRO"><#assign DESTINATION_NAME = "Barcelona/Girona"></#if>
+    <#if FROM_IATA == "GRO"><#assign FROM_DEP = "Barcelona/Girona"></#if>
+    <#if TO_IATA == "CHQ"><#assign DESTINATION_NAME = "Kreta-Chania"></#if>
+    <#if FROM_IATA == "CHQ"><#assign FROM_DEP = "Kreta-Chania"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Cypern-Larnaca"></#if>
+    <#if FROM_IATA == "LCA"><#assign FROM_DEP = "Cypern-Larnaca"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca-Palma"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stockholm-Arlanda"></#if>
+    <#if FROM_IATA == "ARN"><#assign FROM_DEP = "Stockholm-Arlanda"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Korsika-Ajaccio"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Korsika-Ajaccio"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante-Alle lufthavne"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante-Alle lufthavne"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin-Alle lufthavne"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin-Alle lufthavne"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Korsika-Bastia"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Korsika-Bastia"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston-Alle lufthavne"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston-Alle lufthavne"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires-Alle lufthavne"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Alle lufthavne"></#if>
+    <#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Køln/Bonn"></#if>
+    <#if FROM_IATA == "CGN"><#assign FROM_DEP = "Køln/Bonn"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Roma-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Roma-Ciampino"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sicilien-Catania"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sicilien-Catania"></#if>
+    <#if TO_IATA == "DME"><#assign DESTINATION_NAME = "Moskva-Domodedovo"></#if>
+    <#if FROM_IATA == "DME"><#assign FROM_DEP = "Moskva-Domodedovo"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Roma-Fiumicino"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Roma-Fiumicino"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida-Alle lufthavne"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida-Alle lufthavne"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if TO_IATA == "LCJ"><#assign DESTINATION_NAME = "Warszawa-Lodz"></#if>
+    <#if FROM_IATA == "LCJ"><#assign FROM_DEP = "Warszawa-Lodz"></#if>
+    <#if TO_IATA == "LED"><#assign DESTINATION_NAME = "Skt. Petersborg"></#if>
+    <#if FROM_IATA == "LED"><#assign FROM_DEP = "Skt. Petersborg"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "London-Alle lufthavne"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "London-Alle lufthavne"></#if>
+    <#if TO_IATA == "OLB"><#assign DESTINATION_NAME = "Sardinien-Olbia"></#if>
+    <#if FROM_IATA == "OLB"><#assign FROM_DEP = "Sardinien-Olbia"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca-Palma"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicilien-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicilien-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa-Toscana"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa-Toscana"></#if>
+    <#if TO_IATA == "STX"><#assign DESTINATION_NAME = "De Vestindiske øer - St Croix"></#if>
+    <#if FROM_IATA == "STX"><#assign FROM_DEP = "De Vestindiske øer - St Croix"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife-Alle lufthavne"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife-Alle lufthavne"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife-Nord"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife-Nord"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife-Sør"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife-Sør"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Warszawa-Alle lufthavne"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Warszawa-Alle lufthavne"></#if>
+</#if>
+<#if MARKET == "FI">
+	<#if TO_IATA == "LLA"><#assign DESTINATION_NAME = "Luulaja/Luleå"></#if>
+    <#if FROM_IATA == "LLA"><#assign FROM_DEP = "Luulaja/Luleå"></#if>
+    <#if TO_IATA == "UME"><#assign DESTINATION_NAME = "Uumaja/Umeå"></#if>
+    <#if FROM_IATA == "UME"><#assign FROM_DEP = "Uumaja/Umeå"></#if>
+    <#if TO_IATA == "CHQ"><#assign DESTINATION_NAME = "Kreeta - Hania"></#if>
+    <#if FROM_IATA == "CHQ"><#assign FROM_DEP = "Kreeta - Hania"></#if>
+    <#if TO_IATA == "HER"><#assign DESTINATION_NAME = "Kreeta - Heraklion"></#if>
+    <#if FROM_IATA == "HER"><#assign FROM_DEP = "Kreeta - Heraklion"></#if>
+    <#if TO_IATA == "MIR"><#assign DESTINATION_NAME = "Monastir-Habib Bourguiba"></#if>
+    <#if FROM_IATA == "MIR"><#assign FROM_DEP = "Monastir-Habib Bourguiba"></#if>
+    <#if TO_IATA == "BVA"><#assign DESTINATION_NAME = "París-Beauvais"></#if>
+    <#if FROM_IATA == "BVA"><#assign FROM_DEP = "París-Beauvais"></#if>
+    <#if TO_IATA == "CGN"><#assign DESTINATION_NAME = "Köln-Bonn"></#if>
+    <#if FROM_IATA == "CGN"><#assign FROM_DEP = "Köln-Bonn"></#if>
+    <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Kypros-Larnaca"></#if>
+    <#if FROM_IATA == "LCA"><#assign FROM_DEP = "Kypros-Larnaca"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Korsika-Ajaccio"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Korsika-Ajaccio"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante-Kaikki lentokentät"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Tukholma-Arlanda"></#if>
+    <#if FROM_IATA == "ARN"><#assign FROM_DEP = "Tukholma-Arlanda"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin-Kaikki lentokentät"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Korsika-Bastia"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Korsika-Bastia"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston-Kaikki lentokentät"></#if>
+    <#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "Lontoo-Gatwick"></#if>
+    <#if FROM_IATA == "LGW"><#assign FROM_DEP = "Lontoo-Gatwick"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Kaikki lentokentät"></#if>
+    <#if TO_IATA == "CDG"><#assign DESTINATION_NAME = "Pariisi-Charles De Gaulle"></#if>
+    <#if FROM_IATA == "CDG"><#assign FROM_DEP = "Pariisi-Charles De Gaulle"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Rooma-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Rooma-Ciampino"></#if>
+    <#if TO_IATA == "CTA"><#assign DESTINATION_NAME = "Sisilia-Catania"></#if>
+    <#if FROM_IATA == "CTA"><#assign FROM_DEP = "Sisilia-Catania"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Rooma-Fiumicino"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Rooma-Fiumicino"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Florida-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Florida-Kaikki lentokentät"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Göteborg"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Göteborg"></#if>
+    <#if TO_IATA == "NYO"><#assign DESTINATION_NAME = "Tukholma-Skavsta"></#if>
+    <#if FROM_IATA == "NYO"><#assign FROM_DEP = "Tukholma-Skavsta"></#if>
+    <#if TO_IATA == "ORY"><#assign DESTINATION_NAME = "Pariisi-Orly"></#if>
+    <#if FROM_IATA == "ORY"><#assign FROM_DEP = "Pariisi-Orly"></#if>
+     <#if TO_IATA == "PARALL"><#assign DESTINATION_NAME = "Parigi"></#if>
+    <#if FROM_IATA == "PARALL"><#assign FROM_DEP = "Parigi"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca-Palma"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sisilia-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sisilia-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa-Toscana"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa-Toscana"></#if>
+    <#if TO_IATA == "SXF"><#assign DESTINATION_NAME = "Berlini-Schönefeld"></#if>
+    <#if FROM_IATA == "SXF"><#assign FROM_DEP = "Berlini-Schönefeld"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife-Kaikki lentokentät"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Teneriffa - Pohjoinen"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Teneriffa - Pohjoinen"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Teneriffa-Etelä"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Teneriffa-Etelä"></#if>
+    <#if FROM_IATA == "TXL"><#assign FROM_DEP = "Berlini-tegel"></#if>
+    <#if TO_IATA == "TXL"><#assign DESTINATION_NAME = "Berlini-tegel"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Varsova-Kaikki lentokentät"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Varsova-Kaikki lentokentät"></#if>
+</#if>
+<#if MARKET == "IE">
+	<#if TO_IATA == "OSL"><#assign DESTINATION_NAME = "Oslo"></#if>
+    <#if TO_IATA == "PVD"><#assign DESTINATION_NAME = "Providence/Boston"></#if>
+    <#if TO_IATA == "YHM"><#assign DESTINATION_NAME = "Hamilton/Toronto"></#if>
+</#if>
+<#if MARKET == "UK">
+	<#if FROM_IATA == "LGW"><#assign FROM_DEP = "London"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Stockholm"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Gothenburg"></#if>
+</#if>
+<#if MARKET == "BR">
+	<#if FROM_IATA == "JFK"><#assign FROM_DEP = "Nova Iorque"></#if>
+    <#if TO_IATA == "JFK"><#assign DESTINATION_NAME = "Nova Iorque"></#if> 
+     <#if TO_IATA == "LCA"><#assign DESTINATION_NAME = "Chipre-Larnaca"></#if>
+	<#if FROM_IATA == "LCA"><#assign FROM_DEP = "Chipre-Larnaca"></#if>
+    <#if TO_IATA == "AJA"><#assign DESTINATION_NAME = "Córsega-Ajaccio"></#if>
+    <#if FROM_IATA == "AJA"><#assign FROM_DEP = "Córsega-Ajaccio"></#if>
+    <#if TO_IATA == "ALCALL"><#assign DESTINATION_NAME = "Alicante-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "ALCALL"><#assign FROM_DEP = "Alicante-Todos os aeroportos"></#if>
+    <#if TO_IATA == "AMM"><#assign DESTINATION_NAME = "Amã-Rainha Alia"></#if>
+    <#if FROM_IATA == "AMM"><#assign FROM_DEP = "Amã-Rainha Alia"></#if>
+    <#if TO_IATA == "ARN"><#assign DESTINATION_NAME = "Estocolmo-Arlanda"></#if>
+    <#if FROM_IATA == "ARN"><#assign FROM_DEP = "Estocolmo-Arlanda"></#if>
+    <#if TO_IATA == "BER"><#assign DESTINATION_NAME = "Berlim-Brandenburg"></#if>
+    <#if FROM_IATA == "BER"><#assign FROM_DEP = "Berlim-Brandenburg"></#if>
+    <#if TO_IATA == "BERALL"><#assign DESTINATION_NAME = "Berlin-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "BERALL"><#assign FROM_DEP = "Berlin-Todos os aeroportos"></#if>
+    <#if TO_IATA == "BIA"><#assign DESTINATION_NAME = "Córsega-Bastia"></#if>
+    <#if FROM_IATA == "BIA"><#assign FROM_DEP = "Córsega-Bastia"></#if>
+    <#if TO_IATA == "BOSALL"><#assign DESTINATION_NAME = "Boston-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "BOSALL"><#assign FROM_DEP = "Boston-Todos os aeroportos"></#if>
+    <#if TO_IATA == "BUEALL"><#assign DESTINATION_NAME = "Buenos Aires-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "BUEALL"><#assign FROM_DEP = "Buenos Aires-Todos os aeroportos"></#if>
+    <#if TO_IATA == "CIA"><#assign DESTINATION_NAME = "Roma-Ciampino"></#if>
+    <#if FROM_IATA == "CIA"><#assign FROM_DEP = "Roma-Ciampino"></#if>
+    <#if TO_IATA == "EZE"><#assign DESTINATION_NAME = "Buenos Aires-Ezeiza"></#if>
+    <#if FROM_IATA == "EZE"><#assign FROM_DEP = "Buenos Aires-Ezeiza"></#if>
+    <#if TO_IATA == "FCO"><#assign DESTINATION_NAME = "Roma-Fiumicino"></#if>
+    <#if FROM_IATA == "FCO"><#assign FROM_DEP = "Roma-Fiumicino"></#if>
+    <#if FROM_IATA == "FLL"><#assign FROM_DEP = "Flórida-Fort Lauderdale/Miami"></#if>
+    <#if TO_IATA == "FLL"><#assign DESTINATION_NAME = "Flórida-Fort Lauderdale/Miami"></#if>
+    <#if TO_IATA == "FLLALL"><#assign DESTINATION_NAME = "Flórida-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "FLLALL"><#assign FROM_DEP = "Flórida-Todos os aeroportos"></#if>
+    <#if TO_IATA == "GOT"><#assign DESTINATION_NAME = "Gotemburgo"></#if>
+    <#if FROM_IATA == "GOT"><#assign FROM_DEP = "Gotemburgo"></#if>
+    <#if TO_IATA == "LGW"><#assign DESTINATION_NAME = "Londra-Gatwick"></#if>
+    <#if FROM_IATA == "LGW"><#assign FROM_DEP = "Londra-Gatwick"></#if>
+    <#if TO_IATA == "LON"><#assign DESTINATION_NAME = "Londres-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "LON"><#assign FROM_DEP = "Londres-Todos os aeroportos"></#if>
+    <#if TO_IATA == "MCO"><#assign DESTINATION_NAME = "Flórida-Orlando"></#if>
+    <#if FROM_IATA == "MCO"><#assign FROM_DEP = "Flórida-Orlando"></#if>
+    <#if TO_IATA == "MIA"><#assign DESTINATION_NAME = "Flórida-Miami"></#if>
+    <#if FROM_IATA == "MIA"><#assign FROM_DEP = "Flórida-Miami"></#if>
+    <#if TO_IATA == "MRS"><#assign DESTINATION_NAME = "Marselha-Provença"></#if>
+    <#if FROM_IATA == "MRS"><#assign FROM_DEP = "Marselha-Provença"></#if>
+    <#if TO_IATA == "NYO"><#assign DESTINATION_NAME = "Estocolmo-Skavsta"></#if>
+    <#if FROM_IATA == "NYO"><#assign FROM_DEP = "Estocolmo-Skavsta"></#if>
+    <#if FROM_IATA == "OAK"><#assign FROM_DEP = "Oakland - São Francisco"></#if>
+    <#if TO_IATA == "OAK"><#assign DESTINATION_NAME = "Oakland - São Francisco"></#if>
+    <#if TO_IATA == "PMI"><#assign DESTINATION_NAME = "Mallorca-Palma"></#if>
+    <#if FROM_IATA == "PMI"><#assign FROM_DEP = "Mallorca-Palma"></#if>
+    <#if TO_IATA == "PMO"><#assign DESTINATION_NAME = "Sicília-Palermo"></#if>
+    <#if FROM_IATA == "PMO"><#assign FROM_DEP = "Sicília-Palermo"></#if>
+    <#if TO_IATA == "PSA"><#assign DESTINATION_NAME = "Pisa-Toscana"></#if>
+    <#if FROM_IATA == "PSA"><#assign FROM_DEP = "Pisa-Toscana"></#if>
+    <#if TO_IATA == "SAW"><#assign DESTINATION_NAME = "Istambul-Sabiha"></#if>
+    <#if FROM_IATA == "SAW"><#assign FROM_DEP = "Istambul-Sabiha"></#if>
+    <#if TO_IATA == "SFOALL"><#assign DESTINATION_NAME = "São Francisco"></#if>
+    <#if FROM_IATA == "SFOALL"><#assign FROM_DEP = "São Francisco"></#if>
+    <#if TO_IATA == "SJU"><#assign DESTINATION_NAME = "Porto Rico - San Juan"></#if>
+    <#if FROM_IATA == "SJU"><#assign FROM_DEP = "Porto Rico - San Juan"></#if>
+    <#if TO_IATA == "STN"><#assign DESTINATION_NAME = "Londres-Stansted"></#if>
+    <#if FROM_IATA == "STN"><#assign FROM_DEP = "Londres-Stansted"></#if>
+    <#if TO_IATA == "SWF"><#assign DESTINATION_NAME = "Nova Iorque-Stewart"></#if>
+    <#if FROM_IATA == "SWF"><#assign FROM_DEP = "Nova Iorque-Stewart"></#if>
+    <#if TO_IATA == "SXF"><#assign DESTINATION_NAME = "Berlim-Schönefeld"></#if>
+    <#if FROM_IATA == "SXF"><#assign FROM_DEP = "Berlim-Schönefeld"></#if>
+    <#if TO_IATA == "TCIALL"><#assign DESTINATION_NAME = "Tenerife-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "TCIALL"><#assign FROM_DEP = "Tenerife-Todos os aeroportos"></#if>
+    <#if TO_IATA == "TFN"><#assign DESTINATION_NAME = "Tenerife-Norte"></#if>
+    <#if FROM_IATA == "TFN"><#assign FROM_DEP = "Tenerife-Norte"></#if>
+    <#if TO_IATA == "TFS"><#assign DESTINATION_NAME = "Tenerife-Sul"></#if>
+    <#if FROM_IATA == "TFS"><#assign FROM_DEP = "Tenerife-Sul"></#if>
+    <#if FROM_IATA == "TXL"><#assign FROM_DEP = "Berlim-tegel"></#if>
+    <#if TO_IATA == "TXL"><#assign DESTINATION_NAME = "Berlim-tegel"></#if>
+    <#if TO_IATA == "WAWALL"><#assign DESTINATION_NAME = "Varsóvia-Todos os aeroportos"></#if>
+    <#if FROM_IATA == "WAWALL"><#assign FROM_DEP = "Varsóvia-Todos os aeroportos"></#if>
+</#if>
+
