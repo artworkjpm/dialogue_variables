@@ -1,0 +1,166 @@
+<#data SEGMENT as SEGMENT limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID><#fields SEGMENT_CAT SEGMENT_CATEGORY SEGMENT_BOOKING_START_AIRPORT SEGMENT_BOOKING_LAST_DESTINATION SEGMENT_BOOKING_MAIN_DESTINATION SEGMENT_BOOKING_START_COUNTRY_CD SEGMENT_BOOKING_MAIN_DEST_COUNTRY SEGMENT_BOOKING_LONGHAUL SEGMENT_BOOKING_LAST_DEST_COUNTRY>
+    <#-- LAST_DEPARTURE_COUNTRY_CODE -->
+    <#if !SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD?isnull><#global LAST_DEPARTURE_COUNTRY_CODE = SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD><#else><#global LAST_DEPARTURE_COUNTRY_CODE = 'ROW'></#if>
+    <#-- LAST_DEST_COUNTRY_CODE -->
+    <#if !SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY?isnull><#global LAST_DEST_COUNTRY_CODE = SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY><#else><#global LAST_DEST_COUNTRY_CODE = 'ROW'></#if>
+    <#-- LH_YN -->
+   <#if SEGMENT.SEGMENT_BOOKING_LONGHAUL?isnull><#global LH_YN = 'N'><#else><#global LH_YN = SEGMENT.SEGMENT_BOOKING_LONGHAUL?trim></#if>
+    <#-- LH_SH_CODE -->
+   <#if LH_YN?isnull><#global LH_SH_CODE = 'SH'><#elseif LH_YN == 'Y'><#global LH_SH_CODE = 'LH'><#else><#global LH_SH_CODE = 'SH'></#if>
+    <#-- CHILDREN_YN -->
+    <#if SEGMENT.SEGMENT_CAT?isnull || SEGMENT.SEGMENT_CAT == 'NoChildren'><#global CHILDREN_YN = 'N'>
+    <#elseif SEGMENT.SEGMENT_CAT == 'Children'><#global CHILDREN_YN = 'Y'>
+    <#else><#global CHILDREN_YN = 'N'>
+    </#if>
+        <#-- SEGMENT_BUNDLE -->
+    <#if MARKET == 'NO' || MARKET == 'FI' || MARKET == 'SE' || MARKET == 'DK' || MARKET == 'UK'><#if SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD != SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY && (SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'NO' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'SE' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'DK' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'FI') && (SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'NO' || SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'SE' || SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'DK' || SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'FI')><#global SEGMENT_BUNDLE = 'domestic_nordic'>
+    <#else><#global SEGMENT_BUNDLE = ''>
+    </#if><#else><#global SEGMENT_BUNDLE = ''></#if>
+    <#-- DOMESTIC_YN -->
+    <#if MARKET == 'NO' || MARKET == 'FI' || MARKET == 'SE' || MARKET == 'DK' || MARKET == 'UK'><#-- We only run domestic campaigns for these markets -->
+        <#if SEGMENT.SEGMENT_BOOKING_START_AIRPORT == SEGMENT.SEGMENT_BOOKING_LAST_DESTINATION><#-- It is a roundtrip booking -->
+            <#if SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY><#-- the main destination is in the same country as the start airport -->
+            	<#if SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'SE' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'NO' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'DK' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'FI'><#-- We only run domestic campaigns for traveling within these countries --><#global DOMESTIC_YN = 'Y'><#global DOMESTIC_TYPE = 'nordic'>
+            	<#else><#global DOMESTIC_YN = 'N'>
+            	</#if>
+        	<#else><#global DOMESTIC_YN = 'N'>
+        	</#if>
+        <#else><#-- It is a oneway booking -->
+            <#if SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == SEGMENT.SEGMENT_BOOKING_LAST_DEST_COUNTRY><#-- the last destination is in the same country as the start airport -->
+            	<#if SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'SE' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'NO' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'DK' || SEGMENT.SEGMENT_BOOKING_START_COUNTRY_CD == 'FI'><#-- We only run domestic campaigns for traveling within these countries --><#global DOMESTIC_YN = 'Y'><#global DOMESTIC_TYPE = 'nordic'>
+            	<#else><#global DOMESTIC_YN = 'N'>
+            	</#if>
+        	<#else><#global DOMESTIC_YN = 'N'>
+        	</#if>
+        </#if>
+    <#else><#global DOMESTIC_YN = 'N'>
+    </#if>
+    <#-- CATEGORY -->    
+    <#--<#if !SEGMENT_BUNDLE?isnull><#global CATEGORY = SEGMENT_BUNDLE?lower_case>-->
+   	<#if DOMESTIC_YN == 'Y'><#global CATEGORY = 'domestic_'+DOMESTIC_TYPE?lower_case>
+    <#elseif SEGMENT.SEGMENT_CATEGORY?isnull><#global CATEGORY = 'city'><#global CATEGORY_TYPE = 'default'> <#-- We use city content for fallback, and create a new variable that we can use for reporting if neaded. -->   
+    <#elseif SEGMENT.SEGMENT_CATEGORY == 'Big city'><#global CATEGORY = 'city'>
+    <#elseif SEGMENT.SEGMENT_CATEGORY == 'Sun&Sea'><#global CATEGORY = 'sun-sea'>
+    <#else><#global CATEGORY = 'city'><#global CATEGORY_TYPE = 'default'>  <#-- We use city content for fallback, and create a new variable that we can use for reporting if neaded. -->  
+    </#if>
+    <#-- START_AIRPORT -->
+    <#global START_AIRPORT = SEGMENT.SEGMENT_BOOKING_START_AIRPORT?trim>
+    <#-- LAST_DESTINATION -->
+    <#if SEGMENT.SEGMENT_BOOKING_START_AIRPORT == SEGMENT.SEGMENT_BOOKING_LAST_DESTINATION><#global LAST_DESTINATION = SEGMENT.SEGMENT_BOOKING_MAIN_DESTINATION?trim><#else><#global LAST_DESTINATION = SEGMENT.SEGMENT_BOOKING_LAST_DESTINATION?trim></#if>
+    <#-- MARKET_DOMAIN -->
+<#if MARKET == 'NO'><#global MARKET_DOMAIN = 'no/'><#elseif MARKET == 'ROW'><#global MARKET_DOMAIN = 'com/en/'><#else><#global MARKET_DOMAIN = 'com/'+MARKET?lower_case+'/'></#if>
+    <#global LOW_FAIR_URL = 'http://www.norwegian.${MARKET_DOMAIN}start/booking/farecalendar/?D_City=${START_AIRPORT}&A_City=${LAST_DESTINATION}&D_Day=${monthadd(.now,1)?date?string("dd")?trim}&D_Month=${monthadd(.now,1)?date?string("yyyyMM")?trim}&R_Day=${monthadd(.now,1)?date?string("dd")?trim}&R_Month=${monthadd(.now,1)?date?string("yyyyMM")?trim}&IncludeTransit=true&CurrencyCode=${CURRENCY?exec?trim}'>
+    <#-- LAST_DEST_COUNTRY -->
+    <#if SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'NO'>
+        <#if MARKET == 'NO' || MARKET == 'SE' || MARKET == 'DK'><#global LAST_DEST_COUNTRY = 'Norge'>
+        <#elseif MARKET == 'FI'><#global LAST_DEST_COUNTRY = 'Norjassa'>
+        <#else><#global LAST_DEST_COUNTRY = 'Norway'>
+        </#if>
+    <#elseif SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'SE'>
+        <#if MARKET == 'NO' || MARKET == 'SE' || MARKET == 'DK'><#global LAST_DEST_COUNTRY = 'Sverige'>
+         <#elseif MARKET == 'FI'><#global LAST_DEST_COUNTRY = 'Ruotsissa'>
+        <#else><#global LAST_DEST_COUNTRY = 'Sweden'>
+        </#if>
+    <#elseif SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'DK'>
+        <#if MARKET == 'NO' || MARKET == 'SE' || MARKET == 'DK'><#global LAST_DEST_COUNTRY = 'Danmark'>
+         <#elseif MARKET == 'FI'><#global LAST_DEST_COUNTRY = 'Tanskassa'>
+        <#else><#global LAST_DEST_COUNTRY = 'Denmark'>
+        </#if>
+    <#elseif SEGMENT.SEGMENT_BOOKING_MAIN_DEST_COUNTRY == 'FI'>
+        <#if MARKET == 'NO' || MARKET == 'SE' || MARKET == 'DK'><#global LAST_DEST_COUNTRY = 'Finland'>
+         <#elseif MARKET == 'FI'><#global LAST_DEST_COUNTRY = 'Suomessa'>
+        <#else><#global LAST_DEST_COUNTRY = 'Finland'>
+        </#if>
+    </#if>
+    </#data>
+<#-- CHILDREN_IMAGE -->    
+    <#if CHILDREN_YN?isnull><#global CHILDREN_IMAGE = '_no_children'><#elseif CHILDREN_YN == 'Y'><#global CHILDREN_IMAGE = '_children'><#else><#global CHILDREN_IMAGE = '_no_children'></#if>
+    <#-- CHILDREN_BANNER -->    
+    <#if CHILDREN_YN?isnull><#global CHILDREN_BANNER = '_without_children'><#elseif CHILDREN_YN == 'Y'><#global CHILDREN_BANNER = '_with_children'><#else><#global CHILDREN_BANNER = '_without_children'></#if>
+    <#-- BANNER_VERSION -->
+    <#if CHILDREN_YN == 'Y'><#global BANNER_VERSION = '01'><#else><#global BANNER_VERSION = '02'></#if>
+    <#if BANNER_VERSION?isnull><#global BANNER_VERSION = '02'></#if>
+        		<#-- PRIMARY_IMAGE -->
+				<#attempt>
+                    <#global PRIMARY_IMAGE_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+LAST_DESTINATION?lower_case+CHILDREN_IMAGE?lower_case+".jpg"></#global>
+                    <#if PRIMARY_IMAGE_CHECK??>
+                    <#global PRIMARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+LAST_DESTINATION?lower_case+CHILDREN_IMAGE?lower_case+".jpg">
+                    <#global PRIMARY_IMAGE_EXIST = 'Image exist'></#if>
+                    <#recover>
+                     <#global PRIMARY_IMAGE_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+LAST_DESTINATION?lower_case+CHILDREN_IMAGE?lower_case+".jpg does not exist. Showing default (if it exist)">
+                    <#global PRIMARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_default"+CHILDREN_IMAGE?lower_case+".jpg">
+                </#attempt>
+        		<#-- SECONDARY_IMAGE -->
+        		<#attempt>
+                    <#global SECONDARY_IMAGE_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg"></#global>
+                    <#if SECONDARY_IMAGE_CHECK??>
+                    <#global SECONDARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                    <#global SECONDARY_IMAGE_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global SECONDARY_IMAGE_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg does not exist. Showing default (if it exist)">
+                    <#global SECONDARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_city"+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                </#attempt>
+        		<#-- SECONDARY_IMAGE_SWAP -->
+        		<#attempt>
+                    <#global SECONDARY_IMAGE_SWAP_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg"></#global>
+                    <#if SECONDARY_IMAGE_SWAP_CHECK??>
+                    <#global SECONDARY_IMAGE_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                     <#global SECONDARY_IMAGE_SWAP_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global SECONDARY_IMAGE_SWAP_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg does not exist. Showing default (if it exist)">
+                    <#global SECONDARY_IMAGE_SWAP= "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_city"+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                </#attempt>
+    			<#-- TESTIMONIAL_BANNER -->
+    				<#attempt>
+                    <#global TESTIMONIAL_BANNER_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_desk_"+LH_SH_CODE?lower_case+".png"></#global>
+                    <#if TESTIMONIAL_BANNER_CHECK??>
+                    <#global TESTIMONIAL_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_desk_"+LH_SH_CODE?lower_case+".png">
+                    <#global TESTIMONIAL_BANNER_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global TESTIMONIAL_BANNER_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_desk_"+LH_SH_CODE?lower_case+".png does not exist. Showing default (if it exist)">
+                    <#global TESTIMONIAL_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest_without_children_desk.png">
+                </#attempt>
+    			<#-- TESTIMONIAL_BANNER_SWAP -->
+    				<#attempt>
+                    <#global TESTIMONIAL_BANNER_SWAP_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_mob_"+LH_SH_CODE?lower_case+".png"></#global>
+                    <#if TESTIMONIAL_BANNER_SWAP_CHECK??>
+                    <#global TESTIMONIAL_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_mob_"+LH_SH_CODE?lower_case+".png">
+                    <#global TESTIMONIAL_BANNER_SWAP_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global TESTIMONIAL_BANNER_SWAP_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_mob_"+LH_SH_CODE?lower_case+".png does not exist. Showing default (if it exist)">
+                    <#global TESTIMONIAL_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+MARKET?lower_case+"_same_dest_without_children_mob.png">
+                </#attempt>
+    			<#-- BRAND_BANNER -->
+        		<#attempt>
+                    <#global BRAND_BANNER_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+MARKET+"_Desk_"+BANNER_VERSION+".png"></#global>
+                    <#if BRAND_BANNER_CHECK??>
+                    <#global BRAND_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+MARKET+"_Desk_"+BANNER_VERSION+".png">
+                    <#global BRAND_BANNER_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global BRAND_BANNER_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+MARKET+"_Desk_"+BANNER_VERSION+".png does not exist. Showing default (if it exist)">
+                    <#global BRAND_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_default_"+MARKET+"_Desk_"+BANNER_VERSION+".png">
+                </#attempt>
+    			<#-- BRAND_BANNER_SWAP -->
+        		<#attempt>
+                    <#global BRAND_BANNER_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+MARKET+"_Mob_"+BANNER_VERSION+".png"></#global>
+                    <#if BRAND_BANNER_CHECK??>
+                    <#global BRAND_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+MARKET+"_Mob_"+BANNER_VERSION+".png">
+                    <#global BRAND_BANNER_SWAP_EXIST = 'Image exist'></#if>
+					<#recover>
+                     <#global BRAND_BANNER_SWAP_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+MARKET+"_Mob_"+BANNER_VERSION+".png does not exist. Showing default (if it exist)">
+                    <#global BRAND_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_default_"+MARKET+"_Mob_"+BANNER_VERSION+".png">
+                </#attempt>
+<#-- LANGUAGE_C  - We need sometething to sort the airports table on in order to get the correct translation names -->
+	<#if MARKET == 'UK' || MARKET == 'US' || MARKET == 'IE' || MARKET == 'ROW' || MARKET == 'EN-CA'><#global LANGUAGE_C = 'EN'><#elseif MARKET == 'EN-FR'><#global LANGUAGE_C = 'FR'><#elseif MARKET == 'AR'><#global LANGUAGE_C = 'ES'><#else><#global LANGUAGE_C = MARKET></#if>
+	<#if LANGUAGE_C?isnull><#global LANGUAGE_C = 'EN'></#if>
+	<#data AIRPORTS as AIRPORTS><#filter AIRPORTCODE_IATA = LAST_DESTINATION LANGUAGECODE = LANGUAGE_C><#fields CITY DISPLAYNAME>
+    <#global FROM_IATA = START_AIRPORT><#global TO_IATA = LAST_DESTINATION><#include "cms://contentlibrary/!framework/global_variables/inclusion_files/citynames_personalized_newsletters.htm">
+    <#if !DESTINATION_NAME?isnull><#if !DEST_CITY?isnull><#global DESTINATION_NAME = DEST_CITY><#elseif !AIRPORTS.CITY?isnull><#global DESTINATION_NAME = AIRPORTS.CITY><#else><#global DESTINATION_NAME = AIRPORTS.DISPLAYNAME></#if></#if>
+    </#data>
+
+<#-- TEMPLATE: ${TEMPLATE}<br>MARKET: ${MARKET}<br>CHILDREN_YN: ${CHILDREN_YN?exec}<br>
+	CATEGORY: ${CATEGORY?exec}<br>BOOKING_ID_DV: ${BOOKING_ID_DV}<br>LOCAL_BOOKING_ID_DV: ${LOCAL_BOOKING_ID_DV}<br>
+LAST_DEPARTURE_COUNTRY_CODE: ${LAST_DEPARTURE_COUNTRY_CODE}<br>
+LAST_DEST_COUNTRY_CODE: ${LAST_DEST_COUNTRY_CODE}<br>
+START_AIRPORT: ${START_AIRPORT}<br>LH_SH_CODE: ${LH_SH_CODE}<br>
+LAST_DESTINATION: ${LAST_DESTINATION?exec}<br>LOW_FAIR_URL: <a href='${LOW_FAIR_URL}' target='_blank'>${LOW_FAIR_URL}</a><br>PRIMARY_IMAGE: ${PRIMARY_IMAGE}<br><span style="color:red;">PRIMARY_IMAGE_EXIST? ${PRIMARY_IMAGE_EXIST}</span><br><br>SECONDARY_IMAGE: ${SECONDARY_IMAGE}<br><span style="color:red;">SECONDARY_IMAGE_EXIST? ${SECONDARY_IMAGE_EXIST}</span><br><br>SECONDARY_IMAGE_SWAP: ${SECONDARY_IMAGE_SWAP}<br><span style="color:red;">SECONDARY_IMAGE_SWAP_EXIST? ${SECONDARY_IMAGE_SWAP_EXIST}</span><br><br>BRAND_BANNER: ${BRAND_BANNER}<br><span style="color:red;">BRAND_BANNER_EXIST? ${BRAND_BANNER_EXIST}</span><br><br>BRAND_BANNER_SWAP: ${BRAND_BANNER_SWAP}<br><span style="color:red;">BRAND_BANNER_SWAP_EXIST? ${BRAND_BANNER_SWAP_EXIST}</span><br><br>TESTIMONIAL_BANNER: ${TESTIMONIAL_BANNER}<br><span style="color:red;">TESTIMONIAL_BANNER_EXIST? ${TESTIMONIAL_BANNER_EXIST}</span><br><br>TESTIMONIAL_BANNER_SWAP: ${TESTIMONIAL_BANNER_SWAP}<br><span style="color:red;">TESTIMONIAL_BANNER_SWAP_EXIST? ${TESTIMONIAL_BANNER_SWAP_EXIST}</span> -->
