@@ -1,0 +1,219 @@
+
+
+<#data BX_LAST_SEARCH as BX_LAST_SEARCH><#filter BE_EMAIL_ADDRESS = CONTACT.EMAIL>
+<#fields BE_EMAIL_ADDRESS BE_BOXEVER_UTR BE_CREATED_DATE BE_LAST_DESTINATION BE_MARKET BE_LAST_DEPARTURE>
+<#if BX_LAST_SEARCH.BE_MARKET == MARKET><#global BE_MARKET = BX_LAST_SEARCH.BE_MARKET><#else><#global BE_MARKET = MARKET></#if>
+<#if campaign.name == 'TEST_BOXEVER'>Test Variables: <br>
+BE_EMAIL_ADDRESS: ${BX_LAST_SEARCH.BE_EMAIL_ADDRESS}<br>
+BE_BOXEVER_UTR: ${BX_LAST_SEARCH.BE_BOXEVER_UTR} <br>
+BE_CREATED_DATE: ${BX_LAST_SEARCH.BE_CREATED_DATE} <br>
+BE_LAST_DESTINATION: ${BX_LAST_SEARCH.BE_LAST_DESTINATION} <br>
+BE_MARKET: ${BE_MARKET}<BR>
+MARKET: ${MARKET}<BR>   
+</#if> 
+<#if MARKET?isnull><#global BE_LANG = 'EN'><#elseif MARKET == 'UK' || MARKET == 'US' || MARKET == 'IE' || MARKET == 'NL' || MARKET == 'EN-CA' || MARKET == 'ROW'><#global BE_LANG = 'EN'><#elseif MARKET == 'FR-CA'><#global BE_LANG = 'FR'><#else><#global BE_LANG = MARKET></#if>
+    <#-- BE_DESTINATION_IATA -->
+    <#global BE_DESTINATION_IATA = BX_LAST_SEARCH.BE_LAST_DESTINATION>
+   <#global BE_FROM_CITY = BX_LAST_SEARCH.BE_LAST_DEPARTURE> 
+<#-- BE_FROM_CITY 
+<#if !CONTACT.PREFFERED_AIRPORT?isnull && CONTACT.PREFFERED_AIRPORT != BE_DESTINATION_IATA><#global BE_FROM_CITY = CONTACT.PREFFERED_AIRPORT><#else>
+<#join><#compress><#switch MARKET>
+<#case "AR">
+	<#if BE_DESTINATION_IATA != "EZE"><#global BE_FROM_CITY= "EZE">
+	<#else><#global BE_FROM_CITY= "LGW">
+	</#if><#break>
+<#case "DE">
+	<#if BE_DESTINATION_IATA != "SXF"><#global BE_FROM_CITY= "SXF">
+	<#else><#global BE_FROM_CITY= "OSL">
+	</#if><#break>
+<#case "DK">
+	<#if BE_DESTINATION_IATA != "CPH"><#global BE_FROM_CITY= "CPH">
+	<#else><#global BE_FROM_CITY= "BKK">
+	</#if><#break>
+<#case "EN-CA">
+	<#if BE_DESTINATION_IATA != "YHM"><#global BE_FROM_CITY= "YHM">
+	<#else><#global BE_FROM_CITY= "DUB">
+	</#if><#break>
+<#case "ES">
+	<#if BE_DESTINATION_IATA != "MAD"><#global BE_FROM_CITY= "MAD">
+	<#else><#global BE_FROM_CITY= "JFK">
+	</#if><#break>
+<#case "FI">
+	<#if BE_DESTINATION_IATA != "HEL"><#global BE_FROM_CITY= "HEL">
+	<#else><#global BE_FROM_CITY= "AGP">
+	</#if><#break>
+<#case "FR">
+	<#if BE_DESTINATION_IATA != "CDG"><#global BE_FROM_CITY= "CDG">
+	<#else><#global BE_FROM_CITY= "OAK">
+	</#if><#break>
+<#case "FR-CA">
+	<#if BE_DESTINATION_IATA != "YHM"><#global BE_FROM_CITY= "YHM">
+	<#else><#global BE_FROM_CITY= "DUB">
+	</#if><#break>
+<#case "IE">
+	<#if BE_DESTINATION_IATA != "DUB"><#global BE_FROM_CITY= "DUB">
+	<#else><#global BE_FROM_CITY= "YHM">
+	</#if><#break>
+<#case "IT">
+	<#if BE_DESTINATION_IATA != "FCO"><#global BE_FROM_CITY= "FCO">
+	<#else><#global BE_FROM_CITY= "LAX">
+	</#if><#break>
+<#case "NL">
+	<#if BE_DESTINATION_IATA != "AMS"><#global BE_FROM_CITY= "AMS">
+	<#else><#global BE_FROM_CITY= "JFK">
+	</#if><#break>
+<#case "NO">
+	<#if BE_DESTINATION_IATA != "OSL"><#global BE_FROM_CITY= "OSL">
+	<#else><#global BE_FROM_CITY= "LGW">
+	</#if><#break>
+<#case "PL">
+	<#if BE_DESTINATION_IATA != "WAW"><#global BE_FROM_CITY= "WAW">
+	<#else><#global BE_FROM_CITY= "OSL">
+	</#if><#break>
+<#case "ROW">
+	<#if BE_DESTINATION_IATA != "DUB"><#global BE_FROM_CITY= "DUB">
+	<#else><#global BE_FROM_CITY= "YHM">
+	</#if><#break>
+<#case "SE">
+	<#if BE_DESTINATION_IATA != "ARN"><#global BE_FROM_CITY= "ARN">
+	<#else><#global BE_FROM_CITY= "LGW">
+	</#if><#break>
+<#case "SG">
+	<#if BE_DESTINATION_IATA != "SIN"><#global BE_FROM_CITY= "SIN">
+	<#else><#global BE_FROM_CITY= "LGW">
+	</#if><#break>
+<#case "UK">
+	<#if BE_DESTINATION_IATA != "LGW"><#global BE_FROM_CITY= "LGW">
+	<#else><#global BE_FROM_CITY= "JFK">
+	</#if><#break>
+<#case "US">
+	<#if BE_DESTINATION_IATA != "JFK"><#global BE_FROM_CITY= "JFK">
+	<#else><#global BE_FROM_CITY= "LGW">
+	</#if><#break>
+<#case "BR">
+	<#if BE_DESTINATION_IATA != "GIG"><#global BE_FROM_CITY= "GIG">
+	<#else><#global BE_FROM_CITY= "LGW">
+	</#if><#break>
+<#default>
+	<#if BE_DESTINATION_IATA != "DUB"><#global BE_FROM_CITY= "DUB">
+	<#else><#global BE_FROM_CITY= "OSL">
+	</#if>
+</#switch></#compress></#join>
+</#if>-->
+    <#if campaign.name == 'TEST_BOXEVER'>PREFERRED_AIRPORT: ${CONTACT.PREFFERED_AIRPORT}<br>BE_FROM_CITY: ${BE_FROM_CITY}<br></#if>
+<#-- CHILDREN_IMAGE -->    
+    <#if CHILDREN_YN?isnull><#global CHILDREN_IMAGE = '_no_children'><#elseif CHILDREN_YN == 'Y'><#global CHILDREN_IMAGE = '_children'><#else><#global CHILDREN_IMAGE = '_no_children'></#if>
+    <#-- CHILDREN_BANNER -->    
+    <#if CHILDREN_YN?isnull><#global CHILDREN_BANNER = '_without_children'><#elseif CHILDREN_YN == 'Y'><#global CHILDREN_BANNER = '_with_children'><#else><#global CHILDREN_BANNER = '_without_children'></#if>
+    <#-- BANNER_VERSION -->
+    <#if CHILDREN_YN == 'Y'><#global BANNER_VERSION = '01'><#else><#global BANNER_VERSION = '02'></#if>
+    <#if BANNER_VERSION?isnull><#global BANNER_VERSION = '02'></#if>
+<#-- PRIMARY_IMAGE -->
+				<#attempt>
+                    <#global PRIMARY_IMAGE_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+BX_LAST_SEARCH.BE_LAST_DESTINATION?lower_case+CHILDREN_IMAGE?lower_case+".jpg"></#global>
+                    <#if PRIMARY_IMAGE_CHECK??>
+                    <#global PRIMARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+BX_LAST_SEARCH.BE_LAST_DESTINATION?lower_case+CHILDREN_IMAGE?lower_case+".jpg">
+                    <#global PRIMARY_IMAGE_EXIST = 'Image exist'></#if>
+                    <#recover>
+                     <#global PRIMARY_IMAGE_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+BX_LAST_SEARCH.BE_LAST_DESTINATION?lower_case+CHILDREN_IMAGE?lower_case+".jpg does not exist. Showing default (if it exist)">
+                    <#global PRIMARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_default"+CHILDREN_IMAGE?lower_case+".jpg">
+                </#attempt>
+<#-- SECONDARY_IMAGE -->
+        		<#attempt>
+                    <#global SECONDARY_IMAGE_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg"></#global>
+                    <#if SECONDARY_IMAGE_CHECK??>
+                    <#global SECONDARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                    <#global SECONDARY_IMAGE_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global SECONDARY_IMAGE_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg does not exist. Showing default (if it exist)">
+                    <#global SECONDARY_IMAGE = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_640x320_same_dest_city"+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                </#attempt>
+<#-- SECONDARY_IMAGE_SWAP -->
+        		<#attempt>
+                    <#global SECONDARY_IMAGE_SWAP_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg"></#global>
+                    <#if SECONDARY_IMAGE_SWAP_CHECK??>
+                    <#global SECONDARY_IMAGE_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                     <#global SECONDARY_IMAGE_SWAP_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global SECONDARY_IMAGE_SWAP_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_"+CATEGORY?lower_case+CHILDREN_IMAGE?lower_case+"_2nd.jpg does not exist. Showing default (if it exist)">
+                    <#global SECONDARY_IMAGE_SWAP= "https://static.cdn.responsys.net/i2/responsysimages/content/nas/e_300x300_same_dest_city"+CHILDREN_IMAGE?lower_case+"_2nd.jpg">
+                </#attempt>
+<#-- TESTIMONIAL_BANNER -->
+    				<#attempt>
+                    <#global TESTIMONIAL_BANNER_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_desk_"+LH_SH_CODE?lower_case+".png"></#global>
+                    <#if TESTIMONIAL_BANNER_CHECK??>
+                    <#global TESTIMONIAL_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_desk_"+LH_SH_CODE?lower_case+".png">
+                    <#global TESTIMONIAL_BANNER_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global TESTIMONIAL_BANNER_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_desk_"+LH_SH_CODE?lower_case+".png does not exist. Showing default (if it exist)">
+                    <#global TESTIMONIAL_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest_without_children_desk.png">
+                </#attempt>
+<#-- TESTIMONIAL_BANNER_SWAP -->
+    				<#attempt>
+                    <#global TESTIMONIAL_BANNER_SWAP_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_mob_"+LH_SH_CODE?lower_case+".png"></#global>
+                    <#if TESTIMONIAL_BANNER_SWAP_CHECK??>
+                    <#global TESTIMONIAL_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_mob_"+LH_SH_CODE?lower_case+".png">
+                    <#global TESTIMONIAL_BANNER_SWAP_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global TESTIMONIAL_BANNER_SWAP_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest"+CHILDREN_BANNER?lower_case+"_mob_"+LH_SH_CODE?lower_case+".png does not exist. Showing default (if it exist)">
+                    <#global TESTIMONIAL_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/"+BE_MARKET?lower_case+"_same_dest_without_children_mob.png">
+                </#attempt>
+<#-- BRAND_BANNER -->
+        		<#attempt>
+                    <#global BRAND_BANNER_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+BE_MARKET+"_Desk_"+BANNER_VERSION+".png"></#global>
+                    <#if BRAND_BANNER_CHECK??>
+                    <#global BRAND_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+BE_MARKET+"_Desk_"+BANNER_VERSION+".png">
+                    <#global BRAND_BANNER_EXIST = 'Image exist'></#if>
+					<#recover>
+                    <#global BRAND_BANNER_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+BE_MARKET+"_Desk_"+BANNER_VERSION+".png does not exist. Showing default (if it exist)">
+                    <#global BRAND_BANNER = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_default_"+BE_MARKET+"_Desk_"+BANNER_VERSION+".png">
+                </#attempt>
+    			<#-- BRAND_BANNER_SWAP -->
+        		<#attempt>
+                    <#global BRAND_BANNER_CHECK><#include "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+BE_MARKET+"_Mob_"+BANNER_VERSION+".png"></#global>
+                    <#if BRAND_BANNER_CHECK??>
+                    <#global BRAND_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+BE_MARKET+"_Mob_"+BANNER_VERSION+".png">
+                    <#global BRAND_BANNER_SWAP_EXIST = 'Image exist'></#if>
+					<#recover>
+                     <#global BRAND_BANNER_SWAP_EXIST = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_"+BE_MARKET+"_Mob_"+BANNER_VERSION+".png does not exist. Showing default (if it exist)">
+                    <#global BRAND_BANNER_SWAP = "https://static.cdn.responsys.net/i2/responsysimages/content/nas/Brand_Banners_default_"+BE_MARKET+"_Mob_"+BANNER_VERSION+".png">
+                </#attempt>
+<#-- MARKET_DOMAIN -->
+<#if MARKET == 'NO'><#global MARKET_DOMAIN = 'no/'><#elseif MARKET == 'ROW'><#global MARKET_DOMAIN = 'com/en/'><#else><#global MARKET_DOMAIN = 'com/'+MARKET?lower_case+'/'></#if>
+<#-- BE_LAST_SEARCH_URL -->
+   <#global BE_LAST_SEARCH_URL = 'https://www.norwegian.${MARKET_DOMAIN}start/booking/farecalendar/?D_City=${BE_FROM_CITY}&A_City=${BX_LAST_SEARCH.BE_LAST_DESTINATION}&D_Day=${monthadd(.now,1)?date?string("dd")?trim}&D_Month=${monthadd(.now,1)?date?string("yyyyMM")?trim}&R_Day=${monthadd(.now,1)?date?string("dd")?trim}&R_Month=${monthadd(.now,1)?date?string("yyyyMM")?trim}&IncludeTransit=true&CurrencyCode=${CURRENCY?exec?trim}'>  
+<#if campaign.name == 'TEST_BOXEVER'><hr />
+    PRIMARY_IMAGE: ${PRIMARY_IMAGE}<BR>
+    SECONDARY_IMAGE: ${SECONDARY_IMAGE}<BR>
+    SECONDARY_IMAGE_SWAP: ${SECONDARY_IMAGE_SWAP}<BR>
+    TESTIMONIAL_BANNER: ${TESTIMONIAL_BANNER}<BR>
+    TESTIMONIAL_BANNER_SWAP: ${TESTIMONIAL_BANNER_SWAP}<BR>
+    BRAND_BANNER: ${BRAND_BANNER}<BR>
+    BRAND_BANNER_SWAP: ${BRAND_BANNER_SWAP}<BR>
+BE_LAST_SEARCH_URL: ${BE_LAST_SEARCH_URL}<BR></#if>
+   
+</#data>
+
+<#if campaign.name == 'TEST_BOXEVER'>
+<hr />
+    DESTINATION_NAME: ${DESTINATION_NAME}<BR></#if>
+    <#-- Add last searched destination to car search URL -->
+   <#global CAR_BANNER_URL = "${CAR_URL_NL}&pickupIATACode=${BE_DESTINATION_IATA}"> 
+   <#-- Add last searched destination to hotel search URL -->
+   <#data AIRPORTS as AIRPORTS limit=1>
+       <#filter AIRPORTCODE_IATA = BE_DESTINATION_IATA LANGUAGECODE = BE_LANG?upper_case?trim><#fields CITY_DESTINATION_ID CITY>
+       <#-- BE_DESTINATION_ID --><#if !AIRPORTS.CITY_DESTINATION_ID?isnull><#global BE_DESTINATION_ID = AIRPORTS.CITY_DESTINATION_ID?c?trim><#else><#global BE_DESTINATION_ID = 0000></#if>
+       <#-- DESTINATION_NAME -->
+       <#global DESTINATION_NAME = AIRPORTS.CITY>
+       </#data>
+   <#-- Correct the city name for some IATA's -->
+   <#global TO_IATA = BE_DESTINATION_IATA>
+   <#global FROM_IATA = BE_FROM_CITY> 
+   <#include "cms://contentlibrary/!framework/global_variables/inclusion_files/citynames_cdp.htm">
+   
+   
+   <#if MARKET == 'FR-CA' || MARKET == 'EN-CA'><#assign BE_LOCALE = "CA"><#else><#assign BE_LOCALE = MARKET></#if>
+   <#global BE_HOTEL_URL = "https://hotels.norwegian.com/search.do?pos=NORWEGIAN_${BE_LOCALE}&locale=${HOTEL_LOCALE?trim}&q-rooms=1&q-room-0-adults=2&destination-id=${BE_DESTINATION_ID}&wapb3=|c.501164|l.${HOTEL_LOCALE?trim}|t.web|s.${campaign.name}&flightNumOfPassengers=1">
+  
+   <#if campaign.name == 'TEST_BOXEVER'><hr />HOTEL_URL: ${HOTEL_URL}<BR><BR>BE_HOTEL_URL: ${BE_HOTEL_URL}<BR></#if>
+   
