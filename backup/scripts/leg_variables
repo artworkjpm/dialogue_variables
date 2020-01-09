@@ -1,0 +1,823 @@
+<#-- /////////////////////////////////////////////////////////////////////////////// SQL GLOBAL (Leg info)  - Needs to be added after SQL_Universal data call 
+///////////QUESTIONS/////////////////
+Q. Why are you creating this second call to GLOBAL?
+A. Because some services are not available for all legs. The method here is to use a loop xxx_IS_SET
+Q. What Variables are created here?
+Q. What Modules are effected?
+A. SEARCH, CAR, HOTEL, 
+Q. What is the difference between this call to Global and the other call to Global?
+A. This data call has no limit=1 because the different variables needs to collect information from different rows in the SQL_GLOBAL view
+///////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<#assign FASTTRACK_IS_SET = 0>
+<#assign WIFI_IS_SET = 0>
+<#assign MAX_IS_SET = 0>
+<#assign PRIO_COUNT_IS_SET = 0><#-- PRIO_COUNT tells if a passenger have already booked priority boarding or not -->
+<#assign PRIB_COUNT_IS_SET = 0><#-- PRIB_COUNT tells if a passenger have boarding included in a bundle or not -->
+<#assign VERSION_IS_SET = 0>
+<#--VERSION is the aircraft type
+///////////QUESTIONS/////////////////
+Q. What campaign / module uses VERSION_PLANNED variable?
+A. used the survey campaign E_DREAMLINER_SURVEY_2017, E_MAX_SURVEY_2017, survey campaigns
+-->
+<#global G_LEG_HAVE_PRIORITY_BOARDING = "N">
+<#global G_LEG_AVAIL_PRIORITY_BOARDING = "N">
+<#assign ARRIVAL_DATE_IS_SET = 0>
+<#assign RETURN_DATE_IS_SET = 0>
+<#assign PREMIUM_IS_SET = 0>
+<#assign MAIN_LEG_IS_SET = 0>
+<#assign OUTGOING_LEG_IS_SET = 0>
+<#assign PREM_ON_RETURN_LEG_IS_SET = 0>
+<#assign HAS_MEAL_IS_SET = 0>
+<#assign MEAL_AVAILABLE_IS_SET = 0>
+<#assign MEAL_ON_SH_IS_SET = 0>
+<#assign ROUTE_CANCELLED_IS_SET = 0>
+<#assign G_LEG_PB_AIRPORTS_ALL = []>
+<#assign G_LEG_PB_AIRPORTS_AVAILABLE = []>
+<#assign G_LEG_PB_AIRPORTS_BOUGHT = []>
+<#assign G_LEG_PB_LOCATION = "none">
+<#assign LOUNGE_OUTBOUND_IS_SET = 0>
+<#assign LOUNGE_RETURN_IS_SET = 0>
+<#assign LOUNGE_OUTBOUND_LGW_IS_SET = 0>
+<#assign LOUNGE_RETURN_LGW_IS_SET = 0>
+<#assign ROUTE_CANCELLED_IS_SET = 0>
+<#assign ROUTE_CANCELLED_YN = "N">
+<#assign PASSENGERS = []>
+<#assign PASSENGER_NAMES = []>
+<#assign HIDE_FIRSTNAME_YN = 'Y'>
+<#assign LOW_FARE_PLUS_IS_SET = 0>
+<#assign LOW_FARE_PLUS_UNBUNDLED_IS_SET = 0>
+<#assign RETURN_DEPARTURE_IATA_IS_FOUND = 0>
+
+<#-- ///////////COMMENT HELPER/////////////////
+ARRIVAL_DATE_IS_SET and RETURN_DATE_IS_SET effects the SEARCH MODULE, CAR MODULE, HOTEL MODULE (which is the Hotel feed not currently being used (written 28/03/17)). Also used in the generation of the URLS for debug_assignments_nas_api_2_log.txt, debug_assignments_nas_api_2.txt,
+assignments_nas_api.txt-->
+<#-- ///////////COMMENT HELPER///////////////// 
+If xxx_IS_SET = 0, means its N
+If xxx_IS_SET = 1, means its either null or Y
+-->
+
+<#data SQL_GLOBAL as SQL_GLOBAL><#filter BOOKING_GDSBOOKINGID = BOOKING_ID BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID>
+<#fields FAST_TRACK_FLAG WIFI_YN MAX_YN VERSION_PLANNED FIRST_LEG_YN LEG_NUMBER BOOKING_DEPARTURE_TIME BOOKING_RETURN_DEPARTURE_TIME1 BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP BOOKING_LONGHAUL BOOKING_ROUTE_AREA BOOKING_NUMBER_OF_LEGS LAST_LEG_YN MAIN_DESTINATION LEG_DEPARTURE_TIME LEG_ARRIVAL_DATE DESTINATION_LEG BOOKING_LOCALBOOKINGID BOOKING_GDSBOOKINGID ORIGIN_LEG BOOKING_START_AIRPORT PRIO_COUNT PRIB_COUNT TICKETCLASS_CODE BOOKING_ROUTE_AREA BOOKING_LONGHAUL LONGHAUL_LEG_YN UPGRADEDTOSEGMENT_FLG REMOVED_STATE FLIGHT_MEAL COUNTRY_CODES PASSENGER_NAME BOOKING_NUMBER_OF_ADULTS BNDL_PLUS_COUNT FIRST_LEG_RETURN_TRAVEL_YN>
+
+<#-- UPGRADEDTOSEGMENT_FLG gets the value 1 if a leg is cancelled or upgraded/changed. So any record with UPGRADEDTOSEGMENT_FLG == 1 is not valid/current, and needs to be removed. If the value is missing (NULL) we include it, as we don't know if it is cancelled or not. -->
+<#if SQL_GLOBAL.UPGRADEDTOSEGMENT_FLG?isnull || SQL_GLOBAL.UPGRADEDTOSEGMENT_FLG?number != 1>
+    
+ <#-- RETURN_DEPARTURE_IATA (In some cases, the return might depart from a different airport than the main destination arrival airport. I.e: Main destination IATA is FLL, while the return is from MCO) -->
+<#if RETURN_DEPARTURE_IATA_IS_FOUND == 0>
+    <#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y" && SQL_GLOBAL.FIRST_LEG_RETURN_TRAVEL_YN?trim == "Y"><#global RETURN_DEPARTURE_IATA = SQL_GLOBAL.ORIGIN_LEG?trim><#assign RETURN_DEPARTURE_IATA_IS_FOUND = 1><#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global RETURN_DEPARTURE_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim><#else><#global RETURN_DEPARTURE_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim>
+    </#if>
+</#if>   
+    
+<#-- HIDE_FIRSTNAME_YN. Remove firstname if booking person is not on the passenger list -->    
+<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/firstname_dialogues.htm">
+
+<#-- BW: New code added 05.05.2019. -->
+<#-- LOW_FARE_PLUS -->
+        <#if LOW_FARE_PLUS_IS_SET == 0>
+            <#if !SQL_GLOBAL.BNDL_PLUS_COUNT?isnull && SQL_GLOBAL.BNDL_PLUS_COUNT gt 0><#global LOW_FARE_PLUS = 'Y'><#assign LOW_FARE_PLUS_IS_SET = 1>
+            <#else><#global LOW_FARE_PLUS = 'N'>
+            </#if>
+        </#if>
+<#-- LOW_FARE_PLUS_UNBUNDLED -->
+<#if LOW_FARE_PLUS_UNBUNDLED_IS_SET == 0>
+    <#if ((SQL_GLOBAL.ORIGIN_LEG == 'AMS' || SQL_GLOBAL.ORIGIN_LEG == 'JFK') && (SQL_GLOBAL.DESTINATION_LEG == 'JFK' || SQL_GLOBAL.DESTINATION_LEG == 'AMS')) || ((SQL_GLOBAL.ORIGIN_LEG == 'MAD' || SQL_GLOBAL.ORIGIN_LEG == 'BCN' || SQL_GLOBAL.DESTINATION_LEG == 'MAD' || SQL_GLOBAL.DESTINATION_LEG == 'BCN') && SQL_GLOBAL.LONGHAUL_LEG_YN == 'Y')>
+            <#if !SQL_GLOBAL.BNDL_PLUS_COUNT?isnull && SQL_GLOBAL.BNDL_PLUS_COUNT gt 0><#global LOW_FARE_PLUS_UNBUNDLED = 'Y'><#assign LOW_FARE_PLUS_UNBUNDLED_IS_SET = 1>
+            <#else><#global LOW_FARE_PLUS_UNBUNDLED = 'N'>
+            </#if><#else><#global LOW_FARE_PLUS_UNBUNDLED = 'N'>
+        </#if>
+</#if>
+
+<#-- BW: New code added 31.10.2018. CREDIT_CARD_ONLY_YN (For some routes, only credit card is allowed as the way of payment on board. The code might have to be changed a bit if we add more than 2 IATA codes.-->
+    <#global CREDIT_CARD_ONLY = ["DXB", "HEL"]>
+<#if CREDIT_CARD_ONLY_IS_SET == 0>
+    <#list CREDIT_CARD_ONLY as CREDIT_CARD_ONLY>
+        <#if CREDIT_CARD_ONLY_IS_SET == 0>
+            <#if CREDIT_CARD_ONLY?contains(SQL_GLOBAL.ORIGIN_LEG) || CREDIT_CARD_ONLY?contains(SQL_GLOBAL.DESTINATION_LEG)>
+                <#if CREDIT_CARD_DEST_IS_SET == 0>
+                    <#if CREDIT_CARD_ONLY == SQL_GLOBAL.DESTINATION_LEG><#assign CREDIT_CARD_DEST_IS_SET = 1>
+                    </#if>
+                </#if>
+                <#if CREDIT_CARD_DEP_IS_SET == 0>
+                    <#if CREDIT_CARD_ONLY == SQL_GLOBAL.ORIGIN_LEG><#assign CREDIT_CARD_DEP_IS_SET = 1>
+                    </#if>
+                </#if>
+            </#if>
+        </#if>
+    </#list>
+ </#if>
+<#if CREDIT_CARD_ONLY_IS_SET == 0><#if CREDIT_CARD_DEST_IS_SET = 1 && CREDIT_CARD_DEP_IS_SET = 1><#assign CREDIT_CARD_ONLY_YN = "Y"><#assign CREDIT_CARD_ONLY_IS_SET = 1></#if></#if>
+    
+<#-- REMOVED_STATE gets the value 1 if a leg is cancelled . So any record with REMOVED_STATE == 1 are not valid/current, and needs to be removed. It should have been removed with the UPGRADEDTOSEGMENT_FLG, but we have seen some examples where UPGRADEDTOSEGMENT_FLG == 1 and REMOVED_STATE == 0. If the value is missing (NULL) we include it, as we don't know if it is cancelled or not. -->
+<#if SQL_GLOBAL.REMOVED_STATE?isnull || SQL_GLOBAL.REMOVED_STATE == '0'>
+<#-- PRIO_COUNT value 1 means that they have bought priority boarding, 0 means they haven't -->
+<#-- HAVE_PRIORITY_BOARDING --><#-- PRIO_COUNT tells if the passengers have already booked priority boarding or not. The value 1 means they have.-->
+<#if PRIO_COUNT_IS_SET == 0>
+        <#if SQL_GLOBAL.PRIO_COUNT?isnull><#global HAVE_PRIORITY_BOARDING = "N">
+        <#else>
+            <#list SQL_GLOBAL.PRIO_COUNT?string?split(",") as k>
+            	<#if PRIO_COUNT_IS_SET == 0>
+                	<#if k?string?contains("1")><#global HAVE_PRIORITY_BOARDING = "Y"><#assign PRIO_COUNT_IS_SET = 1>  
+                	<#else><#global HAVE_PRIORITY_BOARDING = "N">
+                	</#if>
+           	 	</#if>
+            </#list>
+        </#if>
+</#if>
+
+ <#-- HAVE_PRIORITY_BOARDING_BUNDLE -->  <#-- PRIB_COUNT tells if the passengers have boarding included in a bundle or not (like lowFare+, Flex, Premium etc.). The value 1 means they have. --> 
+    <#if PRIB_COUNT_IS_SET == 0>
+        <#if SQL_GLOBAL.PRIB_COUNT?isnull><#global HAVE_PRIORITY_BOARDING_BUNDLE = "N">
+        <#else>
+            <#list SQL_GLOBAL.PRIB_COUNT?string?split(",") as x>
+            	<#if PRIB_COUNT_IS_SET == 0>
+                	<#if x?string?contains("1")><#global HAVE_PRIORITY_BOARDING_BUNDLE = "Y"><#assign PRIB_COUNT_IS_SET = 1>
+                	<#else><#global HAVE_PRIORITY_BOARDING_BUNDLE = "N">
+                	</#if>
+           	 	</#if>
+            </#list>
+        </#if>
+</#if>
+    
+<#-- checking if the booking is roundtrip or one way. This is the same variable as ONEWAY_YN, but using y/n instead of 0/1 -->
+<#if SQL_GLOBAL.BOOKING_ROUND_TRIP?isnull><#global ROUNDTRIP = "N">
+<#else>
+    <#list SQL_GLOBAL.BOOKING_ROUND_TRIP?split(",") as q>
+        <#if q?exec?contains("Y")><#global ROUNDTRIP = "Y">
+        <#else><#global ROUNDTRIP = "N">
+        </#if>
+    </#list>
+</#if>
+
+
+
+<#if campaign.name == "DEBUG_E_LHP_4DB">ROUNDTRIP: ${ROUNDTRIP}<br>
+</#if>
+<#-- MAIN_DEST_LEG_NR, to be used in LOUNGE add by JM on 24/10/18--><#--determine if a leg is outgoing OR return -->
+<#-- We create a variable, MAIN_DEST_LEG_NR, with that leg number, so we later check the other legs if they are outbound or return -->
+<#if SQL_GLOBAL.LEG_NUMBER?isnull><#skip 'Modules skipped. Reason: LEG_NUMBER is NULL.'><#elseif SQL_GLOBAL.MAIN_DESTINATION?isnull><#skip 'Modules skipped. Reason: MAIN_DESTINATION is NULL.'></#if>
+
+<#if MAIN_LEG_IS_SET == 0>
+    <#if SQL_GLOBAL.MAIN_DESTINATION?isnull><#global MAIN_DEST_LEG_NR = 1><#-- If we don't know which leg is the main destination, we set it to the first leg, assuming there is no transfer -->
+	<#else>
+	<#list SQL_GLOBAL.MAIN_DESTINATION?split(",") as h>
+		<#if MAIN_LEG_IS_SET == 0>
+			<#-- Round trips show SQL_GLOBAL.MAIN_DESTINATION as 0, so we need to separate round trips to one way trips-->
+			<#if ROUNDTRIP == "Y">
+				<#if h?string?contains("1")><#global MAIN_DEST_LEG_NR = SQL_GLOBAL.LEG_NUMBER?number>
+				<#global MAIN_LEG_IS_SET = 1>
+				<#else><#global MAIN_DEST_LEG_NR = 1>
+            	</#if>
+			</#if>	
+        </#if>
+   	 </#list>
+    </#if>
+</#if>
+
+    <#global PB_AIRPORTS = ["AGA", "AGP", "AJA", "ALC", "ALF", "AMS", "ANX", "ARN", "ATH", "BCN", "BDL", "BDU", "BFS", "BGO", "BIO", "BKK", "BLL", "BOO", "BOS", "BUD", "CDG", "CGN", "CPH", "CTA", "DEN", "DUB", "DUS", "DXB", "EDI", "EVE", "EWR", "EZE", "FCO", "FDF", "FLL", "GDN", "GOT", "GVA", "HAJ", "HAM", "HEL", "IVL", "JFK", "JTR", "KEF", "KKN", "KRN", "KSD", "KTT", "LAS", "LAX", "LAX", "LCA", "LGW", "LKL", "LLA", "LPA", "LYR", "MAD", "MAN", "MCO", "MMX", "MUC", "MXP", "NCE", "OAK", "OAK", "ORK", "ORY", "OSL", "OUL", "PMI", "PMO", "PMO", "PRG", "PTP", "PVD", "RAK", "RIX", "RVN", "SFT", "SIN", "SNN", "SVG", "SWF", "SXF", "TFN", "TLL", "TLV", "TOS", "TRD", "TRF", "UME", "VAA", "VBY", "VCE", "VIE", "VNO", "VRN"]>
+<#assign PB_AIRPORT_AVAIL = "N">
+<#data AIRPORTS as AIRPORT>
+<#filter AIRPORTCODE_IATA = SQL_GLOBAL.ORIGIN_LEG LANGUAGECODE=AIRPORT_LANG >
+<#fields DISPLAYNAME PRI_BOARD_ACTIVE_DATE>
+<#list PB_AIRPORTS as PB_AIRPORTS>
+ <#if PB_AIRPORTS?contains(SQL_GLOBAL.ORIGIN_LEG)> 
+<#assign PB_AIRPORT_AVAIL = "Y">
+<#if !G_LEG_PB_AIRPORTS_ALL?seq_contains(AIRPORT.DISPLAYNAME)>
+<#assign G_LEG_PB_AIRPORTS_ALL = G_LEG_PB_AIRPORTS_ALL + [AIRPORT.DISPLAYNAME]>
+</#if>
+<#if CURRENT_HAS_PRIORITY_BOARDING == "Y">
+    <#if !G_LEG_PB_AIRPORTS_BOUGHT?seq_contains(AIRPORT.DISPLAYNAME)>
+		<#assign G_LEG_PB_AIRPORTS_BOUGHT = G_LEG_PB_AIRPORTS_BOUGHT + [AIRPORT.DISPLAYNAME]>
+	</#if>
+<#else>
+    <#global G_LEG_AVAIL_PRIORITY_BOARDING = "Y">
+	<#if !G_LEG_PB_AIRPORTS_AVAILABLE?seq_contains(AIRPORT.DISPLAYNAME)>
+		<#assign G_LEG_PB_AIRPORTS_AVAILABLE = G_LEG_PB_AIRPORTS_AVAILABLE + [AIRPORT.DISPLAYNAME]>
+	</#if>
+</#if>
+</#if></#list>
+</#data>
+<#global AIR_HAS_PB = G_LEG_AVAIL_PRIORITY_BOARDING>
+<#-- PRIO_COUNT value 1 means that they have bought priority boarding, 0 means they haven't -->
+<#-- HAVE_PRIORITY_BOARDING --><#-- PRIO_COUNT tells if the passengers have already booked priority boarding or not. The value 1 means they have.
+<#global HAVE_PRIORITY_BOARDING = G_LEG_HAVE_PRIORITY_BOARDING> BW added comment 13.11,2019: What is this? It overwrites values made in a different script further up, and i can't see it beeing used anywhere except for in th_dev file. So I just comment it away. -->
+ <#-- HAVE_PRIORITY_BOARDING_BUNDLE -->  <#-- PRIB_COUNT tells if the passengers have boarding included in a bundle or not (like lowFare+, Flex, Premium etc.). The value 1 means they have. 
+<#global HAVE_PRIORITY_BOARDING_BUNDLE = G_LEG_HAVE_PRIORITY_BOARDING> BW added comment 13.11,2019: What is this? It overwrites values made in a different script further up, and i can't see it beeing used anywhere except for in th_dev file. So I just comment it away. --> 
+
+    
+ <#-- BW code  added 23.10.2018: CODE TO EXCLUDE PASSENGERS for cancelled routes -->
+<#-- ROUTE_CANCELLED_YN -->
+<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/cancelled_routes.htm">
+    
+<#-- FAST_TRACK_FLAG -->
+<#if FASTTRACK_IS_SET == 0>
+<#if SQL_GLOBAL.FAST_TRACK_FLAG?isnull><#global FAST_TRACK_FLAG = "N"><#assign FASTTRACK_IS_SET = 1>
+    <#else>    
+    <#list SQL_GLOBAL.FAST_TRACK_FLAG?split(",") as a>
+        
+        <#if FASTTRACK_IS_SET == 0>
+    		<#if a?exec?contains("Y")><#global FAST_TRACK_FLAG = "Y"><#assign FASTTRACK_IS_SET = 1><#else><#global FAST_TRACK_FLAG = "N">
+            </#if> 
+   		</#if>
+    </#list>
+</#if>
+</#if>
+<#-- WIFI -->
+<#if WIFI_IS_SET == 0>
+<#if SQL_GLOBAL.WIFI_YN?isnull><#global WIFI = "N"><#assign WIFI_IS_SET = 1>
+    <#else>    
+    <#list SQL_GLOBAL.WIFI_YN?split(",") as b>
+        
+        <#if WIFI_IS_SET == 0>
+    		<#if b?exec?contains("Y")><#global WIFI = "Y"><#assign WIFI_IS_SET = 1><#else><#global WIFI = "N">
+            </#if> 
+   		</#if>
+    </#list>
+</#if>
+</#if>
+<#-- MAX_LEG_YN -->
+<#if MAX_IS_SET == 0>
+<#if SQL_GLOBAL.MAX_YN?isnull><#global MAX_LEG_YN = "N"><#assign MAX_IS_SET = 1>
+    <#else>    
+    <#list SQL_GLOBAL.MAX_YN?split(",") as c>
+        
+        <#if MAX_IS_SET == 0>
+    		<#if c?exec?contains("Y")><#global MAX_LEG_YN = "Y"><#assign MAX_IS_SET = 1><#else><#global MAX_LEG_YN = "N">
+            </#if> 
+   		</#if>
+    </#list>
+</#if>
+</#if>
+<#-- MAX_YN --><#global MAX_YN = MAX_LEG_YN>
+<#-- OPT_AIRCRAFT  and LH_OR_SH -->
+<#if VERSION_IS_SET == 0>
+    <#if SQL_GLOBAL.VERSION_PLANNED?isnull><#global OPT_AIRCRAFT = "737-800"><#global LH_OR_SH = "short_haul"><#assign VERSION_IS_SET = 1>
+    <#else>
+        <#list SQL_GLOBAL.VERSION_PLANNED?split(",") as d>
+            <#if VERSION_IS_SET == 0>
+                <#if d?exec?contains("737-800") || d?exec?contains("7M8") ><#global OPT_AIRCRAFT = "MAX-" + SQL_GLOBAL.VERSION_PLANNED>
+                	<#if SQL_GLOBAL.COUNTRY_CODES == 'MAX'><#global LH_OR_SH = "long_haul">
+                    <#else><#global LH_OR_SH = "short_haul">
+                    </#if><#assign VERSION_IS_SET = 1>
+                 <#elseif d?exec?contains("788") || d?exec?contains("789") || d?exec?contains("787-800") || d?exec?contains("787-900")><#global OPT_AIRCRAFT =  "Dreamliner-"+ SQL_GLOBAL.VERSION_PLANNED><#global LH_OR_SH = "long_haul"><#assign VERSION_IS_SET = 1>
+                 <#else><#global OPT_AIRCRAFT = SQL_GLOBAL.VERSION_PLANNED><#global LH_OR_SH = "short_haul">
+                 </#if>
+            </#if>
+        </#list>
+    </#if>
+</#if>
+
+
+<#-- Meal script for SH/LH flights, selected routes, added by BW on 26th of June 2018 --><#-- BW comment: Moved below the LH_OR_SH script on 18.07.2018, in order to check if the flight is long haul or short haul -->
+     <#if HAS_MEAL_IS_SET == 0>
+     <#if LH_OR_SH == "long_haul"><#if SQL_GLOBAL.FLIGHT_MEAL?string == '1' && HAS_MEAL_IS_SET == 0><#global HAS_MEAL = 'Y'><#assign HAS_MEAL_IS_SET = 1><#else><#global HAS_MEAL = 'N'></#if>
+     <#elseif LH_OR_SH == "short_haul" || LH_OR_SH?isnull>
+         <#include "cms://contentlibrary/!framework/global_variables/inclusion_files/sh_meal.htm">
+    	<#else><#global HAS_MEAL = 'N'></#if>   
+    <#else><#global HAS_MEAL = 'N'></#if>
+<#-- MEAL_AVAILABLE --><#-- Meal is available on at least one of the legs -->
+   
+<#if MEAL_AVAILABLE_IS_SET == 0>
+    <#if CAMPAIGN == 'E_MAX_LH_1DB' || CAMPAIGN == 'E_MAX_LH_RET_HOME' || CAMPAIGN == 'E_LHP_1DB' || CAMPAIGN == 'E_SH_1DB' || CAMPAIGN == 'E_SH_1DB_A' || CAMPAIGN == 'E_SH_1DB_B' || CAMPAIGN == 'E_SH_3DB' || CAMPAIGN == 'E_SH_3DB_A' || CAMPAIGN == 'E_SH_3DB_B' || CAMPAIGN == 'E_LHP_RET_HOME' || CAMPAIGN == 'E_SH_RET_HOME' || CAMPAIGN == 'E_SH_RET_HOME_A' || CAMPAIGN == 'E_SH_RET_HOME_B'>
+    	<#global MEAL_AVAILABLE = 'N'><#assign MEAL_AVAILABLE_IS_SET = 1>
+	<#elseif LH_OR_SH == "long_haul">
+    	<#global MEAL_AVAILABLE = 'Y'><#assign MEAL_AVAILABLE_IS_SET = 1>
+	<#elseif LH_OR_SH == "short_haul" || LH_OR_SH?isnull>
+    	<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/sh_meal.htm">
+	<#else><#global MEAL_AVAILABLE = 'N'>
+	</#if>
+</#if>
+
+<#-- PREM_ON_OUTBOUND_LEG -->
+<#-- JM refactored this premium code to put ticket code into an array 24/10/18 -->  <#-- BW added on 07.11.2018: We also need to determine if the customer have both Premium and Flex (PremiumFlex have ticketcode C or D) --> 
+<#global PREMIUM_CODE_ARRAY = ["I", "C", "D"]>
+
+    <#if OUTGOING_LEG_IS_SET == 0>
+  <#-- It is pointless to run this code if the booking is a short haul flight -->  
+    <#if LH_OR_SH == "long_haul">
+        <#if SQL_GLOBAL.TICKETCLASS_CODE?isnull><#global PREM_ON_OUTBOUND_LEG = "N"><#-- if we don't know the ticket class code, we assume that the customer do not have premium -->
+        <#elseif ROUNDTRIP == "Y">
+           <#-- For roundtrip flights, we need to check if the leg is on the outbound or on the return flight. We do this by checking if the leg number have a lower or equal value than the main destination leg -->
+            <#if SQL_GLOBAL.LEG_NUMBER?number lte MAIN_DEST_LEG_NR?number>
+            	<#list PREMIUM_CODE_ARRAY as PREMIUM_CODE_ARRAY>
+            		<#if OUTGOING_LEG_IS_SET == 0>
+                       <#-- Ticketclass_code I, C and D have a different meaning depending on of it is a short haul leg or long haul leg. For LH they mean Premium -->
+                		<#if PREMIUM_CODE_ARRAY?contains(SQL_GLOBAL.TICKETCLASS_CODE) && LH_OR_SH == "long_haul">
+						<#global PREMIUM_YES = "Y"><#if PREMIUM_FLEX_YN != 'Y'><#if PREMIUM_CODE_ARRAY == 'C' || PREMIUM_CODE_ARRAY == 'D'><#global PREMIUM_FLEX_YN = "Y"><#else><#global PREMIUM_FLEX_YN = "N"></#if></#if><#-- If the customer have PremiumFlex on the return leg, we don't care if he has it on the outbound leg or not -->
+						<#global TICKETCLASS_TYPE = SQL_GLOBAL.TICKETCLASS_CODE>
+						<#global PREM_ON_OUTBOUND_LEG = "Y">
+                		<#assign OUTGOING_LEG_IS_SET = 1>
+                		<#else><#-- For all other ticket class types, the customer do not have Premium -->
+						<#global PREM_ON_OUTBOUND_LEG = "N">
+                		</#if>
+            		</#if>
+            	</#list>
+        	</#if>
+        
+		<#-- If it is a oneway trip, we cannot use MAIN_DEST_LEG_NR as this will be the transfer leg, not the final destination. But for oneway customers, it will always be an outgoing leg, so we don't need to check the leg number -->
+        <#elseif ROUNDTRIP == "N">
+			<#list PREMIUM_CODE_ARRAY as PREMIUM_CODE_ARRAY>
+				<#if OUTGOING_LEG_IS_SET == 0>
+					<#-- Ticketclass_code I, C and D have a different meaning depending on of it is a short haul leg or long haul leg. For LH they mean Premium -->
+                	<#if PREMIUM_CODE_ARRAY?contains(SQL_GLOBAL.TICKETCLASS_CODE) && LH_OR_SH == "long_haul">
+					<#global PREMIUM_YES = "Y"><#if PREMIUM_CODE_ARRAY == 'C' || PREMIUM_CODE_ARRAY == 'D'><#global PREMIUM_FLEX_YN = "Y"><#else><#global PREMIUM_FLEX_YN = "N"></#if>
+					<#global TICKETCLASS_TYPE = SQL_GLOBAL.TICKETCLASS_CODE><#global PREM_ON_OUTBOUND_LEG = "Y">
+                	<#assign OUTGOING_LEG_IS_SET = 1>
+                	<#else><#-- For all other ticket class types, the customer do not have Premium -->
+					<#global PREM_ON_OUTBOUND_LEG = "N">
+					<#global TICKETCLASS_TYPE = SQL_GLOBAL.TICKETCLASS_CODE>
+                    </#if>
+                </#if>
+			</#list>
+        </#if>
+    </#if>
+</#if>
+
+
+
+<#-- PREM_ON_RETURN_LEG JM refactored this premium code to put ticket code into PREMIUM_CODE_ARRAY 24/10/18-->   
+<#-- If it is a one way trip, they will not have a return leg -->
+
+
+<#if ROUNDTRIP == "Y">
+    <#if PREM_ON_RETURN_LEG_IS_SET == 0>
+	<#-- It is pointless to run this code if the booking is a short haul flight. -->     
+    <#if LH_OR_SH == "long_haul">
+        <#if SQL_GLOBAL.TICKETCLASS_CODE?isnull><#global PREM_ON_RETURN_LEG = "N"><#-- if we don't know the ticket class code, we assume that the customer do not have premium -->
+        <#elseif SQL_GLOBAL.LEG_NUMBER?number gt MAIN_DEST_LEG_NR?number>
+           <#list PREMIUM_CODE_ARRAY as PREMIUM_CODE_ARRAY>
+                <#if PREM_ON_RETURN_LEG_IS_SET == 0>
+                    <#-- Ticketclass_code I, C and D means Premium on LH, but have a different meaning for SH -->
+                    <#if PREMIUM_CODE_ARRAY?contains(SQL_GLOBAL.TICKETCLASS_CODE) && LH_OR_SH == "long_haul">
+					
+                    <#global TICKETCLASS_TYPE = SQL_GLOBAL.TICKETCLASS_CODE><#global PREM_ON_RETURN_LEG = "Y">
+                    	<#if campaign.name == 'E_LHP_RET_HOME'><#global PREMIUM_YES = "Y">
+                    		<#if PREMIUM_CODE_ARRAY == 'C' || PREMIUM_CODE_ARRAY == 'D'><#global PREMIUM_FLEX_YN = "Y">
+                        	<#else><#global PREMIUM_FLEX_YN = "N">
+                           	</#if>
+                    	<#else><#global PREMIUM_YES = PREM_ON_OUTBOUND_LEG><#-- For all pre-departure campaigns, we only want to check Premium status for the Outbound flight. Premium for return flight will be sold in Return Home campaigns. -->
+                    	</#if><#assign PREM_ON_RETURN_LEG_IS_SET = 1>
+                    <#else><#global PREM_ON_RETURN_LEG = "N">
+                    </#if>
+                </#if>
+            </#list>
+        </#if>
+    </#if>
+</#if>
+</#if>
+
+<#-- PREMIUM_YES is null, we had an example of premium customer ticket code P, therefore we create this null rule jm 24/10/18 -->
+<#if PREMIUM_YES?isnull><#global PREMIUM_YES = "N"></#if>
+
+<#-- PREMIUM_YES -->
+   <#-- <#if campaign.name == "DEBUG_E_LHP_4DB">MAIN_DEST_LEG_NR: ${MAIN_DEST_LEG_NR}<br>
+    </#if>
+    <#if LH_OR_SH == "long_haul"><#-- There is no point of checking Outbound leg for the Return flight 
+      	<#if campaign.name == 'E_LHP_RET_HOME'><#global PREMIUM_YES = PREM_ON_RETURN_LEG><#-- For all pre-departure campaigns, we only want to check Premium status for the Outbound flight. Premium for return flight will be sold in Return Home campaigns. 
+        <#else><#global PREMIUM_YES = PREM_ON_OUTBOUND_LEG>
+        </#if>
+    <#else><#global PREMIUM_YES = "N"><#global PREMIUM_YES_TEST = "NO WAY!"><#-- All SH campaigns will get value "N" for Premium 
+    </#if>-->
+
+
+
+<#--REMEMBER TO DISABLE THIS!!!!!!!!!!!!!!!!!!!!!! JM-->
+<#--if campaign.name == "E_LHP_1DB">
+<#global PREMIUM_YES = "Y">
+</#if-->
+
+<#-- LOUNGE SCRIPTS uses MAIN_DEST_LEG_NR at the top to determine the outgoing leg-->
+
+<#global LOUNGE_AIRPORTS_ARRAY = ["ARN", "BKK", "BOS", "CDG", "CPH", "JFK", "LAX", "LGW", "OAK", "OSL", "SEA"]>
+<#--LOUNGE_LGW_OUTBOUND -->
+<#if ROUNDTRIP == "Y" && SQL_GLOBAL.LEG_NUMBER?number lte MAIN_DEST_LEG_NR?number && LOUNGE_OUTBOUND_LGW_IS_SET == 0>
+			<#if LOUNGE_OUTBOUND_LGW_IS_SET == 0>
+			<#if SQL_GLOBAL.ORIGIN_LEG == 'LGW'><#global LOUNGE_LGW_OUTBOUND = "Y"><#assign LOUNGE_OUTBOUND_LGW_IS_SET = 1>
+            <#else><#global LOUNGE_LGW_OUTBOUND = "N">
+            </#if>							
+		</#if>			
+<#elseif ROUNDTRIP == "N"  && LOUNGE_OUTBOUND_LGW_IS_SET == 0>	
+		<#if LOUNGE_OUTBOUND_LGW_IS_SET == 0>
+			<#if SQL_GLOBAL.ORIGIN_LEG == 'LGW'><#global LOUNGE_LGW_OUTBOUND = "Y"><#assign LOUNGE_OUTBOUND_LGW_IS_SET = 1>
+            <#else><#global LOUNGE_LGW_OUTBOUND = "N">
+            </#if>							
+		</#if>			
+</#if>
+
+<#-- LOUNGE_LGW_RETURN -->
+<#if ROUNDTRIP == "Y" && SQL_GLOBAL.LEG_NUMBER?number gt MAIN_DEST_LEG_NR?number && LOUNGE_RETURN_LGW_IS_SET == 0>	
+		<#if LOUNGE_RETURN_LGW_IS_SET == 0>
+			<#if SQL_GLOBAL.ORIGIN_LEG == 'LGW'><#global LOUNGE_LGW_RETURN = "Y"><#assign LOUNGE_RETURN_LGW_IS_SET = 1>
+            <#else><#global LOUNGE_LGW_RETURN = "N">
+            </#if>							
+		</#if>		
+</#if>
+<#-- LOUNGE_OUTBOUND -->
+	<#if PREMIUM_YES == "Y" && ROUNDTRIP == "Y" && SQL_GLOBAL.LEG_NUMBER?number lte MAIN_DEST_LEG_NR?number && LOUNGE_OUTBOUND_IS_SET == 0>
+		<#list SQL_GLOBAL.VERSION_PLANNED?split(",") as e>
+			<#if e?exec?contains("788") || e?exec?contains("789")>            
+					<#list LOUNGE_AIRPORTS_ARRAY as LOUNGE_AIRPORTS_ARRAY>
+						<#if LOUNGE_OUTBOUND_IS_SET == 0>
+							<#if LOUNGE_AIRPORTS_ARRAY?contains(SQL_GLOBAL.ORIGIN_LEG)>
+							<#global LONG_HAUL_LEG_DEP_OUTBOUND = SQL_GLOBAL.ORIGIN_LEG>
+                            <#if LOUNGE_AIRPORTS_ARRAY?contains("LGW")><#global LOUNGE_LGW_OUTBOUND = "Y"><#else><#global LOUNGE_LGW_OUTBOUND = "N"></#if>
+							<#global LOUNGE_OUTBOUND_IS_SET = 1>
+							</#if>
+						</#if>
+					</#list>
+			</#if>
+		</#list>
+	<#elseif PREMIUM_YES == "Y" && ROUNDTRIP == "N">
+	<#list SQL_GLOBAL.VERSION_PLANNED?split(",") as e>
+			<#if e?exec?contains("788") || e?exec?contains("789")>            
+					<#list LOUNGE_AIRPORTS_ARRAY as LOUNGE_AIRPORTS_ARRAY>
+						<#if LOUNGE_OUTBOUND_IS_SET == 0>
+							<#if LOUNGE_AIRPORTS_ARRAY?contains(SQL_GLOBAL.ORIGIN_LEG)>
+							<#global LONG_HAUL_LEG_DEP_OUTBOUND = SQL_GLOBAL.ORIGIN_LEG>
+                            <#if LOUNGE_AIRPORTS_ARRAY?contains("LGW")><#global LOUNGE_LGW_OUTBOUND = "Y"><#else><#global LOUNGE_LGW_OUTBOUND = "N"></#if>
+							<#global LOUNGE_OUTBOUND_IS_SET = 1>
+							</#if>
+						</#if>
+					</#list>
+			</#if>
+		</#list>
+	</#if>
+	
+
+
+<#-- LOUNGE_RETURN -->
+<#if PREMIUM_YES == "Y" && ROUNDTRIP == "Y" && SQL_GLOBAL.LEG_NUMBER?number gt MAIN_DEST_LEG_NR?number && LOUNGE_RETURN_IS_SET == 0>
+	<#list SQL_GLOBAL.VERSION_PLANNED?split(",") as e>
+		<#if e?exec?contains("788") || e?exec?contains("789")>            
+			<#list LOUNGE_AIRPORTS_ARRAY as LOUNGE_AIRPORTS_ARRAY>
+			<#if LOUNGE_RETURN_IS_SET == 0>
+				<#if LOUNGE_AIRPORTS_ARRAY?contains(SQL_GLOBAL.ORIGIN_LEG)><#global LONG_HAUL_LEG_DEP_RETURN = SQL_GLOBAL.ORIGIN_LEG>
+				</#if>
+                <#if LOUNGE_AIRPORTS_ARRAY?contains("LGW")><#global LOUNGE_LGW_OUTBOUND = "Y"><#else><#global LOUNGE_LGW_OUTBOUND = "N"></#if>
+			</#if>
+			</#list>
+		</#if>
+	</#list>
+</#if>
+
+
+	
+ <#-- MAIN_LEG_ARRIVAL_DATE, MAIN_LEG_ARRIVAL_DATE_HOTEL,  DEPARTURE_DATE_SEARCH_INPUT, MAIN_LEG_ARRIVAL_YEAR, MAIN_LEG_ARRIVAL_MONTH, MAIN_LEG_ARRIVAL_DAY, MAIN_LEG_ARRIVAL_TIME, LEGNUMBER_INSIDE_LOOP, LEGNUMBER,  DESTINATION ,  -->   
+<#if ARRIVAL_DATE_IS_SET == 0>
+<#if SQL_GLOBAL.DESTINATION_LEG?isnull>
+<#-- DEPARTURE DATE / ARRIVAL create a fake date for null values rarely used-->
+    <#-- MAIN_LEG_ARRIVAL_DATE, NULL value --><#if MARKET == "US"><#global MAIN_LEG_ARRIVAL_DATE = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("MM/dd/yyyy HH:mm")><#else><#global MAIN_LEG_ARRIVAL_DATE = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("dd/MM/yyyy HH:mm")></#if>
+    <#-- MAIN_LEG_ARRIVAL_DATE_HOTEL, NULL value --><#global MAIN_LEG_ARRIVAL_DATE_HOTEL = houradd(.now,49)?date?string("yyyy-MM-dd")>
+    <#-- MAIN_LEG_ARRIVAL_YEAR, NULL value --><#global MAIN_LEG_ARRIVAL_YEAR = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("yyyy")>
+    <#-- MAIN_LEG_ARRIVAL_MONTH, NULL value --><#global MAIN_LEG_ARRIVAL_MONTH = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("MM")>
+    <#-- MAIN_LEG_ARRIVAL_DAY, NULL value --><#global MAIN_LEG_ARRIVAL_DAY = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("dd")>
+    <#-- MAIN_LEG_ARRIVAL_TIME, NULL value --><#global MAIN_LEG_ARRIVAL_TIME = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("HH:mm")>
+    <#-- LEGNUMBER_INSIDE_LOOP, NULL value --><#global LEGNUMBER_INSIDE_LOOP = SQL_GLOBAL.LEG_NUMBER>
+    <#-- LEGNUMBER --><#global LEGNUMBER = SQL_GLOBAL.LEG_NUMBER>
+    <#-- DESTINATION --><#if SQL_GLOBAL.BOOKING_ROUND_TRIP == "N"><#global DESTINATION = SQL_GLOBAL.BOOKING_LAST_DESTINATION><#else><#global DESTINATION = SQL_GLOBAL.BOOKING_MAIN_DESTINATION></#if>
+    <#-- ARRIVAL_DATE_SEARCH_INPUT, NULL values --><#if MARKET == "US"><#global ARRIVAL_DATE_SEARCH_INPUT = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("MM/dd/yyyy")>
+			<#else><#global ARRIVAL_DATE_SEARCH_INPUT = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date?string("dd/MM/yyyy")></#if>
+    <#assign ARRIVAL_DATE_IS_SET = 1>
+    <#else>    
+    <#list SQL_GLOBAL.DESTINATION_LEG?split(",") as e>
+        <#if ARRIVAL_DATE_IS_SET == 0>
+            <#-- Checking if it is a One Way Trip -->
+            <#if SQL_GLOBAL.BOOKING_ROUND_TRIP == "N">
+                <#-- Checking if e is the last destination on the booking -->
+                <#if e == SQL_GLOBAL.BOOKING_LAST_DESTINATION>
+                    <#-- if it is, create the variables-->
+                    <#-- MAIN_LEG_ARRIVAL_DATE, One Way -->
+                    <#if MARKET == "US"><#global MAIN_LEG_ARRIVAL_DATE = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("MM/dd/yyyy HH:mm")>
+                    <#else><#global MAIN_LEG_ARRIVAL_DATE = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("dd/MM/yyyy HH:mm")>
+                    </#if>
+                    <#-- MAIN_LEG_ARRIVAL_DATE_HOTEL, One Way -->
+                    <#global MAIN_LEG_ARRIVAL_DATE_HOTEL = SQL_GLOBAL.LEG_ARRIVAL_DATE?date?string("yyyy-MM-dd")>
+                    <#-- ARRIVAL_DATE_SEARCH_INPUT, One Way -->
+                    <#if MARKET == "US"><#global ARRIVAL_DATE_SEARCH_INPUT = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("MM/dd/yyyy")>
+                    <#else><#global ARRIVAL_DATE_SEARCH_INPUT = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("dd/MM/yyyy")>
+                    </#if>
+                    <#-- MAIN_LEG_ARRIVAL_YEAR, One Way -->
+                    <#global MAIN_LEG_ARRIVAL_YEAR = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("yyyy")>
+                    <#-- MAIN_LEG_ARRIVAL_MONTH, One Way -->
+                    <#global MAIN_LEG_ARRIVAL_MONTH = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("MM")>
+                    <#-- MAIN_LEG_ARRIVAL_DAY, One Way -->
+                    <#global MAIN_LEG_ARRIVAL_DAY = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("dd")>
+                    <#-- MAIN_LEG_ARRIVAL_TIME, One Way -->
+                    <#global MAIN_LEG_ARRIVAL_TIME = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("HH:mm")>
+                    <#-- LEGNUMBER_INSIDE_LOOP, One Way -->
+                    <#global LEGNUMBER_INSIDE_LOOP = SQL_GLOBAL.LEG_NUMBER>
+                    <#-- LEGNUMBER --><#global LEGNUMBER = SQL_GLOBAL.LEG_NUMBER>
+                    <#-- DESTINATION -->
+                    <#global DESTINATION = SQL_GLOBAL.DESTINATION_LEG>                    
+                    <#-- We have everything we need. Break the loop -->
+                    <#assign ARRIVAL_DATE_IS_SET = 1>                    
+                <#else>
+                    <#-- Leg is not the last one on the booking. Continue the loop -->
+                    <#assign ARRIVAL_DATE_IS_SET = 0>
+                </#if>
+            
+            <#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP == "Y">
+                <#-- Checking if e is the main destination on the booking -->
+                <#if e == SQL_GLOBAL.BOOKING_MAIN_DESTINATION>
+                    <#-- if it is, create the variables-->
+                    <#-- MAIN_LEG_ARRIVAL_DATE, Roundtrip -->
+                    <#if MARKET == "US"><#global MAIN_LEG_ARRIVAL_DATE = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("MM/dd/yyyy HH:mm")>
+                    <#else><#global MAIN_LEG_ARRIVAL_DATE = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("dd/MM/yyyy HH:mm")>
+                    </#if>
+                    <#-- MAIN_LEG_ARRIVAL_DATE_HOTEL, Roundtrip -->
+                    <#global MAIN_LEG_ARRIVAL_DATE_HOTEL = SQL_GLOBAL.LEG_ARRIVAL_DATE?date?string("yyyy-MM-dd")>
+                    <#-- ARRIVAL_DATE_SEARCH_INPUT, Roundtrip -->
+                    <#if MARKET == "US"><#global ARRIVAL_DATE_SEARCH_INPUT = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("MM/dd/yyyy")>
+                    <#else><#global ARRIVAL_DATE_SEARCH_INPUT = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("dd/MM/yyyy")>
+                    </#if>
+                    <#-- MAIN_LEG_ARRIVAL_YEAR, Roundtrip -->
+                    <#global MAIN_LEG_ARRIVAL_YEAR = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("yyyy")>
+                    <#-- MAIN_LEG_ARRIVAL_MONTH, Roundtrip -->
+                    <#global MAIN_LEG_ARRIVAL_MONTH = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("MM")>
+                    <#-- MAIN_LEG_ARRIVAL_DAY, Roundtrip -->
+                    <#global MAIN_LEG_ARRIVAL_DAY = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("dd")>
+                    <#-- MAIN_LEG_ARRIVAL_TIME, Roundtrip -->
+                    <#global MAIN_LEG_ARRIVAL_TIME = SQL_GLOBAL.LEG_ARRIVAL_DATE?datetime?string("HH:mm")>
+                    <#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+                    <#global LEGNUMBER_INSIDE_LOOP = SQL_GLOBAL.LEG_NUMBER>
+                    <#-- LEGNUMBER --><#global LEGNUMBER = SQL_GLOBAL.LEG_NUMBER>
+                    <#-- DESTINATION -->
+                    <#global DESTINATION = SQL_GLOBAL.DESTINATION_LEG>
+                    <#-- We have everything we need. Break the loop -->
+                    <#assign ARRIVAL_DATE_IS_SET = 1>                    
+                <#else>
+                    <#-- Leg is not the main destination leg on the booking. Continue the loop -->
+                    <#assign ARRIVAL_DATE_IS_SET = 0>
+                </#if>                
+            
+            <#else><#-- We have NULL value for SQL_GLOBAL.BOOKING_ROUND_TRIP -->
+            </#if>
+        </#if><#-- ARRIVAL_DATE_IS_SET is not 0, we have all we need and the loop stops -->
+        <#-- TRANSFER_IATA_LEG1. NNN is used if TRANSFER_IATA_LEG1 is null --><#-- TRANSFER_IATA_LEG1 this obtains the transit IATA from leg 1 -->
+        <#if SQL_GLOBAL.LEG_NUMBER?isnull><#global TRANSFER_IATA_LEG1 = "NNN">
+    	<#elseif SQL_GLOBAL.LEG_NUMBER?number == 1><#global TRANSFER_IATA_LEG1 = e?trim>
+        </#if>
+    </#list>
+        
+</#if>
+</#if>
+<#-- RETURN_DATE_HOTEL, RETURN_DATE_SEARCH_INPUT RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR -->
+<#if RETURN_DATE_IS_SET == 0>
+    <#if SQL_GLOBAL.ORIGIN_LEG?isnull>
+        <#if TRIP_TOO_LONG == "Y"><#-- RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, NULL values -->
+            <#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull>
+                <#global RETURN_DAY_CAR = dayadd(.now,27)?date?string("dd")?trim>
+                <#global RETURN_MONTH_CAR = dayadd(.now,27)?date?string("MM")?trim>
+                <#global RETURN_YEAR_CAR = dayadd(.now,27)?date?string("yyyy")?trim>
+                <#global RETURN_DATE_HOTEL = dayadd(.now,27)?date?string("yyyy-MM-dd")?trim>
+                <#global RETURN_DATE_CAR = dayadd(.now,27)?date?string("yyyyMMddHHmm")?trim>
+                <#global RETURN_TIME = dayadd(.now,27)?date?string("HH:mm")?trim>
+                <#if MARKET == "US">
+                    <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,27)?date?string("MM/dd/yyyy")?trim>
+                <#else>
+                    <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,27)?date?string("dd/MM/yyyy")?trim>
+                </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as MAIN destination for ROUNDTRIP trips (Trips that are too long cannot be oneway trips) -->
+                            <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION><#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+					<#assign RETURN_DATE_IS_SET = 1>							
+					</#if>
+            <#-- elseif !SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull -->
+            <#else>
+                 <#global RETURN_DAY_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("dd")?trim>
+                 <#global RETURN_MONTH_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM")?trim>
+                 <#global RETURN_YEAR_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy")?trim>
+                 <#global RETURN_DATE_HOTEL = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy-MM-dd")?trim>
+                 <#global RETURN_DATE_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyyMMddHHmm")?trim>
+                 <#global RETURN_TIME = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("HH:mm")?trim>
+                 <#if MARKET == "US">
+                     <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM/dd/yyyy")?trim>
+                 <#else>
+                     <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("dd/MM/yyyy")?trim>
+                 </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as MAIN destination for ROUNDTRIP trips (Trips that are too long cannot be oneway trips) -->
+                            <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION><#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+					<#assign RETURN_DATE_IS_SET = 1>							
+					</#if>
+            <#-- end SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull -->
+            </#if>
+        <#-- else if TRIP_TOO_LONG is not too long -->
+		<#else>
+            <#global RETURN_DAY_CAR = dayadd(.now,7)?date?string("dd")?trim>
+            <#global RETURN_MONTH_CAR = dayadd(.now,7)?date?string("dd")?date?string("MM")?trim>
+            <#global RETURN_YEAR_CAR =dayadd(.now,7)?date?string("dd")?date?string("yyyy")?trim>
+            <#global RETURN_DATE_HOTEL = dayadd(.now,7)?date?string("dd")?date?string("yyyy-MM-dd")?trim>
+            <#global RETURN_DATE_CAR = dayadd(.now,7)?date?string("dd")?date?string("yyyyMMddHHmm")?trim>
+            <#global RETURN_TIME = dayadd(.now,7)?date?string("dd")?date?string("HH:mm")?trim>
+            <#if MARKET == "US">
+                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,7)?date?string("dd")?date?string("MM/dd/yyyy")?trim>
+            <#else>
+                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,7)?date?string("dd")?date?string("dd/MM/yyyy")?trim>
+            </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as last destination for oneway trips -->
+                <#-- Checking if it is a One Way Trip -->
+                <#if SQL_GLOBAL.BOOKING_ROUND_TRIP == "N">
+                    <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_LAST_DESTINATION><#assign RETURN_DATE_IS_SET = 1>
+                    </#if>
+                <#else><#-- if it is a roundtrip -->
+                    <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION><#assign RETURN_DATE_IS_SET = 1><#assign RETURN_DATE_IS_SET = 1>
+                    </#if>							
+				</#if>	
+        <#-- End <#if TRIP_TOO_LONG == "Y"> -->
+        </#if>
+        <#assign RETURN_DATE_IS_SET = 1><#-- In this scenario, it doesn't matter what row in the SQL that are being used, as the value for booking departure date will be the same on all rows -->
+    <#--  else if SQL_GLOBAL.ORIGIN_LEG have content -->
+    <#else>
+        <#list SQL_GLOBAL.ORIGIN_LEG?split(",") as f>
+            <#if RETURN_DATE_IS_SET == 0>
+				<#-- Checking if it is a One Way Trip -->
+                <#if SQL_GLOBAL.BOOKING_ROUND_TRIP == "N">
+                    <#if TRIP_TOO_LONG == "Y">
+						<#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, One Way -->
+                            <#global RETURN_DAY_CAR = dayadd(.now,27)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(.now,27)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(.now,27)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL = dayadd(.now,27)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR = dayadd(.now,27)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME = dayadd(.now,27)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,27)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,27)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as last destination for oneway trips -->
+                            <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_LAST_DESTINATION><#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+					<#assign RETURN_DATE_IS_SET = 1>							
+					</#if>
+						<#-- if SQL_GLOBAL.BOOKING_DEPARTURE_TIME has a value -->
+                        <#else>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, One Way -->
+                            <#global RETURN_DAY_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as last destination for oneway trips -->
+                            <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_LAST_DESTINATION><#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+					<#assign RETURN_DATE_IS_SET = 1>							
+					</#if>
+						<#-- End if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull -->
+                        </#if>
+					<#-- if TRIP_TOO_LONG is not "N" -->
+                    <#else>
+						<#-- if SQL_GLOBAL.BOOKING_DEPARTURE_TIME has a value -->
+                        <#if !SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, One Way -->
+                            <#global RETURN_DAY_CAR = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as last destination for oneway trips -->
+                            <#--test varaible: RETURN_DATE_FULL --><#global RETURN_DATE_FULL = dayadd(SQL_GLOBAL.LEG_DEPARTURE_TIME, 7)?datetime?string("dd/MM/yyyy HH:mm")?trim> <#-- End test varaible -->
+                            <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_LAST_DESTINATION><#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+					<#assign RETURN_DATE_IS_SET = 1>                    
+							</#if>
+						<#-- if SQL_GLOBAL.LEG_DEPARTURE_TIME does not have a value -->
+                        <#elseif SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><br>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, One Way -->
+                            <#global RETURN_DAY_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME,7)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the destination leg. That leg will have same IATA as last destination for oneway trips -->
+                            <#if SQL_GLOBAL.DESTINATION_LEG == SQL_GLOBAL.BOOKING_LAST_DESTINATION><#-- LEGNUMBER_INSIDE_LOOP, Roundtrip -->
+					<#assign RETURN_DATE_IS_SET = 1>							
+                    </#if>
+						<#-- End if SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull -->
+                        </#if>
+					<#-- End TRIP_TOO_LONG == "Y" -->
+                    </#if>
+							<#-- just some test variables -->
+							<#global LEGNUMBER_INSIDE_LOOP_RETURN = SQL_GLOBAL.LEG_NUMBER>
+							<#-- end of test variables -->
+					
+				<#-- Checking if it is a Roundtrip -->
+                <#elseif SQL_GLOBAL.BOOKING_ROUND_TRIP == "Y">
+                    <#if TRIP_TOO_LONG == "Y"><#-- If the return date is more than 27 days after the departure date -->
+						<#if SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, Roundtrip -->
+                            <#global RETURN_DAY_CAR = dayadd(.now,27)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(.now,27)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(.now,27)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL =dayadd(.now,27)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR =dayadd(.now,27)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME =dayadd(.now,27)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,27)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,27)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the first leg on return flight. That leg will have same origin IATA as main destination for roundtrips -->
+                            <#if SQL_GLOBAL.ORIGIN_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION>
+                        <#assign RETURN_DATE_IS_SET = 1>
+                    </#if>
+                        <#else>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, Roundtrip -->
+                            <#global RETURN_DAY_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,27)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the first leg on return flight. That leg will have same origin IATA as main destination for roundtrips -->
+                            <#if SQL_GLOBAL.ORIGIN_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION>
+                        <#assign RETURN_DATE_IS_SET = 1>
+                    </#if>
+                        </#if>
+                    <#else><#-- If the return date is less than or equal to 27 days  after the departure date -->
+                        <#if !SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, Roundtrip -->
+                            <#global RETURN_DAY_CAR = SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL =SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR =SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME =SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("dd/MM/yyyy")?trim>
+                            </#if>
+                             <#--test varaible: RETURN_DATE_FULL --><#global RETURN_DATE_FULL = SQL_GLOBAL.LEG_DEPARTURE_TIME?datetime?string("dd/MM/yyyy HH:mm")?trim> <#-- End test varaible -->
+                            <#-- We need to get the return date from the first leg on return flight. That leg will have same origin IATA as main destination for roundtrips -->
+                            <#if SQL_GLOBAL.ORIGIN_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION>
+                        <#assign RETURN_DATE_IS_SET = 1>
+                    </#if>
+                        <#elseif SQL_GLOBAL.BOOKING_DEPARTURE_TIME?isnull>#global RETURN_DAY_CAR = dayadd(.now,7)?date?string("dd")?trim>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, Roundtrip -->
+                            <#global RETURN_MONTH_CAR = dayadd(.now,7)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(.now,7)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL =dayadd(.now,7)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR =dayadd(.now,7)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME =dayadd(.now,7)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,7)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(.now,7)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the first leg on return flight. That leg will have same origin IATA as main destination for roundtrips -->
+                            <#if SQL_GLOBAL.ORIGIN_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION>
+                        <#assign RETURN_DATE_IS_SET = 1>
+                    </#if>
+                        <#else>
+							<#-- Create variables RETURN_DAY_CAR, RETURN_MONTH_CAR, RETURN_YEAR_CAR, RETURN_DATE_HOTEL, RETURN_DATE_CAR, RETURN_DATE_SEARCH_INPUT, Roundtrip -->
+                            <#global RETURN_DAY_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("dd")?trim>
+                            <#global RETURN_MONTH_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("MM")?trim>
+                            <#global RETURN_YEAR_CAR = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("yyyy")?trim>
+                            <#global RETURN_DATE_HOTEL =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("yyyy-MM-dd")?trim>
+                            <#global RETURN_DATE_CAR =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("yyyyMMddHHmm")?trim>
+                            <#global RETURN_TIME =dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("HH:mm")?trim>
+                            <#if MARKET == "US">
+                                <#global RETURN_DATE_SEARCH_INPUT = ddayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("MM/dd/yyyy")?trim>
+                            <#else>
+                                <#global RETURN_DATE_SEARCH_INPUT = dayadd(SQL_GLOBAL.BOOKING_DEPARTURE_TIME?date,7)?date?string("dd/MM/yyyy")?trim>
+                            </#if><#-- We need to get the return date from the first leg on return flight. That leg will have same origin IATA as main destination for roundtrips -->
+                            <#if SQL_GLOBAL.ORIGIN_LEG == SQL_GLOBAL.BOOKING_MAIN_DESTINATION>
+                        <#assign RETURN_DATE_IS_SET = 1>
+                    </#if>
+                        </#if>
+                    </#if>
+							<#-- just some test variables -->
+							<#global LEGNUMBER_INSIDE_LOOP_RETURN = SQL_GLOBAL.LEG_NUMBER>
+							<#-- end of test variables -->
+					
+                    <#-- In case BOOKING_LAST_DESTINATION, BOOKING_ROUND_TRIP and/or BOOKING_MAIN_DESTINATION have NULL values, it will go to the next row and check -->
+                <#-- Checking the unlikely case of BOOKING_ROUND_TRIP having a different value than "Y" or "N" -->
+                <#else>
+                    <#assign RETURN_DATE_IS_SET = 0>
+                <#-- end SQL_GLOBAL.BOOKING_ROUND_TRIP == "N" --></#if>
+           <#-- End RETURN_DATE_IS_SET == 0 -->
+           </#if>
+        </#list>
+    <#-- end if SQL_GLOBAL.ORIGIN_LEG?isnull -->
+    </#if>
+<#-- end if RETURN_DATE_IS_SET == 0 -->
+</#if>
+<#-- DEPARTURE_DATE --><#if SQL_GLOBAL.LEG_DEPARTURE_TIME?isnull><#global DEPARTURE_DATE = dayadd(.now,3)?datetime?string("yyyy/dd/MM-hh:mm")><#elseif SQL_GLOBAL.FIRST_LEG_YN == "Y"><#global DEPARTURE_DATE = SQL_GLOBAL.LEG_DEPARTURE_TIME?datetime?string("yyyy/dd/MM-hh:mm")><#else><#global DEPARTURE_DATE = SQL_GLOBAL.BOOKING_DEPARTURE_TIME?datetime?string("yyyy/dd/MM-hh:mm")></#if></#if></#if>
+<#-- for testing and debugging I wanted to see quickly if a booking has a transfer leg, so I made these HAS_TRANSFER jm 22/10/18 -->
+<#global BOOKING_NUMBER_OF_LEGS = SQL_GLOBAL.BOOKING_NUMBER_OF_LEGS>
+<#if SQL_GLOBAL.BOOKING_NUMBER_OF_LEGS?isnull><#-- Added this as a NULL value here will cause the program to fail. BW --><#elseif ROUNDTRIP == "N" && SQL_GLOBAL.BOOKING_NUMBER_OF_LEGS?number gt 1><#global HAS_TRANSFER = "Y">
+<#elseif ROUNDTRIP == "Y" && SQL_GLOBAL.BOOKING_NUMBER_OF_LEGS?number gt 2><#global HAS_TRANSFER = "Y">
+<#else><#global HAS_TRANSFER = "N">
+</#if>
+</#data>
