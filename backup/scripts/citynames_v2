@@ -1,0 +1,880 @@
+<#-- ///////////////////////////////////////////////////// GENERAL ///////////////////////////////////////////////////// -->
+<#if PRICELIST_INPUT.FROM_IATA == "AEP"><#assign DEP_CITY = "Buenos Aires"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "AEP"><#assign DEST_CITY = "Buenos Aires"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "GIG"><#assign DEP_CITY = "Rio de Janeiro"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "GIG"><#assign DEST_CITY = "Rio de Janeiro"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "COR"><#assign DEP_CITY = "Córdoba"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "COR"><#assign DEST_CITY = "Córdoba"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "NQN"><#assign DEP_CITY = "Neuquén"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "NQN"><#assign DEST_CITY = "Neuquén"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "IGR"><#assign DEP_CITY = "Iguazú"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "IGR"><#assign DEST_CITY = "Iguazú"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "OAK"><#assign DEP_CITY = "Oakland/San Francisco"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "OAK"><#assign DEST_CITY = "Oakland/San Francisco"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "FLL"><#assign DEST_CITY = "Fort Lauderdale/Miami"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "FLL"><#assign DEP_CITY = "Fort Lauderdale/Miami"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "AQJ"><#assign DEP_CITY = "Aqaba"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "AQJ"><#assign DEST_CITY = "Aqaba"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BLE"><#assign DEP_CITY = "Borlange/Falun"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BLE"><#assign DEST_CITY = "Borlange/Falun"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BWI"><#assign DEP_CITY = "Baltimore/Washington"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BWI"><#assign DEST_CITY = "Baltimore/Washington"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "EVE"><#assign DEP_CITY = "Harstad/Narvik"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "EVE"><#assign DEST_CITY = "Harstad/Narvik"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "GRO"><#assign DEP_CITY = "Barcelona/Gerona"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "GRO"><#assign DEST_CITY = "Barcelona/Gerona"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PLQ"><#assign DEP_CITY = "Palanga/Klaipeda"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PLQ"><#assign DEST_CITY = "Palanga/Klaipeda"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "MJV"><#assign DEP_CITY = "Alicante-Murcia"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "MJV"><#assign DEST_CITY = "Alicante-Murcia"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "TXL"><#assign DEP_CITY = "Berlin-tegel"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "TXL"><#assign DEST_CITY = "Berlin-tegel"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "CHQ"><#assign DEP_CITY = "Crete-Chania"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "CHQ"><#assign DEST_CITY = "Crete-Chania"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Cyprus-Larnaca"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Cyprus-Larnaca"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "MCO"><#assign DEST_CITY = "Florida-Orlando"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "MCO"><#assign DEP_CITY = "Florida-Orlando"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "JFK"><#assign DEST_CITY = "New York-JFK"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "JFK"><#assign DEP_CITY = "New York-JFK"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "MIA"><#assign DEST_CITY = "Florida-Miami"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "MIA"><#assign DEP_CITY = "Florida-Miami"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "London-Gatwick"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "London-Gatwick"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "SXF"><#assign DEST_CITY = "Berlin-Schönefeld"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "SXF"><#assign DEP_CITY = "Berlin-Schönefeld"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "FDF"><#assign DEST_CITY = "Fort-de-France"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "FDF"><#assign DEP_CITY = "Fort-de-France"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "HER"><#assign DEST_CITY = "Crete-Heraklion"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "HER"><#assign DEP_CITY = "Crete-Heraklion"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Corsica-Ajaccio"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Corsica-Ajaccio"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "AMM"><#assign DEST_CITY = "Amman-Queen Alia"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "AMM"><#assign DEP_CITY = "Amman-Queen Alia"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stockholm-Arlanda"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Stockholm-Arlanda"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BDL"><#assign DEST_CITY = "Connecticut/Hartford-Bradley"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BDL"><#assign DEP_CITY = "Connecticut/Hartford-Bradley"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BER"><#assign DEST_CITY = "Berlin-Brandenburg"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BER"><#assign DEP_CITY = "Berlin-Brandenburg"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Corsica-Bastia"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Corsica-Bastia"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BUE"><#assign DEST_CITY = "Buenos Aires"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BUE"><#assign DEP_CITY = "Buenos Aires"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "FAO"><#assign DEST_CITY = "Algarve-Faro"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "FAO"><#assign DEP_CITY = "Algarve-Faro"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "BVA"><#assign DEST_CITY = "Paris-Beauvais"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "BVA"><#assign DEP_CITY = "Paris-Beauvais"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "CDG"><#assign DEST_CITY = "Paris-Charles De Gaulle"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "Paris-Charles De Gaulle"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Rome-Ciampino"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Rome-Ciampino"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sicily-Catania"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sicily-Catania"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "DME"><#assign DEST_CITY = "Moscow-Domodedovo"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "DME"><#assign DEP_CITY = "Moscow-Domodedovo"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "EWR"><#assign DEST_CITY = "New York-EWR"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "EWR"><#assign DEP_CITY = "New York-EWR"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Rome-Fiumicino"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Rome-Fiumicino"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Gothenburg"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Gothenburg"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LCJ"><#assign DEST_CITY = "Warsaw-Lodz"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LCJ"><#assign DEP_CITY = "Warsaw-Lodz"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LED"><#assign DEST_CITY = "St. Petersburg"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LED"><#assign DEP_CITY = "St. Petersburg"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LEJ"><#assign DEST_CITY = "Leipzig-Halle"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LEJ"><#assign DEP_CITY = "Leipzig-Halle"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "London-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "London-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "LYR"><#assign DEST_CITY = "Longyearbyen-Svalbard"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "LYR"><#assign DEP_CITY = "Longyearbyen-Svalbard"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "MRS"><#assign DEST_CITY = "Marseille-Provence"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "MRS"><#assign DEP_CITY = "Marseille-Provence"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "NYCALL"><#assign DEST_CITY = "New York"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "NYCALL"><#assign DEP_CITY = "New York"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "NYO"><#assign DEST_CITY = "Stockholm-Skavsta"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "NYO"><#assign DEP_CITY = "Stockholm-Skavsta"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardinia-Olbia"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardinia-Olbia"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "ORY"><#assign DEST_CITY = "Paris-Orly"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "ORY"><#assign DEP_CITY = "Paris-Orly"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "OSL"><#assign DEP_CITY = "Oslo"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "OSLALL"><#assign DEST_CITY = "Oslo"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "OSLALL"><#assign DEP_CITY = "Oslo"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PARALL"><#assign DEST_CITY = "Paris"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PARALL"><#assign DEP_CITY = "Paris"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Majorca-Palma"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Majorca-Palma"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicily-Palermo"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicily-Palermo"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Tuscany"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Tuscany"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PTP"><#assign DEST_CITY = "Guadeloupe"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PTP"><#assign DEP_CITY = "Guadeloupe"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "PVD"><#assign DEST_CITY = "Providence/Boston"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "PVD"><#assign DEP_CITY = "Providence/Boston"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "RFD"><#assign DEST_CITY = "Chicago/Rockford"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "RFD"><#assign DEP_CITY = "Chicago/Rockford"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "RYG"><#assign DEST_CITY = "Oslo-Rygge"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "RYG"><#assign DEP_CITY = "Oslo-Rygge"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "SAW"><#assign DEST_CITY = "Istanbul-Sabiha"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "SAW"><#assign DEP_CITY = "Istanbul-Sabiha"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "SFOALL"><#assign DEST_CITY = "San Francisco"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "SFOALL"><#assign DEP_CITY = "San Francisco"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "SJU"><#assign DEST_CITY = "Puerto Rico - San Juan"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "SJU"><#assign DEP_CITY = "Puerto Rico - San Juan"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "STN"><#assign DEST_CITY = "London-Stansted"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "STN"><#assign DEP_CITY = "London-Stansted"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "SWF"><#assign DEST_CITY = "New York-Stewart"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "SWF"><#assign DEP_CITY = "New York-Stewart"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-North"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-North"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-South"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-South"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "TIV"><#assign DEST_CITY = "Montenegro-Tivat"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "TIV"><#assign DEP_CITY = "Montenegro-Tivat"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "TRF"><#assign DEST_CITY = "Oslo-Sandefjord/Torp"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "TRF"><#assign DEP_CITY = "Oslo-Sandefjord/Torp"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "VBY"><#assign DEST_CITY = "Visby"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "VBY"><#assign DEP_CITY = "Visby"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Warsaw-All airports"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Warsaw-All airports"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "YHM"><#assign DEST_CITY = "Toronto - Hamilton"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "YHM"><#assign DEP_CITY = "Toronto - Hamilton"></#if>
+<#if PRICELIST_INPUT.TO_IATA == "YUL"><#assign DEST_CITY = "Montreal"></#if>
+<#if PRICELIST_INPUT.FROM_IATA == "YUL"><#assign DEP_CITY = "Montreal"></#if>
+
+<#-- ///////////////////////////////////////////////////// MARKET SPECIFIC ///////////////////////////////////////////////////// -->
+<#if MARKET == "US">
+	<#if PRICELIST_INPUT.FROM_IATA == "FLL"><#assign DEP_CITY = "Miami/Fort Lauderdale"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLL"><#assign DEST_CITY = "Miami/Fort Lauderdale"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "JFK"><#assign DEP_CITY = "New York/JFK"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "JFK"><#assign DEST_CITY = "New York/JFK"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "EWR"><#assign DEP_CITY = "New York/Newark"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "EWR"><#assign DEST_CITY = "New York/Newark"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PVD"><#assign DEP_CITY = "Boston/Providence"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BDL"><#assign DEP_CITY = "Hartford-Bradley"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SWF"><#assign DEP_CITY = "New York/Stewart"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SWF"><#assign DEST_CITY = "New York/Stewart"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FDF"><#assign DEST_CITY = "Martinique"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FDF"><#assign DEP_CITY = "Martinique"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PTP"><#assign DEST_CITY = "Guadeloupe"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PTP"><#assign DEP_CITY = "Guadeloupe"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CDG"><#assign DEST_CITY = "Paris/Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "Paris/Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ORY"><#assign DEST_CITY = "Paris/Orly"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ORY"><#assign DEP_CITY = "Paris/Orly"></#if>
+</#if>
+<#if MARKET == "ES" || MARKET == 'AR'>
+	<#if PRICELIST_INPUT.TO_IATA == "AGP"><#assign DEST_CITY = "Málaga"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AGP"><#assign DEP_CITY = "Málaga"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "EWR"><#assign DEST_CITY = "Nueva York/Newark"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "EWR"><#assign DEP_CITY = "Nueva York/Newark"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "JFK"><#assign DEST_CITY = "Nueva York/JFK"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "JFK"><#assign DEP_CITY = "Nueva York/JFK"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Colonia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GRO"><#assign DEST_CITY = "Barcelona/Girona"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GRO"><#assign DEP_CITY = "Barcelona/Girona"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Córcega-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Córcega-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Córcega-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Córcega-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "HER"><#assign DEST_CITY = "Creta-Heraklion"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "HER"><#assign DEP_CITY = "Creta-Heraklion"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Chipre-Larnaca"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Chipre-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Estocolmo-Arlanda"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Estocolmo-Arlanda"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BVA"><#assign DEST_CITY = "París-Beauvais"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BVA"><#assign DEP_CITY = "París-Beauvais"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CDG"><#assign DEST_CITY = "París-Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "París-Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sicilia-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sicilia-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FDF"><#assign DEST_CITY = "Martinica/Fort-de-France"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FDF"><#assign DEP_CITY = "Martinica/Fort-de-France"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Gotemburgo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Gotemburgo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LED"><#assign DEST_CITY = "S. Petersburgo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LED"><#assign DEP_CITY = "S. Petersburgo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "Londres-Gatwick"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "Londres-Gatwick"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "Londres-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "Londres-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MRS"><#assign DEST_CITY = "Marsella-Provence"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MRS"><#assign DEP_CITY = "Marsella-Provence"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYCALL"><#assign DEST_CITY = "Nueva York"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYCALL"><#assign DEP_CITY = "Nueva York"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYO"><#assign DEST_CITY = "Estocolmo-Skavsta"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYO"><#assign DEP_CITY = "Estocolmo-Skavsta"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Cerdeña-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Cerdeña-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ORY"><#assign DEST_CITY = "París-Orly"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ORY"><#assign DEP_CITY = "París-Orly"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SAW"><#assign DEST_CITY = "Estambul-Sabiha"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SAW"><#assign DEP_CITY = "Estambul-Sabiha"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "STN"><#assign DEST_CITY = "Londres-Stansted"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "STN"><#assign DEP_CITY = "Londres-Stansted"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SWF"><#assign DEST_CITY = "Nueva York-Stewart"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SWF"><#assign DEP_CITY = "Nueva York-Stewart"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SXF"><#assign DEST_CITY = "Berlín-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SXF"><#assign DEP_CITY = "Berlín-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-Norte"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-Norte"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-Sur"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-Sur"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Varsovia-Todos los aeropuertos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Varsovia-Todos los aeropuertos"></#if>
+</#if>
+<#if MARKET == "FR" || MARKET == 'CA-FR'>
+	<#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stockholm"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ORY"><#assign DEP_CITY = "Paris"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "Paris"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PARALL"><#assign DEP_CITY = "Paris"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYCALL"><#assign DEST_CITY = "New York"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYCALL"><#assign DEP_CITY = "New York"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FDF"><#assign DEST_CITY = "Fort-de-France"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FDF"><#assign DEP_CITY = "Fort-de-France"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "JFK"><#assign DEST_CITY = "New York"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "JFK"><#assign DEP_CITY = "New York"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PTP"><#assign DEST_CITY = "Pointe-à-Pitre"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PTP"><#assign DEP_CITY = "Pointe-à-Pitre"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "YUL"><#assign DEST_CITY = "Montreal"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "YUL"><#assign DEP_CITY = "Montreal"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GRO"><#assign DEST_CITY = "Barcelone/Gérone"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GRO"><#assign DEP_CITY = "Barcelone/Gérone"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "ChYpre-Larnaca"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "ChYpre-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Corse-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Corse-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Corse-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Corse-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLL"><#assign DEP_CITY = "Floride-Fort Lauderdale/Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLL"><#assign DEST_CITY = "Floride-Fort Lauderdale/Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Floride-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Floride-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "Londres-Gatwick"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "Londres-Gatwick"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "Londres-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "Londres-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MCO"><#assign DEST_CITY = "Floride-Orlando"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MCO"><#assign DEP_CITY = "Floride-Orlando"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MIA"><#assign DEST_CITY = "Floride-Miami"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MIA"><#assign DEP_CITY = "Floride-Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardaigne-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardaigne-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Majorque-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Majorque-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicile-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicile-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pise-Toscane"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pise-Toscane"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "STN"><#assign DEST_CITY = "Londres-Stansted"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "STN"><#assign DEP_CITY = "Londres-Stansted"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-Sud"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-Sud"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Varsovie-Tous les aéroports"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Varsovie-Tous les aéroports"></#if>
+</#if>
+<#if MARKET == "IT">
+	<#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "EWR"><#assign DEST_CITY = "New York/Newark"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stoccolma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Roma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Roma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MXP"><#assign DEP_CITY = "Milano"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CDG"><#assign DEST_CITY = "Parigi-Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "Parigi-Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sicilia-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sicilia-Catania"></#if>    
+    <#if PRICELIST_INPUT.TO_IATA == "FDF"><#assign DEST_CITY = "Martinica/Fort-de-France"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FDF"><#assign DEP_CITY = "Martinica/Fort-de-France"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Floride-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Floride-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "Londra-Gatwick"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "Londra-Gatwick"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "Londra-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "Londra-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MCO"><#assign DEST_CITY = "Floride-Orlando"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MCO"><#assign DEP_CITY = "Floride-Orlando"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MIA"><#assign DEST_CITY = "Floride-Miami"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MIA"><#assign DEP_CITY = "Floride-Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MRS"><#assign DEST_CITY = "Marsiglia-Provenza"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MRS"><#assign DEP_CITY = "Marsiglia-Provenza"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYO"><#assign DEST_CITY = "Stoccolma-Skavsta"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYO"><#assign DEP_CITY = "Stoccolma-Skavsta"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardegna-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardegna-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PARALL"><#assign DEST_CITY = "Parigi"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PARALL"><#assign DEP_CITY = "Parigi"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Maiorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Maiorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PTP"><#assign DEST_CITY = "Guadeloupa"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PTP"><#assign DEP_CITY = "Guadeloupa"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SJU"><#assign DEST_CITY = "Porto Rico - San Juan"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SJU"><#assign DEP_CITY = "Porto Rico - San Juan"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SXF"><#assign DEST_CITY = "Berlino-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SXF"><#assign DEP_CITY = "Berlino-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-Sud"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-Sud"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TIV"><#assign DEST_CITY = "Montenegro-Teodo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TIV"><#assign DEP_CITY = "Montenegro-Teodo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TXL"><#assign DEP_CITY = "Berlino-tegel"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TXL"><#assign DEST_CITY = "Berlino-tegel"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Varsavia-Tutti gli aeroporti"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Varsavia-Tutti gli aeroporti"></#if>
+</#if>
+<#if MARKET == "PL">
+    <#if PRICELIST_INPUT.TO_IATA == "GDN"><#assign DEST_CITY = "Gdańsk"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GDN"><#assign DEP_CITY = "Gdańsk"></#if>
+	<#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OSL"><#assign DEP_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Sztokholm"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Sztokholm"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "JFK"><#assign DEST_CITY = "Nowy Jork-JFK"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "JFK"><#assign DEP_CITY = "Nowy Jork-JFK"></#if>
+     <#if PRICELIST_INPUT.TO_IATA == "CDG"><#assign DEST_CITY = "Paryż-CDG"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "Paryż-CDG"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PLQ"><#assign DEST_CITY = "Palanga/Klajpeda"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PLQ"><#assign DEP_CITY = "Palanga/Klajpeda"></#if>
+     <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Cypr-Larnaca"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Cypr-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Korsyka-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Korsyka-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Korsyka-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Korsyka-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BVA"><#assign DEST_CITY = "Paryz-Beauvais"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BVA"><#assign DEP_CITY = "Paryz-Beauvais"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BWI"><#assign DEP_CITY = "Baltimore/Waszyngton"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BWI"><#assign DEST_CITY = "Baltimore/Waszyngton"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Kolonia/Bonn"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CGN"><#assign DEP_CITY = "Kolonia/Bonn"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Rzym-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Rzym-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sycylia-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sycylia-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "EWR"><#assign DEST_CITY = "Nowy Jork-EWR"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "EWR"><#assign DEP_CITY = "Nowy Jork-EWR"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Rzym-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Rzym-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLL"><#assign DEP_CITY = "Floryda-Fort Lauderdale/Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLL"><#assign DEST_CITY = "Floryda-Fort Lauderdale/Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Floryda-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Floryda-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "Londyn-Gatwick"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "Londyn-Gatwick"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "Londyn-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "Londyn-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MCO"><#assign DEST_CITY = "Floryda-Orlando"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MCO"><#assign DEP_CITY = "Floryda-Orlando"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MIA"><#assign DEST_CITY = "Floryda-Miami"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MIA"><#assign DEP_CITY = "Floryda-Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYCALL"><#assign DEST_CITY = "Nowy Jork"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYCALL"><#assign DEP_CITY = "Nowy Jork"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYO"><#assign DEST_CITY = "Sztokholm-Skavsta"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYO"><#assign DEP_CITY = "Sztokholm-Skavsta"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardynia-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardynia-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ORY"><#assign DEST_CITY = "Paryz-Orly"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ORY"><#assign DEP_CITY = "Paryz-Orly"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PARALL"><#assign DEST_CITY = "Paryz"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PARALL"><#assign DEP_CITY = "Paryz"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sycylia-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sycylia-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Piza-Toskania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Piza-Toskania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PTP"><#assign DEST_CITY = "Gwadelupa"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PTP"><#assign DEP_CITY = "Gwadelupa"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "STN"><#assign DEST_CITY = "Londyn-Stansted"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "STN"><#assign DEP_CITY = "Londyn-Stansted"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SWF"><#assign DEST_CITY = "Nowy Jork-Stewart"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SWF"><#assign DEP_CITY = "Nowy Jork-Stewart"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Teneryfa-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Teneryfa-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Teneryfa-Północ"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Teneryfa-Północ"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Teneryfa-Poludnie"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Teneryfa-Poludnie"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TIV"><#assign DEST_CITY = "Czarnogóra-Tivat"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TIV"><#assign DEP_CITY = "Czarnogóra-Tivat"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Warszawa-Wszystkie lotniska"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Warszawa-Wszystkie lotniska"></#if>
+</#if>
+
+
+<#if MARKET == "NL">	
+    <#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stockholm"></#if>
+</#if>
+<#if MARKET == "DE">
+	<#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Köln-Bonn"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CGN"><#assign DEP_CITY = "Köln-Bonn"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CHQ"><#assign DEST_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CHQ"><#assign DEP_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Zypern-Larnaca"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Zypern-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Alicante-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Alicante-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Rom-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Rom-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sizilien-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sizilien-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Rom-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Rom-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "London-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "London-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LYR"><#assign DEST_CITY = "Longyearbyen-Spitzbergen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LYR"><#assign DEP_CITY = "Longyearbyen-Spitzbergen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardinien-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardinien-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sizilien-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sizilien-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toskana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toskana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Teneriffa-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Teneriffa-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Teneriffa-Nord"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Teneriffa-Nord"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Teneriffa-Süd"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Teneriffa-Süd"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Warschau-Alle Flughäfen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Warschau-Alle Flughäfen"></#if>
+</#if>
+<#if MARKET == "ROW">
+	<#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stockholm"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+</#if>
+<#if MARKET == "SE">
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Rom"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Rom"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "MMX"><#assign DEP_CITY = "Malmö"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Stockholm"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OSD"><#assign DEST_CITY = "Östersund/Åre"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OSD"><#assign DEP_CITY = "Östersund/Åre"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CHQ"><#assign DEST_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CHQ"><#assign DEP_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Cypern-Larnaca"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Cypern-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Köln/Bonn"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CGN"><#assign DEP_CITY = "Köln/Bonn"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Rom-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Rom-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sicilien-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sicilien-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "DME"><#assign DEST_CITY = "Moskva-Domodedovo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "DME"><#assign DEP_CITY = "Moskva-Domodedovo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCJ"><#assign DEST_CITY = "Warszawa-Lodz"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LCJ"><#assign DEP_CITY = "Warszawa-Lodz"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "London-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "London-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardinien-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardinien-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicilien-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicilien-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Teneriffa-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Teneriffa-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Teneriffa-Nord"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Teneriffa-Nord"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Teneriffa-Söder"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Teneriffa-Söder"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Warszawa-Alla flygplatser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Warszawa-Alla flygplatser"></#if>
+</#if>
+
+<#if MARKET == "NO">
+	<#if PRICELIST_INPUT.FROM_IATA == "OSL"><#assign DEP_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CHQ"><#assign DEST_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CHQ"><#assign DEP_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NAP"><#assign DEST_CITY = "Napoli"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NAP"><#assign DEP_CITY = "Napoli"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Kypros-Larnaca"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Kypros-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Køln/Bonn"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CGN"><#assign DEP_CITY = "Køln/Bonn"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sicilia-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sicilia-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "DME"><#assign DEST_CITY = "Moskva-Domodedovo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "DME"><#assign DEP_CITY = "Moskva-Domodedovo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Gøteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Gøteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCJ"><#assign DEST_CITY = "Warszawa-Lodz"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LCJ"><#assign DEP_CITY = "Warszawa-Lodz"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "London-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "London-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-Sør"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-Sør"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Warszawa-Alle flyplasser"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Warszawa-Alle flyplasser"></#if>
+</#if>
+<#if MARKET == "DK">
+    <#if PRICELIST_INPUT.FROM_IATA == "PDL"><#assign DEP_CITY = "Ponta Delgada-João Paulo II Airport"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PDL"><#assign DEST_CITY = "Ponta Delgada-João Paulo II Airport"></#if>
+	<#if PRICELIST_INPUT.TO_IATA == "GRO"><#assign DEST_CITY = "Barcelona/Girona"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GRO"><#assign DEP_CITY = "Barcelona/Girona"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CHQ"><#assign DEST_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CHQ"><#assign DEP_CITY = "Kreta-Chania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Cypern-Larnaca"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Cypern-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stockholm-Arlanda"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Stockholm-Arlanda"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Køln/Bonn"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CGN"><#assign DEP_CITY = "Køln/Bonn"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sicilien-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sicilien-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "DME"><#assign DEST_CITY = "Moskva-Domodedovo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "DME"><#assign DEP_CITY = "Moskva-Domodedovo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCJ"><#assign DEST_CITY = "Warszawa-Lodz"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LCJ"><#assign DEP_CITY = "Warszawa-Lodz"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LED"><#assign DEST_CITY = "Skt. Petersborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LED"><#assign DEP_CITY = "Skt. Petersborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "London-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "London-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OLB"><#assign DEST_CITY = "Sardinien-Olbia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OLB"><#assign DEP_CITY = "Sardinien-Olbia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicilien-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicilien-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "STX"><#assign DEST_CITY = "De Vestindiske øer - St Croix"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "STX"><#assign DEP_CITY = "De Vestindiske øer - St Croix"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-Nord"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-Sør"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-Sør"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Warszawa-Alle lufthavne"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Warszawa-Alle lufthavne"></#if>
+</#if>
+<#if MARKET == "FI">
+	<#if PRICELIST_INPUT.TO_IATA == "LLA"><#assign DEST_CITY = "Luulaja/Luleå"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LLA"><#assign DEP_CITY = "Luulaja/Luleå"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "UME"><#assign DEST_CITY = "Uumaja/Umeå"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "UME"><#assign DEP_CITY = "Uumaja/Umeå"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CHQ"><#assign DEST_CITY = "Kreeta - Hania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CHQ"><#assign DEP_CITY = "Kreeta - Hania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "HER"><#assign DEST_CITY = "Kreeta - Heraklion"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "HER"><#assign DEP_CITY = "Kreeta - Heraklion"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MIR"><#assign DEST_CITY = "Monastir-Habib Bourguiba"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MIR"><#assign DEP_CITY = "Monastir-Habib Bourguiba"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BVA"><#assign DEST_CITY = "París-Beauvais"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BVA"><#assign DEP_CITY = "París-Beauvais"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CGN"><#assign DEST_CITY = "Köln-Bonn"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CGN"><#assign DEP_CITY = "Köln-Bonn"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Kypros-Larnaca"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Kypros-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Korsika-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Tukholma-Arlanda"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Tukholma-Arlanda"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Korsika-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "Lontoo-Gatwick"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "Lontoo-Gatwick"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CDG"><#assign DEST_CITY = "Pariisi-Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CDG"><#assign DEP_CITY = "Pariisi-Charles De Gaulle"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Rooma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Rooma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CTA"><#assign DEST_CITY = "Sisilia-Catania"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CTA"><#assign DEP_CITY = "Sisilia-Catania"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Rooma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Rooma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Florida-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Florida-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Göteborg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYO"><#assign DEST_CITY = "Tukholma-Skavsta"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYO"><#assign DEP_CITY = "Tukholma-Skavsta"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ORY"><#assign DEST_CITY = "Pariisi-Orly"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ORY"><#assign DEP_CITY = "Pariisi-Orly"></#if>
+     <#if PRICELIST_INPUT.TO_IATA == "PARALL"><#assign DEST_CITY = "Parigi"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PARALL"><#assign DEP_CITY = "Parigi"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sisilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sisilia-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SXF"><#assign DEST_CITY = "Berlini-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SXF"><#assign DEP_CITY = "Berlini-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Teneriffa - Pohjoinen"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Teneriffa - Pohjoinen"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Teneriffa-Etelä"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Teneriffa-Etelä"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TXL"><#assign DEP_CITY = "Berlini-tegel"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TXL"><#assign DEST_CITY = "Berlini-tegel"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Varsova-Kaikki lentokentät"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Varsova-Kaikki lentokentät"></#if>
+</#if>
+<#if MARKET == "IE">
+	<#if PRICELIST_INPUT.TO_IATA == "OSL"><#assign DEST_CITY = "Oslo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PVD"><#assign DEST_CITY = "Providence/Boston"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "YHM"><#assign DEST_CITY = "Hamilton/Toronto"></#if>
+</#if>
+<#if MARKET == "UK">
+	<#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "London"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Stockholm"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Gothenburg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MCO"><#assign DEP_CITY = "Orlando"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MCO"><#assign DEST_CITY = "Orlando"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MIA"><#assign DEP_CITY = "Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MIA"><#assign DEST_CITY = "Miami"></#if>
+</#if>
+<#if MARKET == "BR">
+	<#if PRICELIST_INPUT.FROM_IATA == "JFK"><#assign DEP_CITY = "Nova Iorque-JFK"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "JFK"><#assign DEST_CITY = "Nova Iorque-JFK"></#if> 
+     <#if PRICELIST_INPUT.TO_IATA == "LCA"><#assign DEST_CITY = "Chipre-Larnaca"></#if>
+	<#if PRICELIST_INPUT.FROM_IATA == "LCA"><#assign DEP_CITY = "Chipre-Larnaca"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AJA"><#assign DEST_CITY = "Córsega-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AJA"><#assign DEP_CITY = "Córsega-Ajaccio"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ALCALL"><#assign DEST_CITY = "Alicante-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ALCALL"><#assign DEP_CITY = "Alicante-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "AMM"><#assign DEST_CITY = "Amã-Rainha Alia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "AMM"><#assign DEP_CITY = "Amã-Rainha Alia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "ARN"><#assign DEST_CITY = "Estocolmo-Arlanda"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "ARN"><#assign DEP_CITY = "Estocolmo-Arlanda"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BER"><#assign DEST_CITY = "Berlim-Brandenburg"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BER"><#assign DEP_CITY = "Berlim-Brandenburg"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BERALL"><#assign DEST_CITY = "Berlin-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BERALL"><#assign DEP_CITY = "Berlin-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BIA"><#assign DEST_CITY = "Córsega-Bastia"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BIA"><#assign DEP_CITY = "Córsega-Bastia"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BOSALL"><#assign DEST_CITY = "Boston-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BOSALL"><#assign DEP_CITY = "Boston-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "BUEALL"><#assign DEST_CITY = "Buenos Aires-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "BUEALL"><#assign DEP_CITY = "Buenos Aires-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "CIA"><#assign DEST_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "CIA"><#assign DEP_CITY = "Roma-Ciampino"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "EZE"><#assign DEST_CITY = "Buenos Aires-Ezeiza"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "EZE"><#assign DEP_CITY = "Buenos Aires-Ezeiza"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FCO"><#assign DEST_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FCO"><#assign DEP_CITY = "Roma-Fiumicino"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLL"><#assign DEP_CITY = "Flórida-Fort Lauderdale/Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLL"><#assign DEST_CITY = "Flórida-Fort Lauderdale/Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "FLLALL"><#assign DEST_CITY = "Flórida-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "FLLALL"><#assign DEP_CITY = "Flórida-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "GOT"><#assign DEST_CITY = "Gotemburgo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "GOT"><#assign DEP_CITY = "Gotemburgo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LGW"><#assign DEST_CITY = "Londra-Gatwick"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LGW"><#assign DEP_CITY = "Londra-Gatwick"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "LON"><#assign DEST_CITY = "Londres-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "LON"><#assign DEP_CITY = "Londres-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MCO"><#assign DEST_CITY = "Flórida-Orlando"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MCO"><#assign DEP_CITY = "Flórida-Orlando"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MIA"><#assign DEST_CITY = "Flórida-Miami"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MIA"><#assign DEP_CITY = "Flórida-Miami"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "MRS"><#assign DEST_CITY = "Marselha-Provença"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "MRS"><#assign DEP_CITY = "Marselha-Provença"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "NYO"><#assign DEST_CITY = "Estocolmo-Skavsta"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "NYO"><#assign DEP_CITY = "Estocolmo-Skavsta"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "OAK"><#assign DEP_CITY = "Oakland - São Francisco"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "OAK"><#assign DEST_CITY = "Oakland - São Francisco"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMI"><#assign DEST_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMI"><#assign DEP_CITY = "Mallorca-Palma"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PMO"><#assign DEST_CITY = "Sicília-Palermo"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PMO"><#assign DEP_CITY = "Sicília-Palermo"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "PSA"><#assign DEST_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "PSA"><#assign DEP_CITY = "Pisa-Toscana"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SAW"><#assign DEST_CITY = "Istambul-Sabiha"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SAW"><#assign DEP_CITY = "Istambul-Sabiha"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SFOALL"><#assign DEST_CITY = "São Francisco"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SFOALL"><#assign DEP_CITY = "São Francisco"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SJU"><#assign DEST_CITY = "Porto Rico - San Juan"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SJU"><#assign DEP_CITY = "Porto Rico - San Juan"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "STN"><#assign DEST_CITY = "Londres-Stansted"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "STN"><#assign DEP_CITY = "Londres-Stansted"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SWF"><#assign DEST_CITY = "Nova Iorque-Stewart"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SWF"><#assign DEP_CITY = "Nova Iorque-Stewart"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "SXF"><#assign DEST_CITY = "Berlim-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "SXF"><#assign DEP_CITY = "Berlim-Schönefeld"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TCIALL"><#assign DEST_CITY = "Tenerife-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TCIALL"><#assign DEP_CITY = "Tenerife-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFN"><#assign DEST_CITY = "Tenerife-Norte"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFN"><#assign DEP_CITY = "Tenerife-Norte"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TFS"><#assign DEST_CITY = "Tenerife-Sul"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TFS"><#assign DEP_CITY = "Tenerife-Sul"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "TXL"><#assign DEP_CITY = "Berlim-tegel"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "TXL"><#assign DEST_CITY = "Berlim-tegel"></#if>
+    <#if PRICELIST_INPUT.TO_IATA == "WAWALL"><#assign DEST_CITY = "Varsóvia-Todos os aeroportos"></#if>
+    <#if PRICELIST_INPUT.FROM_IATA == "WAWALL"><#assign DEP_CITY = "Varsóvia-Todos os aeroportos"></#if>
+</#if>
+
