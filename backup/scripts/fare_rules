@@ -1,0 +1,21 @@
+<#join><#compress><#switch MARKET>
+<#case "AR">https://www.norwegian.com/es/reservar/informacion-util-sobre-reservas/normas-sobre-las-tarifas<#break>
+<#case "DE">https://www.norwegian.com/de/buchung/buchungsinformationen/tarifbedingungen/<#break>
+<#case "DK">https://www.norwegian.com/dk/booking/bookingoplysninger/takstregler/<#break>
+<#case "EN-CA">https://www.norwegian.com/en-ca/booking/booking-information/fare-rules/<#break>
+<#case "ES">https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/normas-sobre-las-tarifas/<#break>
+<#case "FI">https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/hintasaannot/<#break>
+<#case "FR">https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/<#break>
+<#case "FR-CA">https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/regles-tarifaires/<#break>
+<#case "IE">https://www.norwegian.com/ie/booking/booking-information/fare-rules/<#break>
+<#case "IT">https://www.norwegian.com/it/prenotazione/informazioni-utili/regolamento-tariffario/<#break>
+<#case "NL">https://www.norwegian.com/nl/booking/booking-information/fare-rules/<#break>
+<#case "NO">https://www.norwegian.no/booking/bestillingsinformasjon/regler-og-vilkar-for-vare-billettyper/<#break>
+<#case "PL">https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/warunki-taryf/<#break>
+<#case "ROW">https://www.norwegian.com/en/booking/booking-information/fare-rules/<#break>
+<#case "SE">https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/biljettregler/<#break>
+<#--<#case "SG">https://www.norwegian.com/sg/booking/booking-information/fare-rules/<#break>-->
+<#case "UK">https://www.norwegian.com/uk/booking/booking-information/fare-rules/<#break>
+<#case "US">https://www.norwegian.com/us/booking/booking-information/fare-rules/<#break>
+<#case "BR">https://www.norwegian.com/br/reservas/informacoes-uteis-sobre-reservas/regras-sobre-tarifas/<#break>
+<#default>https://www.norwegian.com/en/booking/booking-information/fare-rules/</#switch></#compress></#join>
