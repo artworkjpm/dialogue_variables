@@ -1,0 +1,131 @@
+<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/corp_variables.htm"> -->
+
+<#-- Added 04-10-2019: The option to change the bacground color from grey to white. This field needs to be added as a custom variable in the Datasource: CAMPAIGN_BCG_COLOR. If left with no value, the background will continue to stay grey. But by adding White as a value, the background changes to white for the header section and all modules included in the campaign. The footer part is not affected, and will stay gray. -->
+<#attempt><#if CAMPAIGN_BCG_COLOR?lower_case == "white"><#assign CAMPAIGN_BCG_CLR = "#fffffe"><#else><#assign CAMPAIGN_BCG_CLR = "#f1f1f1"></#if>
+    <#recover>
+    <#assign CAMPAIGN_BCG_CLR = "#f1f1f1">
+    </#attempt>
+
+<#-- COUNTRY_CODE --><#if CONTACT.CONTACTTYPE?trim?lower_case == "agent"><#global COUNTRY_CODE = "ROW">
+<#elseif CONTACT.COUNTRY?isnull && NEWSLETTER?isnull><#global COUNTRY_CODE = "ROW">
+<#elseif  !CONTACT.COUNTRY?isnull && !CONTACT.NEWSLETTER?isnull><#global COUNTRY_CODE = CONTACT.NEWSLETTER?upper_case?trim>
+<#elseif !CONTACT.COUNTRY?isnull && CONTACT.NEWSLETTER?isnull><#global COUNTRY_CODE = CONTACT.COUNTRY?upper_case?trim>
+<#elseif CONTACT.COUNTRY?isnull && !CONTACT.NEWSLETTER?isnull><#if CONTACT.NEWSLETTER == "FI" || CONTACT.NEWSLETTER == "NO" || CONTACT.NEWSLETTER == "SE" || CONTACT.NEWSLETTER == "DK"><#global COUNTRY_CODE = CONTACT.NEWSLETTER?upper_case?trim><#else><#global COUNTRY_CODE = "ROW"></#if>
+<#else><#global COUNTRY_CODE = "ROW">
+</#if>
+
+<#-- CUSTOMER_COUNTRY --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case><#case "row"><#global CUSTOMER_COUNTRY = "ROW"><#break><#case "uk"><#global CUSTOMER_COUNTRY = "UK"><#break><#case "no"><#global CUSTOMER_COUNTRY = "NO"><#break><#case "se"><#global CUSTOMER_COUNTRY = "SE"><#break><#case "dk"><#global CUSTOMER_COUNTRY = "DK"><#break><#case "fi"><#global CUSTOMER_COUNTRY = "FI"><#break><#default><#global CUSTOMER_COUNTRY = "ROW"></#switch></#compress></#join>
+
+<#-- MARKET --><#if !CUSTOMER_COUNTRY?isnull><#global MARKET = CUSTOMER_COUNTRY><#else><#global MARKET = "ROW"></#if>
+<#-- Load all the static information needed -->
+<#data FRAMEWORK_STATIC_1_COL as STATIC>
+	<#filter STATIC_MARKET = MARKET>
+	<#fields STATIC_LOGO_TEXT STATIC_LOGO_URL STATIC_UNSUBSCRIBE_TEXT STATIC_WEBVERSION_TEXT STATIC_PRIVACY_TEXT STATIC_CONTACT_TEXT STATIC_SETTINGS_TEXT STATIC_DAYS_TO_TAKEOFF>
+<#global LOGO_TEXT = STATIC.STATIC_LOGO_TEXT>
+	<#global LOGO_URL = STATIC.STATIC_LOGO_URL>
+	<#global UNSUBSCRIBE_TEXT = STATIC.STATIC_UNSUBSCRIBE_TEXT>
+	<#global WEBVERSION_TEXT = STATIC.STATIC_WEBVERSION_TEXT>
+<#global PRIVACY_TEXT = STATIC.STATIC_PRIVACY_TEXT>
+<#global CONTACT_TEXT = STATIC.STATIC_CONTACT_TEXT>
+<#global SETTINGS_TEXT = STATIC.STATIC_SETTINGS_TEXT>
+<#global DAYS_TO_TAKEOFF = STATIC.STATIC_DAYS_TO_TAKEOFF>
+</#data>
+
+<#-- SETTINGS_FOOTER --><#join><#compress><#switch MARKET>
+<#case "NO"><#global SETTINGS_FOOTER ="https://www.norwegian.no/ssl/mine-reiser/"><#break>
+<#case "SE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/se/mina-resor/"><#break>
+<#case "DK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/dk/mine-rejser/"><#break>
+<#case "FR"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/fr/mes-voyages/"><#break>
+<#case "NL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/nl/my-travels/"><#break>
+<#case "IT"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/it/i-miei-viaggi/"><#break>
+<#case "FI"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/fi/minun-matkani/"><#break>
+<#case "DE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/de/meine-reisen/"><#break>
+<#case "US"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/us/my-travels/"><#break>
+<#case "IE"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/ie/my-travels/"><#break>
+<#--<#case "SG"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/sg/my-travels/"><#break>-->
+<#case "UK"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/uk/my-travels/"><#break>
+<#case "ES"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/es/mis-viajes/"><#break>
+<#case "PL"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/pl/moje-podroze/"><#break>
+<#case "ROW"><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/"><#break>
+<#default><#global SETTINGS_FOOTER ="https://www.norwegian.com/ssl/en/my-travels/">
+</#switch></#compress></#join>
+
+<#-- PERSONAL_INFORMATION --><#join><#compress><#switch MARKET>
+<#case "NO"><#global PERSONAL_INFORMATION ="https://www.norwegian.no/booking/bestillingsinformasjon/regler-og-vilkar/personvern/"><#break>
+<#case "SE"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/regler-och-villkor/sekretesspolicy/"><#break>
+<#case "DK"><#global PERSONAL_INFORMATION ="http://www.norwegian.com/dk/booking/bookingoplysninger/juridisk/politik-om-beskyttelse-af-personlige-oplysninger/"><#break>
+<#case "FR"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/dispositions-legales/politique-de-confidentialite/"><#break>
+<#case "NL"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/nl/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "IT"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/it/prenotazione/informazioni-utili/aspetti-legali/tutela-della-privacy/"><#break>
+<#case "FI"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/oikeudelliset-tiedot/tietosuojakaytanto/"><#break>
+<#case "DE"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/de/buchung/buchungsinformationen/rechtliches/datenschutzrichtlinien/"><#break>
+<#case "US"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/us/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "IE"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/ie/booking/booking-information/legal/privacy-policy/"><#break>
+<#--<#case "SG"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/sg/booking/booking-information/legal/privacy-policy/"><#break>-->
+<#case "UK"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/uk/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "ES"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/aspectos-juridicos/politica-de-privacidad/"><#break>
+<#case "PL"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/kwestie-prawne/polityka-prywatnosci/"><#break>
+<#case "ROW"><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/"><#break>
+<#default><#global PERSONAL_INFORMATION ="https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/">
+</#switch></#compress></#join>
+
+
+<#-- FACEBOOK_URL --><#join><#compress><#switch MARKET><#case 'NO'><#global FACEBOOK_URL = "https://www.facebook.com/flynorwegian"><#break><#case 'SE'><#global FACEBOOK_URL = "https://www.facebook.com/NorwegianSverige"><#break><#case 'DK'><#global FACEBOOK_URL = "https://www.facebook.com/NorwegianDanmark"><#break><#default><#global FACEBOOK_URL = "https://www.facebook.com/flynorwegian"></#switch></#compress></#join>
+
+
+
+
+
+<#-- LOW_FARE --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global LOW_FARE = "https://www.norwegian.no/booking/fly/lavpriskalender/"><#break>
+<#case "uk"><#global LOW_FARE = "http://www.norwegian.com/uk/booking/flight-tickets/"><#break>
+<#case "se"><#global LOW_FARE = "https://www.norwegian.com/se/bokning/flyg/lagpriskalender/"><#break>
+<#case "dk"><#global LOW_FARE = "https://www.norwegian.com/dk/booking/fly/lavpriskalender/"><#break>
+<#case "fi"><#global LOW_FARE = "https://www.norwegian.com/fi/varaus/varaa-lento/tarjouslentojen-hintakalenteri/"><#break>
+<#default><#global LOW_FARE = "http://www.norwegian.com/en/booking/flight-tickets/"></#switch></#compress></#join>
+
+<#-- HOMEPAGE_URL --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global HOMEPAGE_URL = "https://www.norwegian.no/"><#break>
+<#case "uk"><#global HOMEPAGE_URL = "https://www.norwegian.com/uk"><#break>
+<#case "se"><#global HOMEPAGE_URL = "https://www.norwegian.com/se/"><#break>
+<#case "dk"><#global HOMEPAGE_URL = "https://www.norwegian.com/dk/"><#break>
+<#case "fi"><#global HOMEPAGE_URL = "https://www.norwegian.com/fi/"><#break>
+<#default><#global HOMEPAGE_URL = "https://www.norwegian.com/en/"></#switch></#compress></#join>
+
+<#-- CHANGEABLE --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/no"><#break>
+<#case "uk"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/uk/"><#break>
+<#case "se"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/se"><#break>
+<#case "dk"><#global CHANGEABLEL = "https://corporate.norwegian.no/ssl/dk"><#break>
+<#case "fi"><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/fi"><#break>
+<#default><#global CHANGEABLE = "https://corporate.norwegian.no/ssl/en"></#switch></#compress></#join>
+
+<#-- CONTACT_FOOTER --><#join><#compress><#switch COUNTRY_CODE?trim?lower_case>
+<#case "no"><#global CONTACT_FOOTER = "https://www.norwegian.no/hjelp-og-kontakt/"><#break>
+<#case "uk"><#global CONTACT_FOOTER = "http://www.norwegian.com/uk/help-contact/"><#break>
+<#case "se"><#global CONTACT_FOOTER = "http://www.norwegian.com/se/hjalp-och-kontakt/"><#break>
+<#case "dk"><#global CONTACT_FOOTER = "http://www.norwegian.com/dk/hjaelp-og-kontakt/"><#break>
+<#case "fi"><#global CONTACT_FOOTER = "https://www.norwegian.com/fi/ohjeet-ja-yhteystiedot/"><#break>
+<#default><#global CONTACT_FOOTER = "https://www.norwegian.com/en/help-and-contact/"></#switch></#compress></#join>
+
+<#-- HOMEPAGE_URL_PART --><#join><#compress><#switch MARKET>
+    <#case "NO"><#global HOMEPAGE_URL_PART ="https://www.norwegian.no/"><#break>
+    <#case "ROW"><#global HOMEPAGE_URL_PART ="https://www.norwegian.com/en/"><#break>
+    <#default><#global HOMEPAGE_URL_PART ="https://www.norwegian.com/" + MARKET?lower_case + "/">
+    </#switch></#compress></#join>
+
+<#-- AGENT_PORTAL_URL_PART --><#join><#compress><#switch MARKET>
+    <#case "NO"><#global AGENT_PORTAL_URL_PART ="https://agent.norwegian.com/no/"><#break>
+    <#case "ROW"><#global AGENT_PORTAL_URL_PART ="https://agent.norwegian.com/uk/"><#break>
+    <#default><#global AGENT_PORTAL_URL_PART ="https://agent.norwegian.com/" + MARKET?lower_case + "/">
+    </#switch></#compress></#join>
+
+<#-- CORP_PORTAL_URL_PART --><#join><#compress><#switch MARKET>
+    <#case "NO"><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/no/"><#break>
+    <#case "ROW"><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/uk/"><#break>
+    <#default><#global CORP_PORTAL_URL_PART ="https://corporate.norwegian.no/" + MARKET?lower_case + "/">
+    </#switch></#compress></#join>
+
+<#-- UNSUBSCRIBE_VAR in datasources because <#global UNSUBSCRIBE_VAR =form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')> did not work
+Uses this in datasources ${form('Agent_OptOut', 'EMAIL_ADDRESS_', 'CONTACT.RIID_')}
+-->
