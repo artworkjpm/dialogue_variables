@@ -1,0 +1,34 @@
+<#assign CANCELLED_ROUTES = [{"departure":"MAD", "destination":"FLL", "canceldate":"Oct 01, 2018", "reopendate":""}, {"departure":"BCN", "destination":"FLL", "canceldate":"Oct 01, 2018", "reopendate":""}, {"departure":"FLL", "destination":"MAD", "canceldate":"Oct 01, 2018", "reopendate":""}, {"departure":"JFK", "destination":"MAD", "canceldate":"Mar 26, 2020", "reopendate":""}, {"departure":"MAD", "destination":"JFK", "canceldate":"Mar 26, 2020", "reopendate":""}, {"departure":"FLL", "destination":"BCN", "canceldate":"Oct 01, 2018", "reopendate":""}, {"departure":"EWR", "destination":"ORY", "canceldate":"Jan 10, 2019", "reopendate":""}, {"departure":"ORY", "destination":"EWR", "canceldate":"Jan 10, 2019", "reopendate":""}, {"departure":"FCO", "destination":"LAX", "canceldate":"Jan 10, 2019", "reopendate":"Mar 31, 2019"}, {"departure":"LAX", "destination":"FCO", "canceldate":"Jan 10, 2019", "reopendate":"Mar 31, 2019"}, {"departure":"MJV", "destination":"OSL", "canceldate":"Jan 12, 2019", "reopendate":""}, {"departure":"OSL", "destination":"MJV", "canceldate":"Jan 12, 2019", "reopendate":""}, {"departure":"LGW", "destination":"OAK", "canceldate":"Mar 31, 2019", "reopendate":""}, {"departure":"LGW", "destination":"FLL", "canceldate":"Mar 31, 2019", "reopendate":""}, {"departure":"OAK", "destination":"LGW", "canceldate":"Mar 31, 2019", "reopendate":""}, {"departure":"FLL", "destination":"LGW", "canceldate":"Mar 31, 2019", "reopendate":""}, {"departure":"PTP", "destination":"JFK", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"JFK", "destination":"PTP", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"FLL", "destination":"PTP", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"PTP", "destination":"FLL", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"YUL", "destination":"PTP", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"PTP", "destination":"YUL", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"CAY", "destination":"PTP", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"PTP", "destination":"CAY", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"JFK", "destination":"FDF", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"FDF", "destination":"JFK", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"FLL", "destination":"FDF", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"FDF", "destination":"FLL", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"CAY", "destination":"FDF", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"FDF", "destination":"CAY", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"YUL", "destination":"FDF", "canceldate":"Mar 30, 2019", "reopendate":""}, {"departure":"FDF", "destination":"YUL", "canceldate":"Mar 30, 2019", "reopendate":""}]>
+
+
+<#list CANCELLED_ROUTES as i>
+    <#global LEG_DEPARTURE_TIME= SQL_GLOBAL.LEG_DEPARTURE_TIME?date><#global LEG_ARRIVAL_TIME= SQL_GLOBAL.LEG_ARRIVAL_DATE?date><#global LEG_ORIGIN_IATA= SQL_GLOBAL.ORIGIN_LEG><#global LEG_DESTINATION_IATA= SQL_GLOBAL.DESTINATION_LEG>
+		<#if ROUTE_CANCELLED_IS_SET == 0>
+    		<#if i.departure == LEG_ORIGIN_IATA && i.destination == LEG_DESTINATION_IATA>
+                <#if i.reopendate?isnull>
+        			<#if i.canceldate?date lte LEG_DEPARTURE_TIME?date>
+                        <#if campaign.name == 'DEBUG_E_LHP_1DA'><span style="color:green"><#assign LEG_CNCL_DATE = i.canceldate?date?string("dd.MM.yyyy")><strong>${i.departure}-${i.destination}</strong> is cancelled from ${i.canceldate?date?string("dd.MM.yyyy")} 
+                        	<#if !i.reopendate?isnull> to ${i.reopendate?date?string("dd.MM.yyyy")}
+                    		</#if> / ${LEG_ORIGIN_IATA}/${LEG_DESTINATION_IATA}: LEG_DEPARTURE_TIME: ${LEG_DEPARTURE_TIME?date?string("dd.MM.yyyy")}<br></span>
+                        </#if><#assign ROUTE_CANCELLED_YN = "Y"><#assign LEG_REOPEN_DATE = "Leg do not have a reopen date"><#assign REASON = 'Modules skipped. Reason: Route ' + i.departure + '-' + i.destination + ' is cancelled from ' + i.canceldate?date?string("dd.MM.yyyy")><#skip REASON>
+                        <#if campaign.name == 'DEBUG_E_LHP_1DA'><span style="color:green">ROUTE_CANCELLED_YN: ${ROUTE_CANCELLED_YN}<br></span>
+                        </#if><#assign ROUTE_CANCELLED_IS_SET = 1>
+        			</#if>
+    			<#else>
+        			<#if i.canceldate?date lte LEG_DEPARTURE_TIME?date && i.reopendate?date gte LEG_DEPARTURE_TIME?date>
+                        <#if campaign.name == 'DEBUG_E_LHP_1DA'><#assign LEG_CNCL_DATE = i.canceldate?date?string("dd.MM.yyyy")><#assign LEG_REOPEN_DATE = i.reopendate?date?string("dd.MM.yyyy")><span style="color:red"><strong>${i.departure}-${i.destination}</strong> is cancelled from ${i.canceldate?date?string("dd.MM.yyyy")} 
+                    		<#if !i.reopendate?isnull> to ${i.reopendate?date?string("dd.MM.yyyy")}
+                    		</#if> / ${LEG_ORIGIN_IATA}/${LEG_DESTINATION_IATA}: LEG_DEPARTURE_TIME: ${LEG_DEPARTURE_TIME?date?string("dd.MM.yyyy")}<br></span>
+                        </#if><#assign ROUTE_CANCELLED_YN = "Y"><#assign REASON = 'Modules skipped. Reason: Route ' + i.departure + '-' + i.destination + ' is cancelled between ' + i.canceldate?date?string("dd.MM.yyyy") + ' and ' + i.reopendate?date?string("dd.MM.yyyy")><#skip REASON>
+                        <#if campaign.name == 'DEBUG_E_LHP_1DA'><span style="color:red">ROUTE_CANCELLED_YN: ${ROUTE_CANCELLED_YN}<br></span>
+                        </#if><#assign ROUTE_CANCELLED_IS_SET = 1>
+        			</#if>
+    			</#if><#else><#assign LEG_CNCL_DATE = "Leg is not cancelled"><#assign LEG_REOPEN_DATE = "Leg is not cancelled, no need for a reopen date">
+    		</#if>
+		</#if>
+</#list>
+
+
+<#if campaign.name == 'DEBUG_E_LHP_1DA'>ROUTE_CANCELLED_YN: ${ROUTE_CANCELLED_YN}<br><strong>${LEG_ORIGIN_IATA}-${LEG_DESTINATION_IATA}:</strong> LEG_DEPARTURE_TIME: ${SQL_GLOBAL.LEG_DEPARTURE_TIME?date?string("dd.MM.yyyy")}<br>LEG_CNCL_DATE: ${LEG_CNCL_DATE}<br>LEG_REOPEN_DATE: ${LEG_REOPEN_DATE}</#if>
+
+
