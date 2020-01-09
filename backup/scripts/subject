@@ -1,0 +1,79 @@
+<#-- ////////////////////////////// DESTINATION_NAME /////////////////////////// -->
+
+    <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID_DV BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID_DV><#fields BOOKING_MAIN_DESTINATION BOOKING_LAST_DESTINATION BOOKING_ROUND_TRIP>
+    <#if SQL_GLOBAL.BOOKING_ROUND_TRIP?trim == "Y"><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_MAIN_DESTINATION?trim>
+    <#else><#global DESTINATION_IATA = SQL_GLOBAL.BOOKING_LAST_DESTINATION?trim>
+    </#if>
+    </#data>
+    
+    <#data MARKET_VARIABLES as MARKET_VARIABLES limit=1><#filter LANGUAGE_ID = LANGUAGEID?lower_case><#fields AIRPORT_LANGUAGE>
+    <#-- AIRPORT_LANG_LID --><#if !MARKET_VARIABLES.AIRPORT_LANGUAGE?isnull><#global AIRPORT_LANG_LID = MARKET_VARIABLES.AIRPORT_LANGUAGE?trim?upper_case><#else><#global AIRPORT_LANG_LID = "EN"></#if>
+    <#-- AIRPORT_LANG (with missing languageid fix) --><#if AIRPORT_LANG_LID?isnull><#global AIRPORT_LANG = "EN"><#else><#global AIRPORT_LANG = AIRPORT_LANG_LID?trim></#if>
+    </#data>
+
+	<#data AIRPORTS as AIRPORTS limit=1><#filter AIRPORTCODE_IATA = DESTINATION_IATA LANGUAGECODE = AIRPORT_LANG?upper_case?trim><#fields CITY DISPLAYNAME AIRPORTNAME><#if !AIRPORTS.CITY?isnull><#global DESTINATION_NAME = AIRPORTS.CITY?trim><#elseif !AIRPORTS.DISPLAYNAME?isnull><#global DESTINATION_NAME = AIRPORTS.DISPLAYNAME?trim><#else><#global DESTINATION_NAME = AIRPORTS.AIRPORTNAME></#if>
+    </#data>
+
+<#-- ////////////////////////////// Long Haul SEGMENTRULE /////////////////////////// -->
+<#if CAMPAIGN_TYPE == "DIALOGUE_LH">
+    <#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID_DV BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID_DV>
+<#fields BK_NO_OF_NOT_PREMIUM_ON_LH BOOKING_LONGHAUL PRODUCT_CODE BOOKING_NUMBER_OF_BAGS BOOKING_NUMBER_OF_SEATS BOOKING_NUMBER_OF_MEALS>
+<#if campaign.name == "E_LHP_NEWTRIP_ONEWAY" || campaign.name == "E_LHP_NEWTRIP_ROUND" || campaign.name == "E_LHP_RET_HOME"><#global SEGMENTRULE = "DEFAULT"><#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number == 0><#global SEGMENTRULE = "PREMIUM">
+<#elseif SQL_GLOBAL.PRODUCT_CODE == "FL"><#global SEGMENTRULE = "FLEX">
+<#elseif SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?number gt 0 || SQL_GLOBAL.BK_NO_OF_NOT_PREMIUM_ON_LH?isnull>
+    <#if campaign.name == "E_LHP_2DA" || campaign.name == "E_LHP_1DB" || campaign.name == "E_LHP_23DB" || campaign.name == "E_LHP_23DB_CHASER" || campaign.name == "E_LHP_NEWTRIP_ONEWAY" || campaign.name == "E_LHP_NEWTRIP_ROUND" || campaign.name == "E_LHP_RET_HOME"><#global SEGMENTRULE = "DEFAULT">
+    <#elseif campaign.name == "E_LHP_12DB" || campaign.name == "E_LHP_12DB_CHASER" || campaign.name == "E_LHP_4DB" || campaign.name == "E_LHP_5DA" || campaign.name == "E_LHP_7DB" || campaign.name == "E_LHP_7DB_CHASER" || campaign.name == "E_LHP_9DB" || campaign.name == "E_LHP_1DA">
+        <#if SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull || SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?isnull || SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS?isnull><#global SEGMENTRULE = "DEFAULT">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS gt 0><#global SEGMENTRULE = "HAS_MEAL_NO_SEAT_NO_BAG">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS == 0><#global SEGMENTRULE = "HAS_BAG_NO_SEAT_NO_MEAL">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS == 0><#global SEGMENTRULE = "HAS_SEAT_NO_BAG_NO_MEAL">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS gt 0><#global SEGMENTRULE = "HAS_BAG_NO_SEAT_HAS_MEAL">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS gt 0><#global SEGMENTRULE = "HAS_SEAT_NO_BAG_HAS_MEAL">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS == 0><#global SEGMENTRULE = "HAS_SEAT_HAS_BAG_NO_MEAL">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS gt 0><#global SEGMENTRULE = "ALL_ANC">
+        <#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_MEALS == 0><#global SEGMENTRULE = "NO_ANC">
+        
+        </#if>
+    </#if>
+<#else><#global SEGMENTRULE = "DEFAULT">
+</#if>
+	</#data>    
+</#if>
+
+
+
+<#-- ////////////////////////////// E_SH_2DA_B, E_SH_1DB_B, E_SH_6DB_B, E_SH_3DB_B, E_SH_3DB_CHASER_B SEGMENTRULE /////////////////////////// -->
+<#if campaign.name == "E_SH_2DA_A" || campaign.name == "E_SH_2DA_B" || campaign.name == "E_SH_1DB_B" || campaign.name == "E_SH_6DB_B" || campaign.name == "E_SH_3DB_B" || campaign.name == "E_SH_3DB_CHASER_B"><#data SQL_GLOBAL as SQL_GLOBAL limit=1><#filter BOOKING_GDSBOOKINGID = BOOKING_ID_DV BOOKING_LOCALBOOKINGID = LOCAL_BOOKING_ID_DV><#fields BOOKING_NUMBER_OF_BAGS BOOKING_NUMBER_OF_SEATS PRODUCT_CODE>
+<#if SQL_GLOBAL.PRODUCT_CODE != "FL">
+	<#if campaign.name == "E_SH_2DA_A" || campaign.name == "E_SH_2DA_B">
+        <#if SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?isnull || SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull><#global SEGMENTRULE = "DEFAULT">
+		<#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?number == 0 || SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number == 0><#global SEGMENTRULE = "SOME_OR_NONE">
+		<#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?number gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number gt 0><#global SEGMENTRULE = "ALL_ANC">
+		<#else><#global SEGMENTRULE = "DEFAULT">
+        </#if>
+    <#elseif campaign.name == "E_SH_1DB_B">
+         <#global SEGMENTRULE = "DEFAULT">
+    <#elseif campaign.name == "E_SH_6DB_B" || campaign.name == "E_SH_3DB_CHASER_B" || campaign.name == "E_SH_3DB_B">
+       	<#if SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?isnull || SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?isnull><#global SEGMENTRULE = "DEFAULT">
+       	<#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?number == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number == 0><#global SEGMENTRULE = "NO_ANC">
+   	 	<#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?number gt 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number == 0><#global SEGMENTRULE = "HAS_SEAT_NO_BAG">
+		<#elseif SQL_GLOBAL.BOOKING_NUMBER_OF_SEATS?number == 0 && SQL_GLOBAL.BOOKING_NUMBER_OF_BAGS?number gt 0><#global SEGMENTRULE = "HAS_BAG_NO_SEAT">
+		<#else><#global SEGMENTRULE = "DEFAULT">
+        </#if>  
+     
+    </#if>
+<#elseif SQL_GLOBAL.PRODUCT_CODE == "FL"><#global SEGMENTRULE = "HAS_FLEX">
+<#else><#global SEGMENTRULE = "DEFAULT">
+</#if>
+</#data></#if>
+
+<#if SEGMENTRULE?isnull><#global SEGMENTRULE = "DEFAULT"></#if>
+
+<#data CAMPAIGN_FRAMEWORK_1_COL as CAMPAIGN_SETTINGS limit=1>
+<#filter FRAMEWORK_MARKET=MARKET FRAMEWORK_CAMPAIGN=CAMPAIGN SETTINGS_SEGMENT_RULE=SEGMENTRULE?exec?trim>
+<#fields SETTINGS_SUBJECT>
+<#if !CAMPAIGN_SETTINGS.SETTINGS_SUBJECT?isnull>
+${CAMPAIGN_SETTINGS.SETTINGS_SUBJECT?exec}
+</#if>|
+</#data>
+
