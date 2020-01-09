@@ -1,0 +1,39 @@
+<#data SEGMENT as SEGMENT limit=1><#filter SEGMENT_RIID_ = RIID_><#fields SEGMENT_BOOKING_DATE SEGMENT_BOOKING_DEPARTURE_TIME SEGMENT_CAT SEGMENT_CHILDCHECK SEGMENT_EMAIL_ADDRESS_ SEGMENT_MES SEGMENT_RIID_ SEGMENT_SIXWEEKS>
+
+	<#--------------------------------------------------------------------------///////////////////////// HOLIDAY & WEEKEND SEGMENTS ///////////////////////// -------------------------------------------------------------------------->
+	<#if SEGMENT.SEGMENT_CAT?isnull><#global SEGMENTRULE = 'DEFAULT'>
+	<#-- SUN_AND_SEA_CHILDREN_Y -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'Sun&Sea' && SEGMENT.SEGMENT_CHILDCHECK == 'Children'><#global SEGMENTRULE = 'SUN_AND_SEA_CHILDREN_Y'>
+	<#-- SUN_AND_SEA_CHILDREN_N -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'Sun&Sea' && SEGMENT.SEGMENT_CHILDCHECK == 'NoChildren'><#global SEGMENTRULE = 'SUN_AND_SEA_CHILDREN_N'>
+	<#-- BIG_CITY_CHILDREN_Y -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'BigCity' && SEGMENT.SEGMENT_CHILDCHECK == 'Children'><#global SEGMENTRULE = 'BIG_CITY_CHILDREN_Y'>
+	<#-- BIG_CITY_CHILDREN_N -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'BigCity' && SEGMENT.SEGMENT_CHILDCHECK == 'NoChildren'><#global SEGMENTRULE = 'BIG_CITY_CHILDREN_N'>
+    
+    <#--------------------------------------------------------------------------///////////////////////// HOLIDAY SEGMENTS ONLY ///////////////////////// -------------------------------------------------------------------------->
+	<#-- SKI_AND_SNOW_CHILDREN_Y -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'Ski & snow' && SEGMENT.SEGMENT_CHILDCHECK == 'Children'><#global SEGMENTRULE = 'SKI_AND_SNOW_CHILDREN_Y'>
+	<#-- SKI_AND_SNOW_CHILDREN_N -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'Ski & snow' && SEGMENT.SEGMENT_CHILDCHECK == 'NoChildren'><#global SEGMENTRULE = 'SKI_AND_SNOW_CHILDREN_N'>
+	<#-- LONG_HAUL_CHILDREN_Y -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'LH' && SEGMENT.SEGMENT_CHILDCHECK == 'Children'><#global SEGMENTRULE = 'LONG_HAUL_CHILDREN_Y'>
+	<#-- LONG_HAUL_CHILDREN_N -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'LH' && SEGMENT.SEGMENT_CHILDCHECK == 'NoChildren'><#global SEGMENTRULE = 'LONG_HAUL_CHILDREN_N'>
+	<#-- SCANDINAVIA_CHILDREN_Y -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'Scandinavia' && SEGMENT.SEGMENT_CHILDCHECK == 'Children'><#global SEGMENTRULE = 'SCANDINAVIA_CHILDREN_Y'>
+	<#-- SCANDINAVIA_CHILDREN_N -->
+	<#elseif SEGMENT.SEGMENT_CAT == 'Scandinavia' && SEGMENT.SEGMENT_CHILDCHECK == 'NoChildren'><#global SEGMENTRULE = 'SCANDINAVIA_CHILDREN_N'>
+	<#else><#global SEGMENTRULE = 'DEFAULT'>
+	</#if>
+<#-- CHILDREN_YN -->
+<#if SEGMENT.SEGMENT_CHILDCHECK?isnull || SEGMENT.SEGMENT_CHILDCHECK == 'NoChildren'><#global CHILDREN_YN = 'N'>
+    <#elseif SEGMENT.SEGMENT_CHILDCHECK == 'Children'><#global CHILDREN_YN = 'Y'>
+    <#else><#global CHILDREN_YN = 'N'>
+    </#if>
+<#--TEST variables <br>
+Segment category: ${SEGMENT.SEGMENT_CAT}<br>
+Segment childcheck: ${SEGMENT.SEGMENT_CHILDCHECK}<br> -->
+</#data>
+<#if SEGMENTRULE?isnull><#assign SEGMENTRULE = 'DEFAULT'></#if>
+<!-- <hr>SEGMENTRULE: ${SEGMENTRULE?exec}<br>TEMPLATE: ${TEMPLATE}<hr> -->
