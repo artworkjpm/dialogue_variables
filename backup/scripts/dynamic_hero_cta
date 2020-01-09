@@ -1,0 +1,27 @@
+<#-- use SOME_OR_NONE_ANC_DEEPLINK in dialogue variables to change the url of the button. 20/07/18 JM -->
+
+<#join><#compress><#switch MARKET>
+        <#case "SE">
+		<#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Boka sittplats
+		<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Förbeställ måltid
+		<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Lägg till bagage
+		<#else>Gå till bokning
+		</#if><#break>
+		<#case "FI"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Varaa paikkasi<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Tilaa ateria ennakkoon<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Lisää matkatavara<#else>Siirry varaukseen</#if><#break>
+        <#case "DK"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reservér dit sæde<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Bestil mad på forhånd<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Tilføj bagage<#else>Gå til reservation</#if><#break>
+        <#case "ES"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserva tu asiento<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Reserva tu comida<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Añadir maleta<#else>Ir a reservas</#if><#break>
+        <#case "IT"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Prenota il posto a sedere<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Preordina il tuo pasto a bordo<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Aggiungi bagagli<#else>Vai alla prenotazione</#if><#break>
+        <#case "US"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage<#else>Go to booking</#if><#break>
+        <#case "UK"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage<#else>Go to booking</#if><#break>
+        <#case "EN-CA"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage<#else>Go to booking</#if><#break>
+        <#case "FR"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Réservez votre siège<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Commander un repas<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Ajouter un bagage<#else>Voir la réservation</#if><#break>
+        <#case "FR-CA"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Réservez votre siège<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Commander un repas<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Ajouter un bagage<#else>Voir la réservation</#if><#break>
+        <#case "DE"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Sitzplatz reservieren<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Mahlzeit vorbestellen<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Gepäckstück hinzufügen<#else>Buchung abrufen</#if><#break>
+        <#case "NL"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage<#else>Go to booking</#if><#break>
+        <#case "PL"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Zarezerwuj miejsce<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Zamów posiłek<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Dodaj bagaż<#else>Przejdź do rezerwacji</#if><#break>
+        <#--<#case "SG"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage<#else>Go to booking</#if><#break>-->
+        <#case "IE"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage<#else>Go to booking</#if><#break>
+        <#case "AR"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reservá tu asiento<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Reservá tu comida<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Sumar valija<#else>Ir a la reserva</#if><#break>
+        <#case "BR"><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve seu lugar<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Encomende sua refeição com antecedência<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Adicionar bagagem<#else>Ir para as reservas</#if><#break>
+        <#default><#if TESTING_BOOKING_NUMBER_OF_SEATS?number == 0>Reserve your seat<#elseif TESTING_BOOKING_NUMBER_OF_MEALS?number == 0 && MEAL_AVAILABLE == "Y">Pre-order meal<#elseif TESTING_BOOKING_NUMBER_OF_BAGS?number == 0>Add baggage <#else>Go to booking</#if>
+            </#switch></#compress></#join>
