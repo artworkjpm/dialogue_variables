@@ -1,0 +1,604 @@
+<#-- Copy code to include: <#include "cms://contentlibrary/!framework/global_variables/newsletter_variables_a_segmented_v2.htm"> -->
+
+<#-- Added 04-10-2019: The option to change the bacground color from grey to white. This field needs to be added as a custom variable in the Datasource: CAMPAIGN_BCG_COLOR. If left with no value, the background will continue to stay grey. But by adding White as a value, the background changes to white for the header section and all modules included in the campaign. The footer part is not affected, and will stay gray. -->
+<#attempt><#if CAMPAIGN_BCG_COLOR?lower_case == "white"><#assign CAMPAIGN_BCG_CLR = "#fffffe"><#else><#assign CAMPAIGN_BCG_CLR = "#f1f1f1"></#if>
+    <#recover>
+    <#assign CAMPAIGN_BCG_CLR = "#f1f1f1">
+    </#attempt>
+
+<#-- PRICELIST_DISCLAIMER --><#global PRICELIST_DISCLAIMER = []>
+
+<#-- Load all the static information needed -->
+<#data FRAMEWORK_STATIC_1_COL as STATIC>
+	<#filter STATIC_MARKET = MARKET>
+	<#fields STATIC_LOGO_TEXT STATIC_LOGO_URL STATIC_UNSUBSCRIBE_TEXT STATIC_WEBVERSION_TEXT STATIC_PRIVACY_TEXT STATIC_PRIVACY_URL STATIC_CONTACT_TEXT STATIC_CONTACT_URL STATIC_SETTINGS_TEXT STATIC_SETTINGS_URL STATIC_DAYS_TO_TAKEOFF>
+<#global LOGO_TEXT = STATIC.STATIC_LOGO_TEXT>
+	<#global LOGO_URL = STATIC.STATIC_LOGO_URL>
+	<#global UNSUBSCRIBE_TEXT = STATIC.STATIC_UNSUBSCRIBE_TEXT>
+	<#global WEBVERSION_TEXT = STATIC.STATIC_WEBVERSION_TEXT>
+<#global PRIVACY_TEXT = STATIC.STATIC_PRIVACY_TEXT>
+<#global PRIVACY_URL = STATIC.STATIC_PRIVACY_URL>
+<#global CONTACT_TEXT = STATIC.STATIC_CONTACT_TEXT>
+<#global CONTACT_URL = STATIC.STATIC_CONTACT_URL>
+<#global SETTINGS_TEXT = STATIC.STATIC_SETTINGS_TEXT>
+<#global SETTINGS_URL = STATIC.STATIC_SETTINGS_URL>
+<#global DAYS_TO_TAKEOFF = STATIC.STATIC_DAYS_TO_TAKEOFF>
+</#data>
+
+<#-- setting module default states -->
+<#global HERO_SHOW_DEFAULT = 1>
+<#global PRICELIST_SHOW_DEFAULT = 1>
+<#global PROMOLIST_SHOW_DEFAULT = 1>
+<#global MANUAL_PRICELIST_SHOW_DEFAULT = 1>
+<#global PROMO_MAN_SHOW_DEFAULT = 1>
+<#global ARTICLE_SHOW_DEFAULT = 1>
+<#global ARTICLE_LARGE_SHOW_DEFAULT = 1>
+<#global BANNER_SHOW_DEFAULT = 1>
+<#global BULLETPOINTS_SHOW_DEFAULT = 1>
+<#global TEXT_SHOW_DEFAULT = 1>
+<#global SEARCH_SHOW_DEFAULT = 1>
+
+<#-- Booking information -->
+<#setting time_zone='US/Pacific-New'>
+
+<#--/////////////NOTES START/////////////////-->
+<#-- Here we make a list of the most popular destinations, based on web search, for each market. Those IATA will have their own special hero image, while the rest will have a default image.-->
+
+<#--/////////////NOTES END/////////////////-->
+
+<#-- we need AIR_HAS_IMG to be "N" FIRST-->
+<#global AIR_HAS_IMG = "N">
+
+
+
+<#-- we need AIR_HAS_IMG to be "N" FIRST-->
+<#global AIR_HAS_IMG = "N">
+
+<#-- CAMPAIGN_TEMPLATE SUP TABLE -->
+<#assign MODULE_IS_SET = 'N'>
+<#global SEGMENTED_MODULES = []>
+<#data CAMPAIGN_TEMPLATE as CAMPAIGN_TEMPLATE>
+<#filter TEMPLATE_NAME=TEMPLATE>
+<#fields TEMPLATE_MODULE>
+<#if !SEGMENTED_MODULES?seq_contains(CAMPAIGN_TEMPLATE.TEMPLATE_MODULE?upper_case)><#global SEGMENTED_MODULES = SEGMENTED_MODULES + [CAMPAIGN_TEMPLATE.TEMPLATE_MODULE?upper_case]>
+</#if>
+</#data>
+<#assign SEGMENT_HERO_IMG_IS_SET = 'N'>
+<#assign SEGMENT_ARTICLE_LARGE_IMG_IS_SET = 'N'>
+<#assign SEGMENT_ARTICLE_IMG_IS_SET = 'N'>
+<#assign SEGMENT_BANNER_IMG_IS_SET = 'N'>
+<#assign SEGMENTED_IATA_HERO_IS_SET = 'N'>
+<#assign SEGMENTED_IATA_ARTICLE_IS_SET = 'N'>
+<#assign SEGMENTED_IATA_ARTICLE_LARGE_IS_SET = 'N'>
+<#assign SEGMENTED_IATA_BANNER_IS_SET = 'N'>
+<#assign SEGMENT_IMG_MODULE = []>
+<#assign SEGMENTED_MODULES = SEGMENTED_MODULES?join(",")>
+<#assign ALL_CONTENT_IS_SET = 'N'>
+
+<#-- //////////////////////// SEGMENTATION_1_COL SUP TABLE ///////////////////////////////////-->
+<#-- SEGMENTED IMAGE is set to be equal to SEGMENTED_IMAGE_HERO, SEGMENTED_IMAGE_ARTICLE, SEGMENTED_IMAGE_ARTICLE_LARGE and SEGMENTED_IMAGE_BANNER in their respective module wrapper, in order for Malaga to use only one variable name, regardless of module -->
+<#if campaign.name == 'TEST_SEGMENTAION_BW'><#include "cms://contentlibrary/!framework/global_variables/test_html/segmentation_1_col_script.htm"><#else><#if ALL_CONTENT_IS_SET == 'N'><#data SEGMENTATION_1_COL as SEGMENTATION_1_COL><#filter SEGMENTATION_CAMPAIGN = CAMPAIGN SEGMENTATION_MODULE = SEGMENTED_MODULES?split(",") SEGMENTATION_MARKET = MARKET><#fields SEGMENTATION_ID SEGMENTATION_CAMPAIGN SEGMENTATION_MARKET SEGMENTATION_MODULE SEGMENTATION_CATEGORY SEGMENTATION_COUNTRYCODE SEGMENTATION_IATA SEGMENTATION_ID SEGMENTATION_IMG SEGMENTATION_IMG_SWAP SEGMENTATION_MARKET SEGMENTATION_MODULE SEGMENTATION_URL SEGMENTATION_HEADING SEGMENTATION_INTRO SEGMENTATION_PARAGRAPH>
+	<#data TEST_AUD as TEST_AUD><#filter AUDIENCE_RIID_ = RIID_> <#fields AUDIENCE_DESTINATION_IATA AUDIENCE_RIID_ AUDIENCE_MARKET>
+    
+    
+    <#global AUDIENCE_DESTINATION_IATA = TEST_AUD.AUDIENCE_DESTINATION_IATA><#global AUDIENCE_MARKET = TEST_AUD.AUDIENCE_MARKET><#global AUDIENCE_RIID_ = TEST_AUD.AUDIENCE_RIID_><#if ALL_CONTENT_IS_SET == 'N'>
+    	<#if SEGMENTATION_1_COL.SEGMENTATION_IATA == AUDIENCE_DESTINATION_IATA>
+            <#if SEGMENTATION_1_COL.SEGMENTATION_IMG?contains('http')>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO">
+                    
+                        <#if SEGMENT_HERO_IMG_IS_SET == 'N' || SEGMENTED_IATA_HERO_IS_SET == 'N'><#global SEGMENTED_IMAGE_HERO = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_HERO = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_HERO = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_HERO = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_HERO = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_HERO_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_HERO_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE">
+                    
+                        <#if SEGMENT_ARTICLE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_ARTICLE_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_ARTICLE_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE">
+                   
+                        <#if SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_ARTICLE_LARGE_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_ARTICLE_LARGE_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER">
+                    
+                        <#if SEGMENT_BANNER_IMG_IS_SET == 'N' || SEGMENTED_IATA_BANNER_IS_SET == 'N'><#global SEGMENTED_IMAGE_BANNER = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_BANNER = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_BANNER = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_BANNER = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_BANNER = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_BANNER_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_BANNER_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+            <#else>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO">
+                    
+                        <#if SEGMENT_HERO_IMG_IS_SET == 'N' || SEGMENTED_IATA_HERO_IS_SET == 'N'><#global SEGMENTED_IMAGE_HERO = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_HERO = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_HERO = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_HERO = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_HERO = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_HERO_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_HERO_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE">
+                    
+                        <#if SEGMENT_ARTICLE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_ARTICLE_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_ARTICLE_IS_SET = 'Y'>
+                        </#if>
+                   
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE">
+                    
+                        <#if SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE_LARGE = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_ARTICLE_LARGE_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_ARTICLE_LARGE_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER">
+                   
+                        <#if SEGMENT_BANNER_IMG_IS_SET == 'N' || SEGMENTED_IATA_BANNER_IS_SET == 'N'><#global SEGMENTED_IMAGE_BANNER = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_BANNER = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_BANNER = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_BANNER = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_BANNER = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH><#assign SEGMENT_BANNER_IMG_IS_SET = 'Y'><#assign SEGMENTED_IATA_BANNER_IS_SET = 'Y'>
+                        </#if>
+                    
+                </#if>
+            </#if>        
+        <#elseif SEGMENTATION_1_COL.SEGMENTATION_IATA = 'DEFAULT'>
+              <#if SEGMENTATION_1_COL.SEGMENTATION_IMG?contains('http')>
+                 <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO"><#assign HERO_FALLBACK_IMG = SEGMENTATION_1_COL.SEGMENTATION_IMG>
+                 <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE"><#assign ARTICLE_FALLBACK_IMG = SEGMENTATION_1_COL.SEGMENTATION_IMG>
+                 <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE"><#assign ARTICLE_LARGE_FALLBACK_IMG = SEGMENTATION_1_COL.SEGMENTATION_IMG>
+                 <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER"><#assign BANNER_FALLBACK_IMG = SEGMENTATION_1_COL.SEGMENTATION_IMG></#if>
+             <#else>
+                 <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO"><#assign HERO_FALLBACK_IMG = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG>
+                 <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE"><#assign ARTICLE_FALLBACK_IMG = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG>
+                  <#assign ARTICLE_LARGE_FALLBACK_IMG = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG>
+                 <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER"><#assign BANNER_FALLBACK_IMG = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG></#if>
+             </#if>
+            <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO">
+                <#assign HERO_FALLBACK_PARAGRAPH = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+            	<#assign HERO_FALLBACK_HEADING = SEGMENTATION_1_COL.SEGMENTATION_HEADING>
+            	<#assign HERO_FALLBACK_INTRO = SEGMENTATION_1_COL.SEGMENTATION_INTRO>
+            <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE">
+               <#assign ARTICLE_FALLBACK_HEADING = SEGMENTATION_1_COL.SEGMENTATION_HEADING>
+               <#assign ARTICLE_FALLBACK_URL = SEGMENTATION_1_COL.SEGMENTATION_URL>
+               <#assign ARTICLE_FALLBACK_INTRO = SEGMENTATION_1_COL.SEGMENTATION_INTRO>
+               <#assign ARTICLE_FALLBACK_PARAGRAPH = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+           <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE">
+               <#assign ARTICLE_LARGE_FALLBACK_HEADING = SEGMENTATION_1_COL.SEGMENTATION_HEADING>
+               <#assign ARTICLE_LARGE_FALLBACK_URL = SEGMENTATION_1_COL.SEGMENTATION_URL>
+               <#assign ARTICLE_LARGE_FALLBACK_INTRO = SEGMENTATION_1_COL.SEGMENTATION_INTRO>
+               <#assign ARTICLE_LARGE_FALLBACK_PARAGRAPH = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+           <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER">
+               <#assign BANNER_FALLBACK_HEADING = SEGMENTATION_1_COL.SEGMENTATION_HEADING>
+               <#assign BANNER_FALLBACK_URL = SEGMENTATION_1_COL.SEGMENTATION_URL>
+               <#assign BANNER_FALLBACK_INTRO = SEGMENTATION_1_COL.SEGMENTATION_INTRO>
+               <#assign BANNER_FALLBACK_PARAGRAPH = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+           </#if>
+            <#if SEGMENTATION_1_COL.SEGMENTATION_IMG?contains('http')>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO">
+                    <#if SEGMENT_HERO_IMG_IS_SET == 'N' || SEGMENTED_IATA_HERO_IS_SET == 'N'><#global SEGMENTED_IMAGE_HERO = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_HERO = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_HERO = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_HERO = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_HERO = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH></#if>
+                    
+                </#if>
+            	<#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE">
+                	<#if SEGMENT_ARTICLE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                	</#if>
+            	</#if>
+            	<#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE">
+                	<#if SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                	</#if>
+            	</#if>
+            	<#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER">
+                	<#if SEGMENT_BANNER_IMG_IS_SET == 'N' || SEGMENTED_IATA_BANNER_IS_SET == 'N'><#global SEGMENTED_IMAGE_BANNER = SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_BANNER = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_BANNER = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_BANNER = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_BANNER = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                	</#if>
+            	</#if>
+            <#else>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO">
+                    <#if SEGMENT_HERO_IMG_IS_SET == 'N' || SEGMENTED_IATA_HERO_IS_SET == 'N'><#global SEGMENTED_IMAGE_HERO = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_HERO = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_HERO = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_HERO = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_HERO = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                    </#if>
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE">
+                    <#if SEGMENT_ARTICLE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                    </#if>
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE">
+                    <#if SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE_LARGE = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE_LARGE = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                    </#if>
+                </#if>
+                <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER">
+                    <#if SEGMENT_BANNER_IMG_IS_SET == 'N' || SEGMENTED_IATA_BANNER_IS_SET == 'N'><#global SEGMENTED_IMAGE_BANNER = 'https://static.cdn.responsys.net/i2/responsysimages/nas' + SEGMENTATION_1_COL.SEGMENTATION_IMG><#global SEGMENTED_HEADING_BANNER = SEGMENTATION_1_COL.SEGMENTATION_HEADING><#global SEGMENTED_URL_BANNER = SEGMENTATION_1_COL.SEGMENTATION_URL><#global SEGMENTED_INTRO_BANNER = SEGMENTATION_1_COL.SEGMENTATION_INTRO><#global SEGMENTED_PARAGRAPH_BANNER = SEGMENTATION_1_COL.SEGMENTATION_PARAGRAPH>
+                    </#if>
+                </#if>
+            </#if>
+        <#else>
+        <#if SEGMENTATION_1_COL.SEGMENTATION_MODULE == "HERO">
+            <#if SEGMENT_HERO_IMG_IS_SET == 'N' || SEGMENTED_IATA_HERO_IS_SET == 'N'><#global SEGMENTED_IMAGE_HERO = HERO_FALLBACK_IMG><#global SEGMENTED_HEADING_HERO = HERO_FALLBACK_HEADING><#global SEGMENTED_INTRO_HERO = HERO_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_HERO = HERO_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_HERO = HERO_FALLBACK_URL></#if>
+            
+        <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE">
+            <#if SEGMENT_ARTICLE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE = ARTICLE_FALLBACK_IMG><#global SEGMENTED_HEADING_ARTICLE = ARTICLE_FALLBACK_HEADING><#global SEGMENTED_INTRO_ARTICLE = ARTICLE_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE = ARTICLE_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_ARTICLE = ARTICLE_FALLBACK_URL>
+            </#if>
+        <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "ARTICLE_LARGE">
+            <#if SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_IMG><#global SEGMENTED_HEADING_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_HEADING><#global SEGMENTED_INTRO_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_URL>
+            </#if>
+        <#elseif SEGMENTATION_1_COL.SEGMENTATION_MODULE == "BANNER">
+            <#if SEGMENT_BANNER_IMG_IS_SET == 'N' || SEGMENTED_IATA_BANNER_IS_SET == 'N'><#global SEGMENTED_IMAGE_BANNER = BANNER_FALLBACK_IMG><#global SEGMENTED_HEADING_BANNER = BANNER_FALLBACK_HEADING><#global SEGMENTED_INTRO_BANNER = BANNER_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_BANNER = BANNER_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_BANNER = BANNER_LARGE_FALLBACK_URL>
+            </#if>
+        <#else>
+            <#if SEGMENT_HERO_IMG_IS_SET == 'N' || SEGMENTED_IATA_HERO_IS_SET == 'N'><#global SEGMENTED_IMAGE_HERO = HERO_FALLBACK_IMG><#global SEGMENTED_IMAGE_HERO = HERO_FALLBACK_IMG><#global SEGMENTED_HEADING_HERO = HERO_FALLBACK_HEADING><#global SEGMENTED_INTRO_HERO = HERO_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_HERO = HERO_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_HERO = HERO_FALLBACK_URL>
+            </#if>
+            <#if SEGMENT_ARTICLE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE = ARTICLE_FALLBACK_IMG><#global SEGMENTED_HEADING_ARTICLE = ARTICLE_FALLBACK_HEADING><#global SEGMENTED_INTRO_ARTICLE = ARTICLE_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE = ARTICLE_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_ARTICLE = ARTICLE_FALLBACK_URL>
+            </#if>
+            <#if SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'N' || SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'N'><#global SEGMENTED_IMAGE_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_IMG><#global SEGMENTED_HEADING_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_HEADING><#global SEGMENTED_INTRO_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_ARTICLE_LARGE = ARTICLE_LARGE_FALLBACK_URL>
+            </#if>
+            <#if SEGMENT_BANNER_IMG_IS_SET == 'N' || SEGMENTED_IATA_BANNER_IS_SET == 'N'><#global SEGMENTED_IMAGE_BANNER = BANNER_FALLBACK_IMG><#global SEGMENTED_HEADING_BANNER = BANNER_FALLBACK_HEADING><#global SEGMENTED_INTRO_BANNER = BANNER_FALLBACK_INTRO><#global SEGMENTED_PARAGRAPH_BANNER = BANNER_FALLBACK_PARAGRAPH><#global SEGMENTED_URL_BANNER = BANNER_LARGE_FALLBACK_URL>
+            </#if>
+        </#if>            
+    </#if>
+        <#if SEGMENT_BANNER_IMG_IS_SET == 'Y' && SEGMENTED_IATA_BANNER_IS_SET == 'Y' && SEGMENT_ARTICLE_IMG_IS_SET == 'Y' && SEGMENTED_IATA_ARTICLE_IS_SET == 'Y' && SEGMENT_ARTICLE_LARGE_IMG_IS_SET == 'Y' && SEGMENTED_IATA_ARTICLE_LARGE_IS_SET == 'Y' && SEGMENT_HERO_IMG_IS_SET == 'Y' && SEGMENTED_IATA_HERO_IS_SET == 'Y'><#assign ALL_CONTENT_IS_SET = 'Y'>
+        </#if>
+   </#if></#data>
+</#data></#if></#if>
+
+
+<#-- //////////////////////// TRAVEL_DATA SUP TABLE ///////////////////////////////////-->
+<#data TRAVEL_DATA as TRAVEL_DATA limit=1><#filter TRAVEL_DATA_RIID_ = RIID_><#fields REWARD_BALANCE NAS_PROFILEID UNSUBSCRIBE_ID NL_PROFILEDETAILID>
+<#-- NAS_PROFILE_YN --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global NAS_PROFILE_YN = "N"><#else><#global NAS_PROFILE_YN = "Y"></#if>
+<#-- PROFILE_ID --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_ID = 0><#elseif !TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_ID = TRAVEL_DATA.NAS_PROFILEID?c><#else><#global PROFILE_ID = 0></#if>
+<#-- NL_UNSUB_ID --><#if !TRAVEL_DATA.UNSUBSCRIBE_ID?isnull><#global NL_UNSUB_ID = TRAVEL_DATA.UNSUBSCRIBE_ID></#if>
+<#-- NL_PROFILE_ID --><#if TRAVEL_DATA.NL_PROFILEDETAILID?isnull && TRAVEL_DATA.NAS_PROFILEID?isnull><#global NL_PROFILE_ID = 0><#elseif TRAVEL_DATA.NL_PROFILEDETAILID?isnull || TRAVEL_DATA.NL_PROFILEDETAILID == 0><#global NL_PROFILE_ID = TRAVEL_DATA.NAS_PROFILEID?c><#else><#global NL_PROFILE_ID = TRAVEL_DATA.NL_PROFILEDETAILID?c></#if>
+<#-- PROFILE_YN --><#if TRAVEL_DATA.NAS_PROFILEID?isnull><#global PROFILE_YN = "N"><#else><#global PROFILE_YN = "Y"></#if>
+<#-- CASHPOINTS --><#if TRAVEL_DATA.REWARD_BALANCE?isnull><#global CASHPOINTS = "0"><#else><#global CASHPOINTS = TRAVEL_DATA.REWARD_BALANCE?int?c></#if>
+</#data>
+
+
+<#-- SEGMENTRULE --><#if PREFFERED_AIRPORT?isnull>
+	<#global PREFAIR = 'DEFAULT'>
+<#else>
+	<#global PREFAIR = PREFFERED_AIRPORT?trim>
+</#if>			
+<#global segment_is_set = 0>
+<#global default_found = 0>
+<#global loop_continue = 1>
+<#data CAMPAIGN_FRAMEWORK_1_COL as SEGS>
+<#filter FRAMEWORK_CAMPAIGN = CAMPAIGN FRAMEWORK_MARKET = MARKET>
+<#fields SETTINGS_SEGMENT_RULE>
+ <#if loop_continue == 1>
+	<#list SEGS.SETTINGS_SEGMENT_RULE?split(",") as x>
+	<#if loop_continue == 1>
+		<#global MODULE_EXCLUDE = 0>		
+		<#attempt>		
+             <#include "cms://contentlibrary/!framework/displayrules/" + x + ".htm">		
+		<#recover><#if x?exec?contains(PREFAIR?trim?upper_case)>
+				<#global SEGMENT = PREFFERED_AIRPORT?trim>
+				<#global MODULE_EXCLUDE = 0>
+			<#elseif x == 'DEFAULT'><#global SEGMENT = 'DEFAULT'>
+				<#global DEF_SEGMENT = 'DEFAULT'>
+				<#if default_found == 1>
+					<#global loop_continue = 0>
+				</#if>
+				<#global default_found = 1>	
+                <#global MODULE_EXCLUDE = 0>
+			<#else>
+				<#global MODULE_EXCLUDE = 1>
+			</#if>
+		</#attempt>
+	</#if>
+	</#list>
+	<#if segment_is_set == 0 && MODULE_EXCLUDE == 0><#global loop_continue = 0><#global segment_is_set = 1><#if PREFFERED_AIRPORT?isnull><#global SEGMENTRULE = 'DEFAULT'><#else><#global SEGMENTRULE = SEGS.SETTINGS_SEGMENT_RULE?trim></#if></#if></#if></#data>
+ <#if segment_is_set == 0><#global SEGMENTRULE = DEF_SEGMENT?trim></#if>
+
+
+
+<#-- //////////////////////// CAMPAIGN_SETTINGS ///////////////////////////////////-->
+<#-- //////////////////////// CAMPAIGN_SETTINGS ///////////////////////////////////-->
+<#data CAMPAIGN_FRAMEWORK_1_COL as DISCLAIMER>
+<#filter FRAMEWORK_CAMPAIGN = CAMPAIGN FRAMEWORK_MARKET = MARKET SETTINGS_SEGMENT_RULE = SEGMENTRULE?exec?trim><#fields DISCLAIMER_CTA DISCLAIMER_URL>
+<#-- DISCLAIMER_YN_VAR --><#if DISCLAIMER.DISCLAIMER_CTA?isnull><#global DISCLAIMER_YN_VAR = "Y"><#else><#global DISCLAIMER_YN_VAR = "N"></#if>
+<#-- DISCLAIMER_CTA_VAR --><#if !DISCLAIMER.DISCLAIMER_CTA?isnull><#global DISCLAIMER_CTA_VAR = DISCLAIMER.DISCLAIMER_CTA></#if>
+<#-- DISCLAIMER_URL_VAR --><#if DISCLAIMER.DISCLAIMER_URL?isnull><#global DISCLAIMER_URL_VAR = "https://www.norwegian.com/en/booking/booking-information/legal/terms-and-conditions-for-advertised-fares/"><#else><#global DISCLAIMER_URL_VAR = DISCLAIMER.DISCLAIMER_URL></#if>
+</#data>
+
+<#-- CURRENCY -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global CURRENCY= "ARS"><#break>
+<#case "BR"><#global CURRENCY= "BRL"><#break>
+<#case "DE"><#global CURRENCY= "EUR"><#break>
+<#case "DK"><#global CURRENCY= "DKK"><#break>
+<#case "EN-CA"><#global CURRENCY= "CAD"><#break>
+<#case "ES"><#global CURRENCY= "EUR"><#break>
+<#case "FI"><#global CURRENCY= "EUR"><#break>
+<#case "FR"><#global CURRENCY= "EUR"><#break>
+<#case "FR-CA"><#global CURRENCY= "CAD"><#break>
+<#case "IE"><#global CURRENCY= "EUR"><#break>
+<#case "IT"><#global CURRENCY= "EUR"><#break>
+<#case "NL"><#global CURRENCY= "EUR"><#break>
+<#case "NO"><#global CURRENCY= "NOK"><#break>
+<#case "PL"><#global CURRENCY= "PLN"><#break>
+<#case "ROW"><#if SEGMENTED_ROW_YN == 'Y'><#if CONTACT.LANGUAGEID?lower_case == 'en-sg' || CONTACT.LANGUAGEID?lower_case == 'en_sg'><#global CURRENCY = "SGD"><#elseif CONTACT.LANGUAGEID?lower_case == 'es-ar'><#global CURRENCY = "USD"><#else><#global CURRENCY = "EUR"></#if></#if><#break><#break>
+<#case "SE"><#global CURRENCY= "SEK"><#break>
+<#--<#case "SG"><#global CURRENCY= "SGD"><#break>-->
+<#case "UK"><#global CURRENCY= "GBP"><#break>
+<#case "US"><#global CURRENCY= "USD"><#break>
+<#default><#global CURRENCY= "EUR">
+</#switch></#compress></#join>
+
+<#-- //////////////////////// OTHER VARIABLES /////////////////////////////////////////////////////-->
+<#-- WEBPAGE_MARKET old code<#join><#compress><#switch CONTACT.LANGUAGEID?lower_case>
+<#case "nb-no"><#global WEBPAGE_MARKET = "NO"><#break>
+<#case "sv-se"><#global WEBPAGE_MARKET = "SE"><#break>
+<#case "da-dk"><#global WEBPAGE_MARKET = "DK"><#break>
+<#case "fi-fi"><#global WEBPAGE_MARKET = "FI"><#break>
+<#case "de-de"><#global WEBPAGE_MARKET = "DE"><#break>
+<#case "en-us"><#global WEBPAGE_MARKET = "US"><#break>
+<#case "en-gb"><#global WEBPAGE_MARKET = "UK"><#break>
+<#case "es-es"><#global WEBPAGE_MARKET = "ES"><#break>
+<#case "fr-fr"><#global WEBPAGE_MARKET = "FR"><#break>
+<#case "pl-pl"><#global WEBPAGE_MARKET = "PL"><#break>
+<#case "it-it"><#global WEBPAGE_MARKET = "IT"><#break>
+<#case "nl-nl"><#global WEBPAGE_MARKET = "NL"><#break>
+<#case "en-ie"><#global WEBPAGE_MARKET = "IE"><#break>
+<#case "en-sg"><#if SEGMENTED_ROW_YN == 'Y'><#global WEBPAGE_MARKET = "SG"><#else><#global WEBPAGE_MARKET = "EN"></#if><#break>
+<#case "en_sg"><#if SEGMENTED_ROW_YN == 'Y'><#global WEBPAGE_MARKET = "SG"><#else><#global WEBPAGE_MARKET = "EN"></#if><#break>
+<#case "es-ar"><#if SEGMENTED_ROW_YN == 'Y'><#global WEBPAGE_MARKET = "AR"><#else><#global WEBPAGE_MARKET = "EN"></#if><#break>
+<#default><#global WEBPAGE_MARKET = "EN"></#switch></#compress></#join>-->
+
+<#-- WEBPAGE_MARKET new code 30/05/18 JM made to handle strange language ids like fr_fr -->
+<#if MARKET?upper_case == "ROW">
+<#global WEBPAGE_MARKET = "EN">
+<#else><#global WEBPAGE_MARKET = MARKET>
+</#if>
+
+
+<#-- WEBPAGE_URL_PATH TECHNICAL URL --><#global WEBPAGE_URL_PATH ="start/booking/farecalendar">
+
+<#-- NL_PREFFERED_AIRPORT --><#if !PREFFERED_AIRPORT?isnull><#global NL_PREFFERED_AIRPORT = PREFFERED_AIRPORT></#if>
+
+<#-- LOWFARE_FOOTER TECHNICAL URL --><#if MARKET == "NO"><#global LOWFARE_FOOTER ="https://www.norwegian.no/start/booking/farecalendar/"><#elseif MARKET == "ROW"><#global LOWFARE_FOOTER ="https://www.norwegian.com/en/start/booking/farecalendar/"><#else><#global LOWFARE_FOOTER ="https://www.norwegian.com/${MARKET?lower_case}/start/booking/farecalendar/"></#if>
+
+<#-- HOMEPAGE_FOOTER -->
+<#if MARKET == "NO"><#global HOMEPAGE_FOOTER ="https://www.norwegian.no"><#elseif MARKET == "ROW"><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/en"><#else><#global HOMEPAGE_FOOTER ="https://www.norwegian.com/${MARKET?lower_case}"></#if>
+
+<#-- SETTINGS_FOOTER (new) -->
+<#if NAS_PROFILE_YN == "Y">
+    <#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/edit">
+    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/edit">
+    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/edit">
+    </#if>
+<#else><#if MARKET == "NO"><#global SETTINGS_FOOTER = "https://www.norwegian.no/start/profile/create">
+    <#elseif MARKET == "ROW"><#global SETTINGS_FOOTER = "https://www.norwegian.com/en/start/profile/create">
+    <#else><#global SETTINGS_FOOTER = "https://www.norwegian.com/" + MARKET?lower_case + "/start/profile/create">
+    </#if>
+</#if>
+
+<#-- CONTACT_FOOTER -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global CONTACT_FOOTER= "https://www.norwegian.com/ar/ayuda-y-contacto/"><#break>
+<#case "DE"><#global CONTACT_FOOTER= "https://www.norwegian.com/de/kontakt/"><#break>
+<#case "DK"><#global CONTACT_FOOTER= "https://www.norwegian.com/dk/hjaelp-og-kontakt/"><#break>
+<#case "EN-CA"><#global CONTACT_FOOTER= "https://www.norwegian.com/en-ca/help-and-contact/"><#break>
+<#case "ES"><#global CONTACT_FOOTER= "https://www.norwegian.com/es/ayuda-y-contacto/"><#break>
+<#case "FI"><#global CONTACT_FOOTER= "https://www.norwegian.com/fi/ohjeet-ja-yhteystiedot/"><#break>
+<#case "FR"><#global CONTACT_FOOTER= "https://www.norwegian.com/fr/aide-et-contact/"><#break>
+<#case "FR-CA"><#global CONTACT_FOOTER= "https://www.norwegian.com/fr-ca/aide-et-contact/"><#break>
+<#case "IE"><#global CONTACT_FOOTER= "https://www.norwegian.com/ie/help-and-contact/"><#break>
+<#case "IT"><#global CONTACT_FOOTER= "https://www.norwegian.com/it/assistenza-e-contatti/"><#break>
+<#case "NL"><#global CONTACT_FOOTER= "https://www.norwegian.com/nl/help-and-contact/"><#break>
+<#case "NO"><#global CONTACT_FOOTER= "https://www.norwegian.no/hjelp-og-kontakt/"><#break>
+<#case "PL"><#global CONTACT_FOOTER= "https://www.norwegian.com/pl/pomoc-i-kontakt/"><#break>
+<#case "ROW"><#global CONTACT_FOOTER= "https://www.norwegian.com/en/help-and-contact/"><#break>
+<#case "SE"><#global CONTACT_FOOTER= "https://www.norwegian.com/se/hjalp-och-kontakt/"><#break>
+<#--<#case "SG"><#global CONTACT_FOOTER= "https://www.norwegian.com/en/help-and-contact/"><#break>-->
+<#case "UK"><#global CONTACT_FOOTER= "https://www.norwegian.com/uk/help-contact/"><#break>
+<#case "US"><#global CONTACT_FOOTER= "https://www.norwegian.com/us/help-and-contact/"><#break>
+<#case "BR"><#global CONTACT_FOOTER= "https://www.norwegian.com/br/ajuda-e-contato/"><#break>
+<#default><#global CONTACT_FOOTER= "https://www.norwegian.com/en/help-and-contact/">
+</#switch></#compress></#join>
+
+<#-- UNSUBSCRIBE_VAR (new)-->
+<#-- newsletters and dialogues having different urls to unsubscribe -->
+<#if MARKET == "NO"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.no/start/newsletter/signoff?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#elseif MARKET == "ROW"><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/en/start/newsletter/signoff?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID><#else><#global UNSUBSCRIBE_VAR = "https://www.norwegian.com/" + MARKET?lower_case + "/start/newsletter/signoff?salt=" + NL_UNSUB_ID + "&profileid=" + NL_PROFILE_ID></#if>
+
+<#-- RESTRICTIONS_FOOTER -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "BR"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "DE"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "DK"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "EN-CA"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "ES"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "FI"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "FR"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "FR-CA"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "IE"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "IT"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "NL"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "NO"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "PL"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "ROW"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#case "SE"><#global RESTRICTIONS_FOOTER= ""><#break>
+<#--<#case "SG"><#global RESTRICTIONS_FOOTER= ""><#break>-->
+<#case "UK"><#global RESTRICTIONS_FOOTER= "http://www.norwegian.com/uk/customer-services/travel-information/lowfare-conditions/"><#break>
+<#case "US"><#global RESTRICTIONS_FOOTER= "http://www.norwegian.com/us/customer-services/travel-information/lowfare-conditions/"><#break>
+<#default><#global RESTRICTIONS_FOOTER= "">
+</#switch></#compress></#join>
+
+<#-- BAGGAGE_FEES_FOOTER -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "BR"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "DE"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "DK"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "EN-CA"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "ES"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "FI"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "FR"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "FR-CA"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "IE"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "IT"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "NL"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "NO"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "PL"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "ROW"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#case "SE"><#global BAGGAGE_FEES_FOOTER= ""><#break>
+<#--<#case "SG"><#global BAGGAGE_FEES_FOOTER= ""><#break>-->
+<#case "UK"><#global BAGGAGE_FEES_FOOTER= "http://www.norwegian.com/uk/customer-services/travel-information/optional-services-and-charges"><#break>
+<#case "US"><#global BAGGAGE_FEES_FOOTER= "http://www.norwegian.com/us/customer-services/travel-information/optional-services-and-charges/"><#break>
+<#default><#global BAGGAGE_FEES_FOOTER= "">
+</#switch></#compress></#join>
+
+<#-- PERSONAL_INFORMATION -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/ar/reserva/informacion-util-sobre-reservas/aspectos-juridicos/politica-de-privacidad"><#break>
+<#case "BR"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/br/reservas/informacoes-uteis-sobre-reservas/legal/politica-de-privacidade/"><#break>
+<#case "DE"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/de/buchung/buchungsinformationen/rechtliches/datenschutzrichtlinien/"><#break>
+<#case "DK"><#global PERSONAL_INFORMATION= "http://www.norwegian.com/dk/booking/bookingoplysninger/juridisk/politik-om-beskyttelse-af-personlige-oplysninger/"><#break>
+<#case "EN-CA"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/en-ca/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "ES"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/es/reserva/informacion-util-sobre-reservas/aspectos-juridicos/politica-de-privacidad/"><#break>
+<#case "FI"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/fi/varaus/hyodyllista-tietoa-varauksista/oikeudelliset-tiedot/tietosuojakaytanto/"><#break>
+<#case "FR"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/fr/reservation/informations-utiles-pour-les-reservations/dispositions-legales/politique-de-confidentialite/"><#break>
+<#case "FR-CA"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/fr-ca/reservation/informations-utiles-pour-les-reservations/dispositions-legales/politique-de-confidentialite/"><#break>
+<#case "IE"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/ie/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "IT"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/it/prenotazione/informazioni-utili/aspetti-legali/tutela-della-privacy/"><#break>
+<#case "NL"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/nl/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "NO"><#global PERSONAL_INFORMATION= "https://www.norwegian.no/booking/bestillingsinformasjon/regler-og-vilkar/personvern/"><#break>
+<#case "PL"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/pl/rezerwacja/przydatne-informacje-dotyczace-rezerwacji/kwestie-prawne/polityka-prywatnosci/"><#break>
+<#case "ROW"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "SE"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/se/bokning/praktisk-bokningsinformation/regler-och-villkor/sekretesspolicy/"><#break>
+<#--<#case "SG"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/sg/booking/booking-information/legal/privacy-policy/"><#break>-->
+<#case "UK"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/uk/booking/booking-information/legal/privacy-policy/"><#break>
+<#case "US"><#global PERSONAL_INFORMATION= "https://www.norwegian.com/us/booking/booking-information/legal/privacy-policy/"><#break>
+<#default><#global PERSONAL_INFORMATION= "https://www.norwegian.com/en/booking/booking-information/legal/privacy-policy/">
+</#switch></#compress></#join>
+
+<#-- MY_PROFILE_URL -->
+<#if MARKET == "NO"><#global MY_PROFILE_URL = "https://www.norwegian.no/start/mytravels ">
+<#elseif MARKET == "ROW"><#global MY_PROFILE_URL = "https://www.norwegian.com/en/start/mytravels">
+<#else><#global MY_PROFILE_URL = "https://www.norwegian.com/" + MARKET?lower_case + "/start/mytravels"></#if>
+
+<#-- CREATE_PROFILE_URL -->
+<#if MARKET == "NO"><#global CREATE_PROFILE_URL = "https://www.norwegian.no/ipr/MyNorwegian#/profile/create">
+<#elseif MARKET == "ROW"><#global CREATE_PROFILE_URL = "https://www.norwegian.com/en/ipr/MyNorwegian#/profile/create">
+<#else><#global CREATE_PROFILE_URL = "https://www.norwegian.com/" + MARKET?lower_case + "/ipr/MyNorwegian#/profile/create"></#if>
+
+<#-- CREATE_REWARD_PROFILE -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global CREATE_REWARD_PROFILE= "https://ar.norwegianreward.com/blimedlem"><#break>
+<#case "BR"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "DE"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "DK"><#global CREATE_REWARD_PROFILE= "https://dk.norwegianreward.com/blimedlem"><#break>
+<#case "EN-CA"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "ES"><#global CREATE_REWARD_PROFILE= "https://es.norwegianreward.com/blimedlem"><#break>
+<#case "FI"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "FR"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "FR-CA"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "IE"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "IT"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "NL"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "NO"><#global CREATE_REWARD_PROFILE= "https://no.norwegianreward.com/blimedlem"><#break>
+<#case "PL"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "ROW"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "SE"><#global CREATE_REWARD_PROFILE= "https://se.norwegianreward.com/blimedlem"><#break>
+<#--<#case "SG"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>-->
+<#case "UK"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#case "US"><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem"><#break>
+<#default><#global CREATE_REWARD_PROFILE= "https://en.norwegianreward.com/blimedlem">
+</#switch></#compress></#join>
+
+<#-- HAS_REWARD_PROFILE -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global HAS_REWARD_PROFILE= "https://ar.norwegianreward.com/login"><#break>
+<#case "BR"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "DE"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "DK"><#global HAS_REWARD_PROFILE= "https://dk.norwegianreward.com/login"><#break>
+<#case "EN-CA"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "ES"><#global HAS_REWARD_PROFILE= "https://es.norwegianreward.com/login"><#break>
+<#case "FI"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "FR"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "FR-CA"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "IE"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "IT"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "NL"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "NO"><#global HAS_REWARD_PROFILE= "https://no.norwegianreward.com/login"><#break>
+<#case "PL"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "ROW"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "SE"><#global HAS_REWARD_PROFILE= "https://se.norwegianreward.com/login"><#break>
+<#--<#case "SG"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>-->
+<#case "UK"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#case "US"><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login"><#break>
+<#default><#global HAS_REWARD_PROFILE= "https://en.norwegianreward.com/login">
+</#switch></#compress></#join>
+
+<#-- WEBVERSION_URL --><#global WEBVERSION_URL =form(CAMPAIGN, "LANGUAGEID", "MARKET", "DESTINATION_IATA", "FIRSTNAME", "SURNAME", "EMAIL_ADDRESS_", "REWARD_YN","NL_PROFILE_ID","NL_UNSUB_ID","REWARD_NUMBER","CASHPOINTS","PREFFERED_AIRPORT")>
+
+<#-- FACEBOOK_URL Redirects to correct market -->
+<#global FACEBOOK_URL = "https://www.facebook.com/flynorwegian">
+
+<#-- SEARCH_COMMERCIAL_TEXT -->
+<#join><#compress><#switch MARKET>
+<#case "NO"><#global SEARCH_COMMERCIAL_TEXT ="Tilbys av"><#break>
+<#case "BR"><#global SEARCH_COMMERCIAL_TEXT= "Oferecido por"><#break>
+<#case "SE"><#global SEARCH_COMMERCIAL_TEXTL ="I samarbete med"><#break>
+<#case "DK"><#global SEARCH_COMMERCIAL_TEXT ="Drevet af"><#break>
+<#case "FR"><#global SEARCH_COMMERCIAL_TEXT ="Optimisé par"><#break>
+<#case "NL"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "IT"><#global SEARCH_COMMERCIAL_TEXT ="Offerto da"><#break>
+<#case "FI"><#global SEARCH_COMMERCIAL_TEXT ="Hotellit tarjoaa"><#break>
+<#case "DE"><#global SEARCH_COMMERCIAL_TEXT ="Unterstützt von"><#break>
+<#case "US"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "IE"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "UK"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "ES"><#global SEARCH_COMMERCIAL_TEXT ="Ofrecido por"><#break>
+<#case "AR"><#global SEARCH_COMMERCIAL_TEXT ="Ofrecido por"><#break>
+<#case "PL"><#global SEARCH_COMMERCIAL_TEXT ="Wspierany przez"><#break>
+<#case "ROW"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#case "FR-CA"><#global SEARCH_COMMERCIAL_TEXT ="Optimisé par"><#break>
+<#case "EN-CA"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+<#--<#case "SG"><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>-->
+<#default><#global SEARCH_COMMERCIAL_TEXT ="Powered by"><#break>
+</#switch></#compress></#join>
+
+<#-- COMMERCIAL_TEXT -->
+<#global COMMERCIAL_TEXT = SEARCH_COMMERCIAL_TEXT>
+
+<#-- PROFILE TEXT IN PERSONALIZATION -->
+<#join><#compress><#switch MARKET>
+<#case "AR"><#global PROFILE_NO_CTA= "Crear perfil"><#global PROFILE_YES_CTA= "Mi perfil"><#global NOT_REWARDMEMBER_TXT= "Hacete miembro de Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "BR"><#global PROFILE_NO_CTA= "Criar perfil"><#global PROFILE_YES_CTA= "Mey perfil"><#global NOT_REWARDMEMBER_TXT= "Torne-se um membro Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "DE"><#global PROFILE_NO_CTA= "Profil erstellen"><#global PROFILE_YES_CTA= "Mein Profil"><#global NOT_REWARDMEMBER_TXT= "Werde ein Reward Mitglied"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "DK"><#global PROFILE_NO_CTA= "Opret profil"><#global PROFILE_YES_CTA= "Min profil"><#global NOT_REWARDMEMBER_TXT= "Bliv medlem af Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "EN-CA"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "ES"><#global PROFILE_NO_CTA= "Crear perfil"><#global PROFILE_YES_CTA= "Mi perfil"><#global NOT_REWARDMEMBER_TXT= "Hazte miembro de Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "FI"><#global PROFILE_NO_CTA= "Luo profiili"><#global PROFILE_YES_CTA= "Profiilini"><#global NOT_REWARDMEMBER_TXT= "Liity Reward-jäseneksi"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "FR"><#global PROFILE_NO_CTA= "Créer un profil"><#global PROFILE_YES_CTA= "Mon profil"><#global NOT_REWARDMEMBER_TXT= "Devenez membre Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "FR-CA"><#global PROFILE_NO_CTA= "Créer un profil"><#global PROFILE_YES_CTA= "Mon profil"><#global NOT_REWARDMEMBER_TXT= "Devenez membre Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "IE"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "IT"><#global PROFILE_NO_CTA= "Crea profilo"><#global PROFILE_YES_CTA= "Il mio profilo"><#global NOT_REWARDMEMBER_TXT= "Iscriviti a Norwegian Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "NL"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "NO"><#global PROFILE_NO_CTA= "Opprett en profil"><#global PROFILE_YES_CTA= "Min profil"><#global NOT_REWARDMEMBER_TXT= "Bli Reward-medlem"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "PL"><#global PROFILE_NO_CTA= "Stworzyć profil"><#global PROFILE_YES_CTA= "Mój profil"><#global NOT_REWARDMEMBER_TXT= "Zostań członkiem Reward"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "ROW"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "SE"><#global PROFILE_NO_CTA= "Skapa en profil"><#global PROFILE_YES_CTA= "Min profil"><#global NOT_REWARDMEMBER_TXT= "Bli Reward-medlem"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#--<#case "SG"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>-->
+<#case "UK"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#case "US"><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints"><#break>
+<#default><#global PROFILE_NO_CTA= "Create Profile"><#global PROFILE_YES_CTA= "My profile"><#global NOT_REWARDMEMBER_TXT= "Become a Reward member"><#global REWARDMEMBER_TXT= "CashPoints">
+</#switch></#compress></#join>
+
+
+<#-- PRICE_TO --><#global PRICE_TO = "Not in use">
+<#-- PRICE_FROM --><#global PRICE_FROM = "Not in use">
+<#-- PRIVACY_RULE --><#global PRIVACY_RULE = "Not in use">
+<#-- CONTACT_US --><#global CONTACT_US = "Not in use">
+<#-- SETTINGS --><#global SETTINGS = "Not in use">
+<#-- DEST_URL <#global DEST_URL = "Not in use">-->
+
+<#-- INFORMATION
+EMAIL_ORIGIN variable – added into datasources for EmailCampaign_1_col_NEWSLETTER_A
+Inigo wanted to grab the first two characters of NEWSL_RECRUITMENT_CHANNEL from CONTACT-LIST-CONS and place into the utm tracking links to see where the customer came from, if its null I place ORG (organic), if it’s a code like CAlkjlkjlkj, it just places CA. 
+-->
+
+<#-- <#if campaign.name == "EmailCampaign_1_col_NEWSLETTER_A">
+MARKET: ${MARKET}<br>
+LANGUAGEID: ${LANGUAGEID}<br>
+</#if>-->
+
+<#--if campaign.name == "2018_W33_EUROPE_4-STAR-AIRLINE" || campaign.name == "Copy of 2018_W33_EUROPE_4-STAR-AIRLINE">
+MARKET: ${MARKET}<br>
+LANGUAGEID: ${LANGUAGEID}<br>
+REWARD_YN: ${REWARD_YN}<br>
+CONTACT.CASHPOINTS_BALANCE: ${CONTACT.CASHPOINTS_BALANCE}<br>
+CASHPOINTS: ${CASHPOINTS}<br>
+EMAIL: ${CONTACT.EMAIL}<br>
+EMAIL.DOMAIN: ${CONTACT.EMAIL_DOMAIN_}
+</#if>-->
