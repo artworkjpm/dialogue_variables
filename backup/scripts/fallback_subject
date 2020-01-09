@@ -1,0 +1,24 @@
+<#-- FALLBACK_SUBJECT is added to subject in datasources because previously was showing default:
+It shows if the campaign has no market or content 
+<#include "cms://contentlibrary/!framework/global_variables/inclusion_files/fallback_subject.htm"> -->
+<#join><#compress><#switch MARKET>
+<#case "NO"><#global FALLBACK_SUBJECT = "Drømmer du om reise?"><#break>
+<#case "SE"><#global FALLBACK_SUBJECT = "Drömmer du om att resa?"><#break>
+<#case "DK"><#global FALLBACK_SUBJECT = "Drømmer du om at komme ud at rejse?"><#break>
+<#case "FR"><#global FALLBACK_SUBJECT = "Et si on donnait corps à vos envies de voyages ?"><#break>
+<#case "FR-CA"><#global FALLBACK_SUBJECT = "Et si on donnait corps à vos envies de voyages ?"><#break>
+<#case "EN-CA"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>
+<#case "NL"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>
+<#case "IT"><#global FALLBACK_SUBJECT = "Sogni di viaggiare?"><#break>
+<#case "FI"><#global FALLBACK_SUBJECT = "Unelmoitko matkailusta?"><#break>
+<#case "DE"><#global FALLBACK_SUBJECT = "Sie träumen vom Reisen?"><#break>
+<#case "US"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>
+<#case "IE"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>
+<#--<#case "SG"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>-->
+<#case "UK"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>
+<#case "ES"><#global FALLBACK_SUBJECT = "¿Sueñas con viajar?"><#break>
+<#case "AR"><#global FALLBACK_SUBJECT = "¿Soñás con viajar?"><#break>
+<#case "PL"><#global FALLBACK_SUBJECT = "Marzą Ci się podróże?"><#break>
+<#case "ROW"><#global FALLBACK_SUBJECT = "Dreaming of travelling?"><#break>
+<#default><#global FALLBACK_SUBJECT = "Dreaming of travelling?">
+</#switch></#compress></#join>${FALLBACK_SUBJECT}
