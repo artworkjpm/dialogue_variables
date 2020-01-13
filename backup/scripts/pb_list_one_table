@@ -1,0 +1,38 @@
+<#--/////////////NOTES START/////////////////-->
+<#--here we search the departure airport for Priority boarding, we are NOT using AIRPORT table to obtain the PB_Date now.
+OSLO NOW HAS PB. 18/07/18 JM. -->
+<#-- we need to see if oneway trips have a transit stop, therefore we use HAS_TRANSIT:
+In DESTINATION_IATA single journeys use SQL_GLOBAL.BOOKING_LAST_DESTINATION
+oneway == 1 (Yes) use SQL_GLOBAL.BOOKING_LAST_DESTINATION
+oneway == 0 (No) use SQL_GLOBAL.BOOKING_MAIN_DESTINATION
+We use TRANSFER_IATA_LEG1 because it obtains the destination of leg1 which is always the transit destination-->
+<#-- for return home dialogues we are still using this to check the transfer iata, it could go wrong because we are using the transit iata of the first leg, most of the time they are the same, further work could be done here to get the iata of the 3rd leg instead -->
+<#--/////////////NOTES END/////////////////-->
+
+<#-- we need AIR_HAS_PB to be "N" FIRST-->
+<#global AIR_HAS_PB = "N">
+
+<#--here we make a sequence of the IATAS that have PB-->
+<#global PB_AIRPORTS = ["AGA", "AGP", "AJA", "ALC", "ALF", "AMS", "ANX", "ARN", "ATH", "BCN", "BDL", "BDU", "BFS", "BGO", "BIO", "BKK", "BLL", "BOO", "BOS", "BUD", "CDG", "CGN", "CPH", "CTA", "DEN", "DUB", "DUS", "DXB", "EDI", "EVE", "EWR", "EZE", "FCO", "FDF", "FLL", "GDN", "GOT", "GVA", "HAJ", "HAM", "HEL", "IVL", "JFK", "JTR", "KEF", "KKN", "KRN", "KSD", "KTT", "LAS", "LAX", "LCA", "LGW", "LKL", "LLA", "LPA", "LYR", "MAD", "MAN", "MCO", "MMX", "MUC", "MXP", "NCE", "OAK", "ORK", "ORY", "OSL", "OUL", "PMI", "PMO", "PMO", "PRG", "PTP", "PVD", "RAK", "RIX", "RVN", "SFT", "SIN", "SNN", "SVG", "SWF", "SXF", "TFN", "TLL", "TLV", "TOS", "TRD", "TRF", "UME", "VAA", "VBY", "VCE", "VIE", "VNO", "VRN"]>
+
+<#--here we loop through the IATAS-->
+<#list PB_AIRPORTS as PB_AIRPORTS>
+	<#-- do not look in DEPARTURE_IATA for return home dialogues -->
+	<#if CAMPAIGN != "E_SH_RET_HOME" || CAMPAIGN != "E_LHP_RET_HOME" || CAMPAIGN != "E_MAX_LH_RET_HOME">
+		<#if PB_AIRPORTS?contains(DEPARTURE_IATA)>
+		<#global AIR_HAS_PB = "Y"><#break>
+		</#if>
+	</#if>
+	<#-- we need to see if oneway trips have a transit stop, therefore we use HAS_TRANSIT.-->
+	<#if AIR_HAS_PB == "N" && HAS_TRANSIT == "Y">
+		<#if PB_AIRPORTS?contains(TRANSFER_IATA_LEG1)>
+		<#global AIR_HAS_PB = "Y"><#break>
+		</#if>
+	</#if>
+	<#-- we only search here if its not oneway, so its a round trip, we use DESTINATION_IATA-->
+	<#if AIR_HAS_PB == "N" && ONEWAY_YN == "0">
+		<#if PB_AIRPORTS?contains(DESTINATION_IATA)>
+		<#global AIR_HAS_PB = "Y"><#break>
+		</#if>
+	</#if>
+</#list>
