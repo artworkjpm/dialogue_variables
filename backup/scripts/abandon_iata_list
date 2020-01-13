@@ -1,0 +1,14 @@
+<#--/////////////NOTES START/////////////////-->
+<#--here we add a list of the most popular destinations coming from search on the web page. Those destinations will have a special made HERO image to be used in the abandon basket email, while all other destinations will have just a generic image -->
+<#--/////////////NOTES END/////////////////-->
+
+
+<#--here we make a sequence of the most popular IATAS -->
+<#global POPULAR_AIRPORTS = ["AGP", "ALC", "ARN", "BCN", "BGO", "BOS", "CPH", "EWR", "EZE", "FCO", "FLL", "HEL", "JFK", "LAX", "LGW", "LPA", "MAD", "MCO", "OAK", "ORD", "OSL", "PMI", "SVG", "SWF", "TRD"]>
+
+<#--Here we loop through the IATAS and see if the searched destination matches an IATA in our array -->
+<#list POPULAR_AIRPORTS as POPULAR_AIRPORTS>
+			<#if POPULAR_AIRPORTS?contains(ABAN_ARRIVALAIRPORTCODE?exec)>
+		<#global AIR_HAS_IMG = 'Y'><#break>
+		</#if>
+</#list>
