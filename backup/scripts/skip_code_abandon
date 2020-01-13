@@ -1,0 +1,23 @@
+<#-- If the modules do not exist in the campaign template used for the campaign, they will produce NULL values in the module wrapper switch cases. This code will fix that issue and set those value to be 'NO' -->
+<#if HERO_HAVE_CONTENT?isnull><#assign HERO_HAVE_CONTENT = 'NO'></#if>
+<#if PRICELIST_MANUAL_HAVE_CONTENT?isnull><#assign PRICELIST_MANUAL_HAVE_CONTENT = 'NO'></#if>
+<#if PRICELIST_HAVE_CONTENT?isnull><#assign PRICELIST_HAVE_CONTENT = 'NO'></#if>
+<#if PROMOLIST_HAVE_CONTENT?isnull><#assign PROMOLIST_HAVE_CONTENT = 'NO'></#if>
+<#if PROMO_MAN_HAVE_CONTENT?isnull><#assign PROMO_MAN_HAVE_CONTENT = 'NO'></#if>
+<#if TEXT_HAVE_CONTENT?isnull><#assign TEXT_HAVE_CONTENT = 'NO'></#if>
+<#if BANNER_HAVE_CONTENT?isnull><#assign BANNER_HAVE_CONTENT = 'NO'></#if>
+<#if ARTICLE_HAVE_CONTENT?isnull><#assign ARTICLE_HAVE_CONTENT = 'NO'></#if>
+<#if ARTICLE_LARGE_HAVE_CONTENT?isnull><#assign ARTICLE_LARGE_HAVE_CONTENT = 'NO'></#if>
+<#if SEARCH_HAVE_CONTENT?isnull><#assign SEARCH_HAVE_CONTENT = 'NO'></#if>
+<#if TRIPINFO_HAVE_CONTENT?isnull><#assign TRIPINFO_HAVE_CONTENT = 'NO'></#if>
+<#if CAR_HAVE_CONTENT?isnull><#assign CAR_HAVE_CONTENT = 'NO'></#if>
+<#if HOTELS_HAVE_CONTENT?isnull><#assign HOTELS_HAVE_CONTENT = 'NO'></#if>
+<#if HOTELS_HAVE_CONTENT?isnull><#assign HOTELS_HAVE_CONTENT = 'NO'></#if>
+
+<#-- If all modules comes out with the value 'NO, it means that the campaign do not have any content other then header and footer, and we want to prevent it from beeing sent -->
+<#if HERO_HAVE_CONTENT!='YES' && PRICELIST_MANUAL_HAVE_CONTENT!='YES' && PRICELIST_HAVE_CONTENT!='YES' && PROMOLIST_HAVE_CONTENT!='YES' && PROMO_MAN_HAVE_CONTENT!='YES' && TEXT_HAVE_CONTENT!='YES' && BANNER_HAVE_CONTENT!='YES' && ARTICLE_HAVE_CONTENT!='YES' && BULLETPOINTS_HAVE_CONTENT!='YES' && ARTICLE_LARGE_HAVE_CONTENT!='YES' && SEARCH_HAVE_CONTENT!='YES' && TRIPINFO_HAVE_CONTENT!='YES' && CAR_HAVE_CONTENT!='YES' && HOTELS_HAVE_CONTENT!='YES'><#global CAMPAIGN_SKIP = 'YES'><#else><#global CAMPAIGN_SKIP = 'NO'></#if>
+
+<#if CAMPAIGN_SKIP = 'YES'><#skip 'Modules skipped. Reason: no content loaded from module wrapper.'></#if>
+
+<#-- while testing, we can set DEBUG_MODE in the campaign data source variables to be 'Y' and print out the values. we don't want to send emails containing test variables either, so we add a skip if DEBUG_MODE is activated. This needs to be removed when testing.-->
+<#if DEBUG_MODE == 'Y'><#skip 'Modules skipped. Reason: Debug mode is activated.'></#if>
