@@ -1,0 +1,34 @@
+<#-- If the modules do not exist in the campaign template used for the campaign, they will produce NULL values in the module wrapper switch cases. This code will fix that issue and set those value to be 'NO' -->
+<#if HERO_HAVE_CONTENT?isnull><#assign HERO_HAVE_CONTENT = 'NO'></#if>
+<#if PRICELIST_MANUAL_HAVE_CONTENT?isnull><#assign PRICELIST_MANUAL_HAVE_CONTENT = 'NO'></#if>
+<#if PRICELIST_HAVE_CONTENT?isnull><#assign PRICELIST_HAVE_CONTENT = 'NO'></#if>
+<#if PROMOLIST_HAVE_CONTENT?isnull><#assign PROMOLIST_HAVE_CONTENT = 'NO'></#if>
+<#if PROMO_MAN_HAVE_CONTENT?isnull><#assign PROMO_MAN_HAVE_CONTENT = 'NO'></#if>
+<#if TEXT_HAVE_CONTENT?isnull><#assign TEXT_HAVE_CONTENT = 'NO'></#if>
+<#if BANNER_HAVE_CONTENT?isnull><#assign BANNER_HAVE_CONTENT = 'NO'></#if>
+<#if ARTICLE_HAVE_CONTENT?isnull><#assign ARTICLE_HAVE_CONTENT = 'NO'></#if>
+<#if ARTICLE_LARGE_HAVE_CONTENT?isnull><#assign ARTICLE_LARGE_HAVE_CONTENT = 'NO'></#if>
+<#if SEARCH_HAVE_CONTENT?isnull><#assign SEARCH_HAVE_CONTENT = 'NO'></#if>
+<#if TRIPINFO_HAVE_CONTENT?isnull><#assign TRIPINFO_HAVE_CONTENT = 'NO'></#if>
+<#if CAR_HAVE_CONTENT?isnull><#assign CAR_HAVE_CONTENT = 'NO'></#if>
+<#if HOTELS_HAVE_CONTENT?isnull><#assign HOTELS_HAVE_CONTENT = 'NO'></#if>
+
+<#-- If the BOOKING ID exists in the audience, but not in the SQL GLOABAL view, it will not have access to the booking data. So we don't want to send an email in that case. -->
+<#if EXIST_IN_GLOBAL_YN != 'YES'><#skip 'Campaign skipped. Reason: BOOKING_ID or LOCAL_BOOKING_ID (or both) not in Global SQL.'></#if>
+<#-- A quick-fix, until we are able to fix the audience SQL's in the programs -->
+<#if campaign.name?contains('1DB')><#if TOO_CLOSE_TO_DEP == 'Y'><#skip 'Campaign skipped. Reason: Departure in the past or closer than 6 hour into the future'></#if></#if>
+
+<#-- Also, if all modules comes out with the value 'NO, it means that the campaign do not have any content other then header and footer, and we want to prevent it from beeing sent -->
+<#if campaign.name == 'E_SH_6DB' && CONTACT.EMAIL == 'dlalovic@hotmail.com'><#if HERO_HAVE_CONTENT!='YES' && PRICELIST_MANUAL_HAVE_CONTENT!='YES' && PRICELIST_HAVE_CONTENT!='YES' && PROMOLIST_HAVE_CONTENT!='YES' && PROMO_MAN_HAVE_CONTENT!='YES' && TEXT_HAVE_CONTENT!='YES' && BANNER_HAVE_CONTENT!='YES' && ARTICLE_HAVE_CONTENT!='YES' && BULLETPOINTS_HAVE_CONTENT!='YES' && ARTICLE_LARGE_HAVE_CONTENT!='YES' && SEARCH_HAVE_CONTENT!='YES' && TRIPINFO_HAVE_CONTENT!='YES' && HOTELS_HAVE_CONTENT!='YES' && CAR_HAVE_CONTENT!='YES'><#global CAMPAIGN_SKIP = 'YES'><#else><#global CAMPAIGN_SKIP = 'NO'></#if><#else><#if HERO_HAVE_CONTENT!='YES' && PRICELIST_MANUAL_HAVE_CONTENT!='YES' && PRICELIST_HAVE_CONTENT!='YES' && PROMOLIST_HAVE_CONTENT!='YES' && PROMO_MAN_HAVE_CONTENT!='YES' && TEXT_HAVE_CONTENT!='YES' && BANNER_HAVE_CONTENT!='YES' && ARTICLE_HAVE_CONTENT!='YES' && BULLETPOINTS_HAVE_CONTENT!='YES' && ARTICLE_LARGE_HAVE_CONTENT!='YES' && SEARCH_HAVE_CONTENT!='YES' && TRIPINFO_HAVE_CONTENT!='YES' && HOTELS_HAVE_CONTENT!='YES'><#global CAMPAIGN_SKIP = 'YES'><#else><#global CAMPAIGN_SKIP = 'NO'></#if></#if>
+
+<#if CAMPAIGN_SKIP = 'YES'><#skip 'Modules skipped. Reason: no content loaded from module wrapper.'></#if>
+
+<#-- while testing, we can set DEBUG_MODE in the campaign data source variables to be 'Y' and print out the values. we don't want to send emails containing test variables either, so we add a skip if DEBUG_MODE is activated. This needs to be removed when testing.-->
+<#if DEBUG_MODE == 'Y'><#skip 'Modules skipped. Reason: Debug mode is activated.'></#if>
+
+<#--<#if campaign.name == 'E_SH_6DB' && CONTACT.EMAIL == 'dlalovic@hotmail.com'>LANGUAGE_EXTERNAL_LINK: ${LANGUAGE_EXTERNAL_LINK}<br>RIID_: ${CONTACT.RIID_} / LANGUAGEID: ${CONTACT.LANGUAGEID}<br>MARKET: ${MARKET}<br>EXIST_IN_GLOBAL_YN: ${EXIST_IN_GLOBAL_YN}<br>HERO_HAVE_CONTENT: ${HERO_HAVE_CONTENT}<br>PPRICELIST_HAVE_CONTENT: ${PRICELIST_HAVE_CONTENT}<br>PRICELIST_MANUAL_HAVE_CONTENT: ${PRICELIST_MANUAL_HAVE_CONTENT}<br>PROMOLIST_HAVE_CONTENT: ${PROMOLIST_HAVE_CONTENT}<br>PROMO_MAN_HAVE_CONTENT: ${PROMO_MAN_HAVE_CONTENT}<br>TEXT_HAVE_CONTENT: ${TEXT_HAVE_CONTENT}<br>BANNER_HAVE_CONTENT: ${BANNER_HAVE_CONTENT}<br>ARTICLE_HAVE_CONTENT: ${ARTICLE_HAVE_CONTENT}<br>ARTICLE_LARGE_HAVE_CONTENT: ${ARTICLE_LARGE_HAVE_CONTENT}<br>SEARCH_HAVE_CONTENT: ${SEARCH_HAVE_CONTENT}<br>TRIPINFO_HAVE_CONTENT: ${TRIPINFO_HAVE_CONTENT}<br>CAR_HAVE_CONTENT: ${CAR_HAVE_CONTENT}<br>HOTELS_HAVE_CONTENT: ${HOTELS_HAVE_CONTENT}<br>CAMPAIGN_SKIP: ${CAMPAIGN_SKIP}<br>
+<hr>
+<br><#global LANGUAGEID = "testjm">LANGUAGEID: ${LANGUAGEID}<br>
+language id from contacts: ${CONTACT.LANGUAGEID}<br>
+LANGUAGE_ID: ${MARKET_VARIABLES.LANGUAGE_ID}
+</#if>-->
