@@ -1,0 +1,36 @@
+<#-- ARTICLE_SHOW_DEFAULT is 1 in newsletter defaults-->
+<#if PREFFERED_AIRPORT?isnull>
+    <#assign PREFAIR = 'DEFAULT'>
+<#else>
+	<#assign PREFAIR = PREFFERED_AIRPORT?trim>
+</#if>
+<#data CAMPAIGN_FRAMEWORK_1_COL as MODULE limit=1>
+			<#filter FRAMEWORK_CAMPAIGN=CAMPAIGN FRAMEWORK_MARKET=MARKET FRAMEWORK_POSITION=CAMPAIGN_TEMPLATE.TEMPLATE_POSITION>
+			<#fields ARTICLE_VARIANT ARTICLE_DISPLAY_RULE ARTICLE_IMAGE ARTICLE_ALT_TXT ARTICLE_HEADING ARTICLE_INTRO ARTICLE_PARAGRAPH ARTICLE_CTA ARTICLE_URL ARTICLE_BP_ICON ARTICLE_BP1_TXT ARTICLE_BP1_CTA ARTICLE_BP1_URL ARTICLE_BP2_TXT ARTICLE_BP2_CTA ARTICLE_BP2_URL ARTICLE_DIVIDER_TOP ARTICLE_DIVIDER_BTN>
+<#assign MODULE_EXCLUDE = 0>
+			<#if !MODULE.ARTICLE_VARIANT?isnull>
+				<#if !MODULE.ARTICLE_DISPLAY_RULE?isnull>
+					<#attempt>
+						<#include "cms://contentlibrary/!framework/displayrules/"+MODULE.ARTICLE_DISPLAY_RULE+".htm">
+					<#recover>
+					 <#if !MODULE.ARTICLE_DISPLAY_RULE?isnull 
+                            && (MODULE.ARTICLE_DISPLAY_RULE?lower_case != PREFAIR?lower_case) 
+                            && MODULE.ARTICLE_DISPLAY_RULE?lower_case != "default">
+                        <#-- wrong PREFAIR, and not default. Lets exlude-->
+                        <#assign MODULE_EXCLUDE = 1>   
+	                </#if> 
+						 <#if !MODULE.ARTICLE_DISPLAY_RULE?isnull 
+                           && MODULE.ARTICLE_DISPLAY_RULE?lower_case == "default"
+                           && ARTICLE_SHOW_DEFAULT  = 0>
+                              <#assign MODULE_EXCLUDE = 1> 
+                          </#if> 	
+						</#attempt>
+				</#if>
+				<#if MODULE_EXCLUDE == 0><#global SEGMENTED_IMAGE = SEGMENTED_IMAGE_ARTICLE><#global SEGMENTED_HEADING = SEGMENTED_HEADING_ARTICLE><#global SEGMENTED_INTRO = SEGMENTED_INTRO_ARTICLE><#global SEGMENTED_PARAGRAPH = SEGMENTED_PARAGRAPH_ARTICLE><#global SEGMENTED_URL = SEGMENTED_URL_ARTICLE>
+                    <#if MODULE.ARTICLE_IMAGE?contains("http") || MODULE.ARTICLE_IMAGE?contains("${")><#assign ARTICLE_IMG = MODULE.ARTICLE_IMAGE><#else><#assign ARTICLE_IMG = "https://static.cdn.responsys.net/i2/responsysimages/nas" + MODULE.ARTICLE_IMAGE></#if> 
+                    <#if !MODULE.ARTICLE_BP_ICON?isnull><#if MODULE.ARTICLE_BP_ICON?contains("http") || MODULE.ARTICLE_BP_ICON?contains("${")><#assign ARTICLE_ICON = MODULE.ARTICLE_BP_ICON><#else><#assign ARTICLE_ICON = "https://static.cdn.responsys.net/i2/responsysimages/nas" + MODULE.ARTICLE_BP_ICON></#if><#else><#assign ARTICLE_ICON = "http://static.cdn.responsys.net/i2/responsysimages/content/nas/tick_circle_blue_20px-20px.png"></#if>
+                    <#attempt><#include "cms://contentlibrary/!framework/emailcampaign/modules/article/article_"+MODULE.ARTICLE_VARIANT+"_1_col.htm"><#recover><tr><td height="0" style="height: 0; line-height: 0; font-size: 0"><!--error loading ARTICLE module --></td></tr></#attempt>
+					<#global ARTICLE_SHOW_DEFAULT = 0>
+					</#if>
+				</#if>
+</#data>
